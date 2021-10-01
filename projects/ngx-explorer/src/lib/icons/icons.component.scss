@@ -1,0 +1,25 @@
+.nxe-icons-container {
+    display: flex;
+
+    .nxe-icons-wrapper {
+        & .nxe-icon-selected {
+            background-color: cadetblue;
+        }
+
+        .nxe-icon {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #ccc;
+            border-radius: 10%;
+            margin: 5px 10px;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+
+    .nxe-icon-text {
+        text-align: center;
+    }
+}
