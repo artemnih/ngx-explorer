@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
-import { NgxExplorerComponent } from './ngx-explorer.component';
-import { IconsComponent } from './icons/icons.component';
+import { IconsComponent } from './components/icons/icons.component';
 import { CommonModule } from '@angular/common';
+import { ExplorerComponent } from './components/explorer/explorer.component';
 
 @NgModule({
   declarations: [
-    NgxExplorerComponent,
-    IconsComponent
+    IconsComponent,
+    ExplorerComponent,
   ],
   imports: [
     CommonModule
   ],
-  exports: [NgxExplorerComponent, IconsComponent]
+  exports: [IconsComponent, ExplorerComponent]
 })
 export class NgxExplorerModule { }
