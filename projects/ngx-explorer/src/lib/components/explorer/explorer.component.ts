@@ -10,8 +10,7 @@ export class ExplorerComponent implements OnInit {
 
     constructor(private explorerService: NgxExplorerService) { }
 
-    ngOnInit(): void {
-    }
+    ngOnInit(): void { }
 
     back() {
         const currentNode = this.explorerService.openedNode.value;
