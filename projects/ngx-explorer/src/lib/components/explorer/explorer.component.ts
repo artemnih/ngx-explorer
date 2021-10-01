@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgxExplorerService } from '../../services/ngx-explorer.service';
+import {ExplorerService } from '../../services/explorer.service';
 
 @Component({
     selector: 'nxe-explorer',
@@ -8,7 +8,7 @@ import { NgxExplorerService } from '../../services/ngx-explorer.service';
 })
 export class ExplorerComponent implements OnInit {
 
-    constructor(private explorerService: NgxExplorerService) { }
+    constructor(private explorerService: ExplorerService) { }
 
     ngOnInit(): void { }
 

@@ -8,7 +8,7 @@ import { ExampleDataService } from './example-data.service';
 @Injectable({
     providedIn: 'root'
 })
-export class NgxExplorerService {
+export class ExplorerService {
     public readonly selectedNodes = new BehaviorSubject<NxeNode[]>([]);
     public readonly openedNode = new BehaviorSubject<NxeNode>(undefined);
 

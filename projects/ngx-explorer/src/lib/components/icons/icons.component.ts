@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NxeNode } from '../../interfaces/nxe-node.interface';
-import { NgxExplorerService } from '../../services/ngx-explorer.service';
+import { ExplorerService } from '../../services/explorer.service';
 
 @Component({
     selector: 'nxe-icons',
@@ -13,7 +13,7 @@ export class IconsComponent implements OnDestroy {
     public items: NxeNode[] = [];
     private subs = new Subscription();
 
-    constructor(private explorerService: NgxExplorerService) {
+    constructor(private explorerService: ExplorerService) {
         this.subs.add(this.explorerService.openedNode.subscribe(nodes => {
             this.items = nodes.children;
         }));
