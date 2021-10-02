@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { NxeNode } from '../../interfaces/nxe-node.interface';
+import { NxeNode } from '../../common/types';
 import { ExplorerService } from '../../services/explorer.service';
 
 @Component({

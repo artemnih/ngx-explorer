@@ -1,5 +1,5 @@
-import { Dictionary } from "../interfaces/dictionary.interface";
-import { NxeNode } from "../interfaces/nxe-node.interface";
+import { NxeNode, Dictionary } from "../common/types";
+import { v4 as uuid } from 'uuid';
 
 export class Utils {
     static getHashMap(node: NxeNode, hashMap: Dictionary<NxeNode> = {}) {
@@ -14,11 +14,12 @@ export class Utils {
         return hashMap;
     }
 
-    static createNode(parentId: string, id: string | number, data?: any) {
+    static createNode(parentId = '', isLeaf = false, data?: any) {
         return {
-            id: parentId + '-' + id,
+            id: uuid(),
             parentId: parentId,
             data: data,
+            isLeaf: isLeaf,
             children: []
         }
     }

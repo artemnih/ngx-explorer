@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { DataProvider, NodeContent } from '../common/types';
 
 const mock_folders = [
     { id: 1, name: 'Music', path: 'music' },
@@ -14,18 +16,50 @@ const mock_folders = [
     { id: 18, name: 'The Beatles', path: 'music/rock/thebeatles' },
 ];
 
+const mock_files = [
+    { id: 428, name: 'notes.txt', path: '' },
+    { id: 4281, name: '2.txt', path: '' },
+    { id: 28, name: 'Thriller', path: 'music/rock/thebeatles/thriller' },
+    { id: 29, name: 'Imagine', path: 'music/rock/thebeatles/imagine' },
+    { id: 210, name: 'Greatest Hits', path: 'music/rock/thebeatles/greatesthits' },
+    { id: 211, name: 'Sgt. Pepper\'s Lonely Hearts Club Band', path: 'music/rock/thebeatles/sgpeppers' },
+    { id: 212, name: 'Rubber Soul', path: 'music/rock/thebeatles/rubbersoul' },
+    { id: 213, name: 'Revolver', path: 'music/rock/thebeatles/revolver' },
+    { id: 214, name: 'Abbey Road', path: 'music/rock/thebeatles/abbeyroad' },
+    { id: 219, name: 'Back in Black', path: 'music/rock/acdc/backinblack' },
+    { id: 220, name: 'Highway to Hell', path: 'music/rock/acdc/highwaytohell' },
+    { id: 221, name: 'TNT', path: 'music/rock/acdc/tnt' },
+    { id: 222, name: 'Live at the Apollo', path: 'music/rock/acdc/apollo' },
+    { id: 223, name: 'Let There Be Rock', path: 'music/rock/acdc/letbe' },
+    { id: 224, name: 'Balls to the Wall', path: 'music/rock/ledzeppelin/ballstothewall' },
+    { id: 225, name: 'IV', path: 'music/rock/ledzeppelin/iv' },
+    { id: 226, name: 'Presence', path: 'music/rock/ledzeppelin/presence' },
+    { id: 227, name: 'The Song Remains the Same', path: 'music/rock/ledzeppelin/songremains' },
+    { id: 228, name: 'The Rover', path: 'music/rock/ledzeppelin/rover' },
+]
+
 @Injectable({
     providedIn: 'root'
 })
-export class ExampleDataService {
+export class ExampleDataService implements DataProvider {
 
-    getNodeChildren(folder: any): any[] {
+    getNodeChildren(folder: any): Observable<NodeContent> {
         const folderPath = folder?.path || '';
-        return mock_folders.filter(f => {
+
+        const folders = mock_folders.filter(f => {
             const paths = f.path.split('/');
             paths.pop();
             const filteredPath = paths.join('/');
             return filteredPath === folderPath;
-        })
+        });
+
+        const files = mock_files.filter(f => {
+            const paths = f.path.split('/');
+            paths.pop();
+            const filteredPath = paths.join('/');
+            return filteredPath === folderPath;
+        });
+
+        return of({ files: files, folders });
     }
 }

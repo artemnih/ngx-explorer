@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Dictionary } from '../interfaces/dictionary.interface';
-import { NxeNode } from '../interfaces/nxe-node.interface';
+import { take } from 'rxjs/operators';
+import { NxeNode, Dictionary, NodeContent } from '../common/types';
 import { Utils } from '../shared/utils';
 import { ExampleDataService } from './example-data.service';
 
@@ -12,7 +12,7 @@ export class ExplorerService {
     public readonly selectedNodes = new BehaviorSubject<NxeNode[]>([]);
     public readonly openedNode = new BehaviorSubject<NxeNode>(undefined);
 
-    private tree = Utils.createNode('', 'root');
+    private tree = Utils.createNode();
     private flatPointers: Dictionary<NxeNode> = Utils.getHashMap(this.tree);
 
     constructor(private dataService: ExampleDataService) {
@@ -25,11 +25,22 @@ export class ExplorerService {
 
     public openNode(nodeId: string) {
         const parent = this.flatPointers[nodeId];
-        parent.children = this.dataService.getNodeChildren(parent.data).map((data, i) => Utils.createNode(nodeId, i, data));
-        this.flatPointers = Utils.getHashMap(this.tree);
-        this.openedNode.next(parent);
-        // TODO: update enitre tree
-        // TODO: update selected nodes: parent node should be selected
+        if (parent.isLeaf) {
+            throw new Error('Cannot open leaf node');
+        }
+
+        this.dataService
+            .getNodeChildren(parent.data)
+            .pipe(take(1))
+            .subscribe(({ files, folders }: NodeContent) => {
+                const childrenFolders = folders.map(data => Utils.createNode(nodeId, false, data));
+                const childrenFiles = files.map(data => Utils.createNode(nodeId, true, data));
+                parent.children = childrenFolders.concat(childrenFiles);
+                this.flatPointers = Utils.getHashMap(this.tree);
+                this.openedNode.next(parent);
+                // TODO: update enitre tree
+                // TODO: update selected nodes: parent node should be selected
+            });
     }
 }
 
