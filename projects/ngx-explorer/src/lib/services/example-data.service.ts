@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { DataProvider, NodeContent } from '../common/types';
+import { DataProvider, NodeContent, TNode } from '../common/types';
+import { v4 as uuid } from 'uuid';
 
 const mock_folders = [
     { id: 1, name: 'Music', path: 'music' },
@@ -43,23 +44,30 @@ const mock_files = [
 })
 export class ExampleDataService implements DataProvider {
 
-    getNodeChildren(folder: any): Observable<NodeContent> {
-        const folderPath = folder?.path || '';
+    createNode(node: TNode, data: TNode): Observable<TNode> {
+        const path = (node?.path? node.path + '/' : '') + data.replace(/[\W_]+/g, " ");
+        const newFolder = { path, id: uuid(), name: data };
+        mock_folders.push(newFolder);
+        return of(newFolder);
+    }
 
-        const folders = mock_folders.filter(f => {
+    getNodeChildren(node: TNode): Observable<NodeContent> {
+        const folderPath = node?.path || '';
+
+        const nodes = mock_folders.filter(f => {
             const paths = f.path.split('/');
             paths.pop();
             const filteredPath = paths.join('/');
             return filteredPath === folderPath;
         });
 
-        const files = mock_files.filter(f => {
+        const leafs = mock_files.filter(f => {
             const paths = f.path.split('/');
             paths.pop();
             const filteredPath = paths.join('/');
             return filteredPath === folderPath;
         });
 
-        return of({ files: files, folders });
+        return of({ leafs, nodes });
     }
 }

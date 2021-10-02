@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ExplorerService } from '../../services/explorer.service';
+import { ExplorerService } from '../../services/explorer.service';
 
 @Component({
     selector: 'nxe-explorer',
@@ -16,5 +16,16 @@ export class ExplorerComponent implements OnInit {
         const currentNode = this.explorerService.openedNode.value;
         this.explorerService.openNode(currentNode.parentId);
     }
+
+    createFolder() {
+        const currentNode = this.explorerService.openedNode.value;
+        
+        // TODO: inject custom popup, inject custom text
+        let name = prompt("Enter new folder name");
+        if (name) {
+            this.explorerService.createNode(currentNode, name);
+        }
+    }
+
 
 }
