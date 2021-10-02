@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { NxeNode, Dictionary, NodeContent } from '../common/types';
+import { XNode, Dictionary, NodeContent } from '../common/types';
 import { Utils } from '../shared/utils';
 import { ExampleDataService } from './example-data.service';
 
@@ -9,17 +9,17 @@ import { ExampleDataService } from './example-data.service';
     providedIn: 'root'
 })
 export class ExplorerService {
-    public readonly selectedNodes = new BehaviorSubject<NxeNode[]>([]);
-    public readonly openedNode = new BehaviorSubject<NxeNode>(undefined);
+    public readonly selectedNodes = new BehaviorSubject<XNode[]>([]);
+    public readonly openedNode = new BehaviorSubject<XNode>(undefined);
 
     private tree = Utils.createNode();
-    private flatPointers: Dictionary<NxeNode> = Utils.getHashMap(this.tree);
+    private flatPointers: Dictionary<XNode> = Utils.getHashMap(this.tree);
 
     constructor(private dataService: ExampleDataService) {
         this.openNode(this.tree.id);
     }
 
-    public selectNodes(nodes: NxeNode[]) {
+    public selectNodes(nodes: XNode[]) {
         this.selectedNodes.next(nodes);
     }
 
@@ -43,7 +43,7 @@ export class ExplorerService {
             });
     }
 
-    public createNode(parentNode: NxeNode, name: string) {
+    public createNode(parentNode: XNode, name: string) {
         const parent = this.flatPointers[parentNode.id];
         this.dataService.createNode(parent.data, name).subscribe(() => {
             // as option, get new data and insert into children
@@ -53,6 +53,19 @@ export class ExplorerService {
 
     public refresh() {
         this.openNode(this.openedNode.value.id); // TODO: temp, until left nav is done
+    }
+
+    public rename(target: XNode, name: string) {
+        const node = this.flatPointers[target.id];
+        if (node.isLeaf){
+            this.dataService.renameLeaf(node.data, name).subscribe(() => {
+                this.refresh();
+            })
+        } else {
+            this.dataService.renameNode(node.data, name).subscribe(() => {
+                this.refresh(); // TODO: refresh entire tree? or all children?
+            });
+        }
     }
 
 }

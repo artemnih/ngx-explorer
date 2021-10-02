@@ -8,15 +8,17 @@ export interface Dictionary<T> {
     [Key: string]: T;
 }
 
-export interface NxeNode {
+export interface XNode {
     id: string;
     parentId: string;
     data: TNode | TLeaf;
     isLeaf: boolean;
-    children: NxeNode[];
+    children: XNode[];
 }
 
 export interface DataProvider {
     getNodeChildren(nodeInfo: TNode): Observable<NodeContent>;
     createNode(parentData: TNode, data: TNode) : Observable<TNode>;
+    renameNode(nodeInfo: TNode, newName: string): Observable<TNode>;
+    renameLeaf(leafInfo: TLeaf, newName: string): Observable<TLeaf>;
 }

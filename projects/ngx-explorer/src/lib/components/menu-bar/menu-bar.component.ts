@@ -17,16 +17,28 @@ export class MenuBarComponent {
 
     createFolder() {
         const currentNode = this.explorerService.openedNode.value;
-
-        // TODO: inject custom popup, inject custom text
-        let name = prompt("Enter new folder name");
+        const name = prompt("Enter new folder name");
         if (name) {
             this.explorerService.createNode(currentNode, name);
         }
+        // TODO: inject custom popup, inject custom text
+
     }
 
     refresh() {
         this.explorerService.refresh();
+    }
+
+    rename() {
+        const selection = this.explorerService.selectedNodes.value;
+        if (selection.length === 1) {
+
+            // TODO: inject getName
+            const newName = prompt("Enter new name", selection[0].data.name);
+            if (newName) {
+                this.explorerService.rename(selection[0], newName);
+            }
+        }
     }
 
 }

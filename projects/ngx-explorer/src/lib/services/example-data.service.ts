@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { DataProvider, NodeContent, TNode } from '../common/types';
+import { DataProvider, NodeContent, TLeaf, TNode } from '../common/types';
 import { v4 as uuid } from 'uuid';
 
 const mock_folders = [
@@ -70,4 +70,18 @@ export class ExampleDataService implements DataProvider {
 
         return of({ leafs, nodes });
     }
+
+    renameNode(nodeInfo: TNode, newName: string): Observable<TNode> {
+        const node = mock_folders.find(f => f.id === nodeInfo.id);
+        node.name = newName;
+        return of(node);
+    }
+
+    renameLeaf(leafInfo: TLeaf, newName: string): Observable<TLeaf> {
+        const leaf = mock_files.find(f => f.id === leafInfo.id);
+        leaf.name = newName;
+        return of(leaf);
+       
+    }
+
 }

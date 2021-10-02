@@ -1,8 +1,8 @@
-import { NxeNode, Dictionary } from "../common/types";
+import { XNode, Dictionary } from "../common/types";
 import { v4 as uuid } from 'uuid';
 
 export class Utils {
-    static getHashMap(node: NxeNode, hashMap: Dictionary<NxeNode> = {}) {
+    static getHashMap(node: XNode, hashMap: Dictionary<XNode> = {}) {
         hashMap[node.id] = node;
         const nodes = node.children;
         for (const node of nodes) {

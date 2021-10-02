@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { NxeNode } from '../../common/types';
+import { XNode } from '../../common/types';
 import { ExplorerService } from '../../services/explorer.service';
 
 @Component({
@@ -9,8 +9,8 @@ import { ExplorerService } from '../../services/explorer.service';
     styleUrls: ['./icons.component.scss']
 })
 export class IconsComponent implements OnDestroy {
-    public selection: NxeNode[] = [];
-    public items: NxeNode[] = [];
+    public selection: XNode[] = [];
+    public items: XNode[] = [];
     private subs = new Subscription();
 
     constructor(private explorerService: ExplorerService) {
@@ -28,7 +28,7 @@ export class IconsComponent implements OnDestroy {
         return data.name;
     }
 
-    select(event: MouseEvent, item: NxeNode) {
+    select(event: MouseEvent, item: XNode) {
         const selectedIndex = this.selection.findIndex(i => i === item);
         const alreadySelected = selectedIndex !== -1;
         const metaKeyPressed = event.metaKey || event.ctrlKey || event.shiftKey;
@@ -44,14 +44,14 @@ export class IconsComponent implements OnDestroy {
         this.explorerService.selectNodes(this.selection);
     }
 
-    open(event: MouseEvent, item: NxeNode) {
+    open(event: MouseEvent, item: XNode) {
         const metaKeyPressed = event.metaKey || event.ctrlKey || event.shiftKey;
         if (!metaKeyPressed) {
             this.explorerService.openNode(item.id);
         }
     }
 
-    isSelected(item: NxeNode) {
+    isSelected(item: XNode) {
         return this.selection.indexOf(item) !== -1;
     }
 
