@@ -27,5 +27,8 @@ export class ExplorerComponent implements OnInit {
         }
     }
 
+    refresh() {
+        this.explorerService.refresh();
+    }
 
 }
