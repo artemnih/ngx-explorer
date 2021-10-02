@@ -31,7 +31,6 @@ export class ExplorerService {
 
         this.dataService
             .getNodeChildren(parent.data)
-            .pipe(take(1))
             .subscribe(({ files, folders }: NodeContent) => {
                 const childrenFolders = folders.map(data => Utils.createNode(nodeId, false, data));
                 const childrenFiles = files.map(data => Utils.createNode(nodeId, true, data));
