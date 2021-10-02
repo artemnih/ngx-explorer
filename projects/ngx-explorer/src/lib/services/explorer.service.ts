@@ -46,6 +46,7 @@ export class ExplorerService {
     public createNode(parentNode: NxeNode, name: string) {
         const parent = this.flatPointers[parentNode.id];
         this.dataService.createNode(parent.data, name).subscribe(() => {
+            // as option, get new data and insert into children
             this.refresh();
         })
     }
