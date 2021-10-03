@@ -1,8 +1,7 @@
 import { Observable } from "rxjs";
 
-export type TLeaf = any;
 export type TNode = any;
-export type NodeContent = { leafs: TLeaf[], nodes: TNode[] };
+export type NodeContent = { leafs: TNode[], nodes: TNode[] };
 
 export interface Dictionary<T> {
     [Key: string]: T;
@@ -11,7 +10,7 @@ export interface Dictionary<T> {
 export interface XNode {
     id: string;
     parentId: string;
-    data: TNode | TLeaf;
+    data: TNode;
     isLeaf: boolean;
     children: XNode[];
 }
@@ -20,7 +19,8 @@ export interface DataProvider {
     getNodeChildren(nodeInfo: TNode): Observable<NodeContent>;
     createNode(parentData: TNode, data: TNode) : Observable<TNode>;
     renameNode(nodeInfo: TNode, newName: string): Observable<TNode>;
-    renameLeaf(leafInfo: TLeaf, newName: string): Observable<TLeaf>;
+    renameLeaf(leafInfo: TNode, newName: string): Observable<TNode>;
     deleteNodes(nodeInfos: TNode[]): Observable<any>;
-    deleteLeafs(leafInfos: TLeaf[]): Observable<any>;
+    deleteLeafs(leafInfos: TNode[]): Observable<any>;
+    uploadFiles(nodeInfo: TNode, files: File[]): Observable<TNode>;
 }

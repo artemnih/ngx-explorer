@@ -87,6 +87,12 @@ export class ExplorerService {
         });
     }
 
+    upload(target: XNode, files: File[]) {
+        this.dataService.uploadFiles(target.data, files).subscribe(() => {
+            this.refresh();
+        });
+    }
+
 }
 
 // TODO: navigateToNode // -- later feature for left nav

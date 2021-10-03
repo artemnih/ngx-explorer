@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ExplorerService } from '../../services/explorer.service';
 
 @Component({
@@ -7,6 +7,7 @@ import { ExplorerService } from '../../services/explorer.service';
     styleUrls: ['./menu-bar.component.scss']
 })
 export class MenuBarComponent {
+    @ViewChild('uploader', { static: true }) uploader: ElementRef;
 
     constructor(private explorerService: ExplorerService) { }
 
@@ -46,6 +47,16 @@ export class MenuBarComponent {
         if (selection.length > 0) {
             this.explorerService.remove(selection);
         }
+    }
+
+    openUploader() {
+        this.uploader.nativeElement.click();
+    }
+
+    handleFiles(files: File[]) {
+        const currentNode = this.explorerService.openedNode.value;
+        this.explorerService.upload(currentNode, files);
+        this.uploader.nativeElement.value = '';
     }
 
 }

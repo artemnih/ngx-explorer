@@ -4,4 +4,6 @@
     <button (click)="refresh()">Refresh</button>
     <button (click)="rename()">Rename</button>
     <button (click)="remove()">Delete</button>
+    <button (click)="openUploader()">Upload</button>
+    <input style="display: none" type="file" multiple (change)="handleFiles($event.target.files)" #uploader>
 </div>
