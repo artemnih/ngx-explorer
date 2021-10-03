@@ -12,7 +12,7 @@ export class MenuBarComponent {
 
     back() {
         const currentNode = this.explorerService.openedNode.value;
-        this.explorerService.openNode(currentNode.parentId);
+        this.explorerService.openNode(currentNode);
     }
 
     createFolder() {

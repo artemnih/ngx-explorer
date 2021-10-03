@@ -2,7 +2,7 @@ import { XNode, Dictionary } from "../common/types";
 import { v4 as uuid } from 'uuid';
 
 export class Utils {
-    static getHashMap(node: XNode, hashMap: Dictionary<XNode> = {}) {
+    static getHashMap(node: XNode, hashMap: Dictionary<XNode> = {}): Dictionary<XNode> {
         hashMap[node.id] = node;
         const nodes = node.children;
         for (const node of nodes) {
@@ -14,7 +14,7 @@ export class Utils {
         return hashMap;
     }
 
-    static createNode(parentId = '', isLeaf = false, data?: any) {
+    static createNode(parentId = '', isLeaf = false, data?: any): XNode {
         return {
             id: uuid(),
             parentId: parentId,

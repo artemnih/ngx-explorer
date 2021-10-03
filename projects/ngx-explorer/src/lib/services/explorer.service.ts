@@ -16,14 +16,20 @@ export class ExplorerService {
     private flatPointers: Dictionary<XNode> = Utils.getHashMap(this.tree);
 
     constructor(private dataService: ExampleDataService) {
-        this.openNode(this.tree.id);
+        this.openNode(this.tree);
+    }
+
+    public getNode(nodeId: string) {
+        // TODO: this should be immutable
+        return this.flatPointers[nodeId];
     }
 
     public selectNodes(nodes: XNode[]) {
         this.selectedNodes.next(nodes);
     }
 
-    public openNode(nodeId: string) {
+    public openNode(node: XNode) {
+        const nodeId = node.id;
         const parent = this.flatPointers[nodeId];
 
         if (parent.isLeaf) {
@@ -52,7 +58,7 @@ export class ExplorerService {
     }
 
     public refresh() {
-        this.openNode(this.openedNode.value.id); // TODO: temp, until left nav is done
+        this.openNode(this.openedNode.value); // TODO: temp, until left nav is done
     }
 
     public rename(target: XNode, name: string) {

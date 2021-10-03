@@ -3,16 +3,23 @@ import { IconsComponent } from './components/icons/icons.component';
 import { CommonModule } from '@angular/common';
 import { ExplorerComponent } from './components/explorer/explorer.component';
 import { MenuBarComponent } from './components/menu-bar/menu-bar.component';
+import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 
 @NgModule({
   declarations: [
     IconsComponent,
     ExplorerComponent,
     MenuBarComponent,
+    BreadcrumbsComponent,
   ],
   imports: [
     CommonModule
   ],
-  exports: [IconsComponent, ExplorerComponent, MenuBarComponent]
+  exports: [
+    IconsComponent, 
+    ExplorerComponent, 
+    MenuBarComponent,
+    BreadcrumbsComponent
+  ]
 })
 export class NgxExplorerModule { }
