@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
-import { DataProvider, NodeContent, TLeaf, TNode } from '../common/types';
+import { DataProvider, NodeContent, TNode } from '../common/types';
 import { v4 as uuid } from 'uuid';
 
 let mock_folders = [
@@ -44,6 +44,18 @@ let mock_files = [
 })
 export class ExampleDataService implements DataProvider {
 
+    uploadFiles(nodeInfo: any, files: File[]): Observable<TNode[]> {
+        const results = [];
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const nodePath = nodeInfo ? mock_folders.find(f => f.id === nodeInfo.id).path : '';
+            const newFile = { id: uuid(), name: file.name, path: nodePath + '/' + file.name, content: file };
+            mock_files.push(newFile);
+            results.push(of(newFile));
+        };
+        return forkJoin(results);
+    }
+
     deleteNodes(nodeInfos: TNode[]): Observable<any> {
         const results = nodeInfos.map(nodeInfo => {
             const path = nodeInfo.path + '/';
@@ -55,7 +67,7 @@ export class ExampleDataService implements DataProvider {
         return forkJoin(results)
     }
 
-    deleteLeafs(leafInfos: TLeaf[]): Observable<any> {
+    deleteLeafs(leafInfos: TNode[]): Observable<any> {
         const results = leafInfos.map(leafInfo => {
             const leaf = mock_files.find(f => f.id === leafInfo.id);
             const index = mock_files.indexOf(leaf);
@@ -98,7 +110,7 @@ export class ExampleDataService implements DataProvider {
         return of(node);
     }
 
-    renameLeaf(leafInfo: TLeaf, newName: string): Observable<TLeaf> {
+    renameLeaf(leafInfo: TNode, newName: string): Observable<TNode> {
         const leaf = mock_files.find(f => f.id === leafInfo.id);
         leaf.name = newName;
         return of(leaf);
