@@ -41,4 +41,11 @@ export class MenuBarComponent {
         }
     }
 
+    remove() {
+        const selection = this.explorerService.selectedNodes.value;
+        if (selection.length > 0) {
+            this.explorerService.remove(selection);
+        }
+    }
+
 }

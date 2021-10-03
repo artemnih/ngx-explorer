@@ -21,4 +21,6 @@ export interface DataProvider {
     createNode(parentData: TNode, data: TNode) : Observable<TNode>;
     renameNode(nodeInfo: TNode, newName: string): Observable<TNode>;
     renameLeaf(leafInfo: TLeaf, newName: string): Observable<TLeaf>;
+    deleteNodes(nodeInfos: TNode[]): Observable<any>;
+    deleteLeafs(leafInfos: TLeaf[]): Observable<any>;
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { BehaviorSubject, forkJoin, of } from 'rxjs';
+import { take, tap } from 'rxjs/operators';
 import { XNode, Dictionary, NodeContent } from '../common/types';
 import { Utils } from '../shared/utils';
 import { ExampleDataService } from './example-data.service';
@@ -57,7 +57,7 @@ export class ExplorerService {
 
     public rename(target: XNode, name: string) {
         const node = this.flatPointers[target.id];
-        if (node.isLeaf){
+        if (node.isLeaf) {
             this.dataService.renameLeaf(node.data, name).subscribe(() => {
                 this.refresh();
             })
@@ -66,6 +66,19 @@ export class ExplorerService {
                 this.refresh(); // TODO: refresh entire tree? or all children?
             });
         }
+    }
+
+    public remove(selection: XNode[]) {
+        const targets = selection.map(node => this.flatPointers[node.id])
+        const nodes = targets.filter(t => !t.isLeaf).map(data => data.data);
+        const leafs = targets.filter(t => t.isLeaf).map(data => data.data);
+
+        const sub1 = nodes.length ? this.dataService.deleteNodes(nodes) : of([]);
+        const sub2 = leafs.length ? this.dataService.deleteLeafs(leafs) : of([]);
+
+        forkJoin([sub1, sub2]).subscribe(() => {
+            this.refresh();
+        });
     }
 
 }

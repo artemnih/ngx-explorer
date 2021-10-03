@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { DataProvider, NodeContent, TLeaf, TNode } from '../common/types';
 import { v4 as uuid } from 'uuid';
 
-const mock_folders = [
+let mock_folders = [
     { id: 1, name: 'Music', path: 'music' },
     { id: 2, name: 'Movies', path: 'movies' },
     { id: 3, name: 'Books', path: 'books' },
@@ -17,7 +17,7 @@ const mock_folders = [
     { id: 18, name: 'The Beatles', path: 'music/rock/thebeatles' },
 ];
 
-const mock_files = [
+let mock_files = [
     { id: 428, name: 'notes.txt', path: '' },
     { id: 4281, name: '2.txt', path: '' },
     { id: 28, name: 'Thriller', path: 'music/rock/thebeatles/thriller' },
@@ -44,8 +44,29 @@ const mock_files = [
 })
 export class ExampleDataService implements DataProvider {
 
+    deleteNodes(nodeInfos: TNode[]): Observable<any> {
+        const results = nodeInfos.map(nodeInfo => {
+            const path = nodeInfo.path + '/';
+            mock_files = mock_files.filter(f => !f.path.startsWith(path))
+            mock_folders = mock_folders.filter(f => !f.path.startsWith(path))
+            mock_folders = mock_folders.filter(f => f.id !== nodeInfo.id);
+            return of({});
+        });
+        return forkJoin(results)
+    }
+
+    deleteLeafs(leafInfos: TLeaf[]): Observable<any> {
+        const results = leafInfos.map(leafInfo => {
+            const leaf = mock_files.find(f => f.id === leafInfo.id);
+            const index = mock_files.indexOf(leaf);
+            mock_files.splice(index, 1);
+            return of({});
+        })
+        return forkJoin(results)
+    }
+
     createNode(node: TNode, data: TNode): Observable<TNode> {
-        const path = (node?.path? node.path + '/' : '') + data.replace(/[\W_]+/g, " ");
+        const path = (node?.path ? node.path + '/' : '') + data.replace(/[\W_]+/g, " ");
         const newFolder = { path, id: uuid(), name: data };
         mock_folders.push(newFolder);
         return of(newFolder);
@@ -81,7 +102,7 @@ export class ExampleDataService implements DataProvider {
         const leaf = mock_files.find(f => f.id === leafInfo.id);
         leaf.name = newName;
         return of(leaf);
-       
+
     }
 
 }
