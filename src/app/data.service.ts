@@ -1,5 +1,5 @@
 import { forkJoin, Observable, of, Subscriber } from 'rxjs';
-import { IDataService, NodeContent, TNode } from 'ngx-explorer'
+import { IDataService, NodeContent } from 'ngx-explorer'
 import { v4 as uuid } from 'uuid';
 
 let mock_folders = [
@@ -26,9 +26,16 @@ let mock_files = [
   { id: 32, name: 'Rock And Roll All Nite.txt', path: 'music/rock/ledzeppelin/rockandrollallnight', content: 'hi, this is an example' },
 ]
 
-export class ExampleDataService implements IDataService {
+interface ExampleNode {
+  name: string;
+  path: string;
+  content?: string;
+  id: number | string;
+}
 
-  download(node: TNode): Observable<any> {
+export class ExampleDataService implements IDataService<ExampleNode> {
+
+  download(node: ExampleNode): Observable<any> {
     const file = mock_files.find(f => f.id === node.id);
 
     const myblob = new Blob([file.content], {
@@ -47,7 +54,7 @@ export class ExampleDataService implements IDataService {
     return of(null);
   }
 
-  uploadFiles(node: TNode, files: File[]): Observable<TNode[]> {
+  uploadFiles(node: ExampleNode, files: File[]): Observable<any> {
     const results = [];
 
     for (let i = 0; i < files.length; i++) {
@@ -70,7 +77,7 @@ export class ExampleDataService implements IDataService {
     return forkJoin(results);
   }
 
-  deleteNodes(nodes: TNode[]): Observable<any> {
+  deleteNodes(nodes: ExampleNode[]): Observable<any> {
     const results = nodes.map(node => {
       const path = node.path + '/';
       mock_files = mock_files.filter(f => !f.path.startsWith(path))
@@ -81,7 +88,7 @@ export class ExampleDataService implements IDataService {
     return forkJoin(results)
   }
 
-  deleteLeafs(nodes: TNode[]): Observable<any> {
+  deleteLeafs(nodes: ExampleNode[]): Observable<any> {
     const results = nodes.map(node => {
       const leaf = mock_files.find(f => f.id === node.id);
       const index = mock_files.indexOf(leaf);
@@ -91,14 +98,14 @@ export class ExampleDataService implements IDataService {
     return forkJoin(results)
   }
 
-  createNode(node: TNode, data: TNode): Observable<TNode> {
-    const path = (node?.path ? node.path + '/' : '') + data.replace(/[\W_]+/g, " ");
-    const newFolder = { path, id: uuid(), name: data };
+  createNode(node: ExampleNode, name: string): Observable<any> {
+    const path = (node?.path ? node.path + '/' : '') + name.replace(/[\W_]+/g, " ");
+    const newFolder = { path, id: uuid(), name: name };
     mock_folders.push(newFolder);
     return of(newFolder);
   }
 
-  getNodeChildren(node: TNode): Observable<NodeContent> {
+  getNodeChildren(node: ExampleNode): Observable<NodeContent<ExampleNode>> {
     const folderPath = node?.path || '';
 
     const nodes = mock_folders.filter(f => {
@@ -118,16 +125,15 @@ export class ExampleDataService implements IDataService {
     return of({ leafs, nodes });
   }
 
-  renameNode(nodeInfo: TNode, newName: string): Observable<TNode> {
+  renameNode(nodeInfo: ExampleNode, newName: string): Observable<ExampleNode> {
     const node = mock_folders.find(f => f.id === nodeInfo.id);
     node.name = newName;
     return of(node);
   }
 
-  renameLeaf(leafInfo: TNode, newName: string): Observable<TNode> {
+  renameLeaf(leafInfo: ExampleNode, newName: string): Observable<ExampleNode> {
     const leaf = mock_files.find(f => f.id === leafInfo.id);
     leaf.name = newName;
     return of(leaf);
-
   }
 }

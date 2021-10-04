@@ -1,7 +1,6 @@
 import { Observable } from "rxjs";
 
-export type TNode = any;
-export type NodeContent = { leafs: TNode[], nodes: TNode[] };
+export type NodeContent<T> = { leafs: T[], nodes: T[] };
 
 export interface Dictionary<T> {
     [Key: string]: T;
@@ -10,18 +9,18 @@ export interface Dictionary<T> {
 export interface XNode {
     id: string;
     parentId: string;
-    data: TNode;
+    data: any;
     isLeaf: boolean;
     children: XNode[];
 }
 
-export interface IDataService {
-    getNodeChildren(node: TNode): Observable<NodeContent>;
-    createNode(parentNode: TNode, node: TNode) : Observable<TNode>;
-    renameNode(node: TNode, newName: string): Observable<TNode>;
-    renameLeaf(node: TNode, newName: string): Observable<TNode>;
-    deleteNodes(nodes: TNode[]): Observable<any>;
-    deleteLeafs(nodes: TNode[]): Observable<any>;
-    uploadFiles(node: TNode, files: File[]): Observable<TNode>;
-    download(node: TNode): Observable<any>;
+export interface IDataService<T> {
+    getNodeChildren(node: T): Observable<NodeContent<T>>;
+    createNode(parentNode: T, name: string) : Observable<any>;
+    renameNode(node: T, newName: string): Observable<any>;
+    renameLeaf(node: T, newName: string): Observable<any>;
+    deleteNodes(nodes: T[]): Observable<any>;
+    deleteLeafs(nodes: T[]): Observable<any>;
+    uploadFiles(node: T, files: File[]): Observable<any>;
+    download(node: T): Observable<any>;
 }

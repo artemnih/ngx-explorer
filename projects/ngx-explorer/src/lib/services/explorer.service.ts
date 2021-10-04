@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, forkJoin, of } from 'rxjs';
 import { XNode, Dictionary, NodeContent } from '../common/types';
 import { Utils } from '../shared/utils';
-import { DataService } from './data-provider.service';
+import { DataService } from './data.service';
 
 @Injectable({
     providedIn: 'root'
@@ -37,7 +37,7 @@ export class ExplorerService {
 
         this.dataService
             .getNodeChildren(parent.data)
-            .subscribe(({ leafs, nodes }: NodeContent) => {
+            .subscribe(({ leafs, nodes }: NodeContent<any>) => {
                 const childrenNodes = nodes.map(data => Utils.createNode(nodeId, false, data));
                 const childrenLeafs = leafs.map(data => Utils.createNode(nodeId, true, data));
                 parent.children = childrenNodes.concat(childrenLeafs);
