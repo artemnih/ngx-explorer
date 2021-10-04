@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { forkJoin, Observable, of } from 'rxjs';
+import { forkJoin, Observable, of, Subscriber } from 'rxjs';
 import { DataProvider, NodeContent, TNode } from '../common/types';
 import { v4 as uuid } from 'uuid';
 
@@ -18,25 +18,13 @@ let mock_folders = [
 ];
 
 let mock_files = [
-    { id: 428, name: 'notes.txt', path: '', content: undefined },
-    { id: 4281, name: '2.txt', path: '' },
-    { id: 28, name: 'Thriller', path: 'music/rock/thebeatles/thriller' },
-    { id: 29, name: 'Imagine', path: 'music/rock/thebeatles/imagine' },
-    { id: 210, name: 'Greatest Hits', path: 'music/rock/thebeatles/greatesthits' },
-    { id: 211, name: 'Sgt. Pepper\'s Lonely Hearts Club Band', path: 'music/rock/thebeatles/sgpeppers' },
-    { id: 212, name: 'Rubber Soul', path: 'music/rock/thebeatles/rubbersoul' },
-    { id: 213, name: 'Revolver', path: 'music/rock/thebeatles/revolver' },
-    { id: 214, name: 'Abbey Road', path: 'music/rock/thebeatles/abbeyroad' },
-    { id: 219, name: 'Back in Black', path: 'music/rock/acdc/backinblack' },
-    { id: 220, name: 'Highway to Hell', path: 'music/rock/acdc/highwaytohell' },
-    { id: 221, name: 'TNT', path: 'music/rock/acdc/tnt' },
-    { id: 222, name: 'Live at the Apollo', path: 'music/rock/acdc/apollo' },
-    { id: 223, name: 'Let There Be Rock', path: 'music/rock/acdc/letbe' },
-    { id: 224, name: 'Balls to the Wall', path: 'music/rock/ledzeppelin/ballstothewall' },
-    { id: 225, name: 'IV', path: 'music/rock/ledzeppelin/iv' },
-    { id: 226, name: 'Presence', path: 'music/rock/ledzeppelin/presence' },
-    { id: 227, name: 'The Song Remains the Same', path: 'music/rock/ledzeppelin/songremains' },
-    { id: 228, name: 'The Rover', path: 'music/rock/ledzeppelin/rover' },
+    { id: 428, name: 'notes.txt', path: '', content: 'hi, this is an example' },
+    { id: 4281, name: '2.txt', path: '', content: 'hi, this is an example' },
+    { id: 28, name: 'Thriller.txt', path: 'music/rock/thebeatles/thriller', content: 'hi, this is an example' },
+    { id: 29, name: 'Back in the U.S.S.R.txt', path: 'music/rock/thebeatles', content: 'hi, this is an example' },
+    { id: 30, name: 'All You Need Is Love.txt', path: 'music/rock/thebeatles', content: 'hi, this is an example' },
+    { id: 31, name: 'Hey Jude.txt', path: 'music/rock/ledzeppelin/heyjude', content: 'hi, this is an example' },
+    { id: 32, name: 'Rock And Roll All Nite.txt', path: 'music/rock/ledzeppelin/rockandrollallnight', content: 'hi, this is an example' },
 ]
 
 @Injectable({
@@ -46,7 +34,11 @@ export class ExampleDataService implements DataProvider {
 
     download(node: TNode): Observable<any> {
         const file = mock_files.find(f => f.id === node.id);
-        const objectUrl = window.URL.createObjectURL(file.content);
+
+        const myblob = new Blob([file.content], {
+            type: 'text/plain'
+        });
+        const objectUrl = window.URL.createObjectURL(myblob);
         const a: HTMLAnchorElement = document.createElement('a') as HTMLAnchorElement;
 
         a.href = objectUrl;
@@ -61,13 +53,24 @@ export class ExampleDataService implements DataProvider {
 
     uploadFiles(node: TNode, files: File[]): Observable<TNode[]> {
         const results = [];
+
         for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            const nodePath = node ? mock_folders.find(f => f.id === node.id).path : '';
-            const newFile = { id: uuid(), name: file.name, path: nodePath + '/' + file.name, content: file };
-            mock_files.push(newFile);
-            results.push(of(newFile));
+            const obs = new Observable((observer: Subscriber<any>): void => {
+                const file = files[i];
+                const reader = new FileReader();
+                reader.onload = function () {
+                    const nodePath = node ? mock_folders.find(f => f.id === node.id).path : '';
+                    const newFile = { id: uuid(), name: file.name, path: nodePath + '/' + file.name, content: reader.result as string };
+                    mock_files.push(newFile);
+                    console.log(mock_files);
+                    observer.next(reader.result);
+                    observer.complete();
+                }
+                reader.readAsText(file);
+            });
+            results.push(obs);
         };
+
         return forkJoin(results);
     }
 
