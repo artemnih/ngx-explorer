@@ -15,7 +15,7 @@ export interface XNode {
     children: XNode[];
 }
 
-export interface DataProvider {
+export interface NxeDataProvider {
     getNodeChildren(node: TNode): Observable<NodeContent>;
     createNode(parentNode: TNode, node: TNode) : Observable<TNode>;
     renameNode(node: TNode, newName: string): Observable<TNode>;

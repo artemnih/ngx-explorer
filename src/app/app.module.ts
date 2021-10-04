@@ -1,27 +1,20 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { NgxExplorerModule} from 'ngx-explorer';
+import { NgxExplorerModule, DataProvider } from 'ngx-explorer';
+import { DataService } from './data.service';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
     NgxExplorerModule
   ],
-  providers: [],
+  providers: [
+    { provide: DataProvider, useClass: DataService }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-
-
-/*
-
-NgxExplorerModule.forRoot({
-  views: [ someView]
-  dataParser: someDataParser
-})
-
-*/
