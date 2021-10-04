@@ -19,16 +19,6 @@ export class AppModule { }
 
 /*
 
-0. interface to be implemented by the service
-1. build fake data
-2. build fake data service
-3. do dep injection forRoot
-4. bring components from old repo
-5. build demo
-
-
-
-
 NgxExplorerModule.forRoot({
   views: [ someView]
   dataParser: someDataParser
