@@ -1,5 +1,5 @@
 import { forkJoin, Observable, of, Subscriber } from 'rxjs';
-import { NxeDataProvider, NodeContent, TNode } from 'ngx-explorer'
+import { IDataService, NodeContent, TNode } from 'ngx-explorer'
 import { v4 as uuid } from 'uuid';
 
 let mock_folders = [
@@ -26,7 +26,7 @@ let mock_files = [
   { id: 32, name: 'Rock And Roll All Nite.txt', path: 'music/rock/ledzeppelin/rockandrollallnight', content: 'hi, this is an example' },
 ]
 
-export class DataService implements NxeDataProvider {
+export class ExampleDataService implements IDataService {
 
   download(node: TNode): Observable<any> {
     const file = mock_files.find(f => f.id === node.id);

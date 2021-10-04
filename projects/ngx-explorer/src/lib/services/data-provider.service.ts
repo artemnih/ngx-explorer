@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
-import { NxeDataProvider } from "ngx-explorer";
+import { IDataService } from "ngx-explorer";
 
 @Injectable({
     providedIn: 'root'
 })
-export abstract class DataProvider implements NxeDataProvider {
+export abstract class DataService implements IDataService {
     abstract getNodeChildren(node: any);
     abstract createNode(parentNode: any, node: any)
     abstract renameNode(node: any, newName: string)

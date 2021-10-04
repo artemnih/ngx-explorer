@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, forkJoin, of } from 'rxjs';
 import { XNode, Dictionary, NodeContent } from '../common/types';
 import { Utils } from '../shared/utils';
-import { DataProvider } from './data-provider.service';
+import { DataService } from './data-provider.service';
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +14,7 @@ export class ExplorerService {
     private tree = Utils.createNode();
     private flatPointers: Dictionary<XNode> = Utils.getHashMap(this.tree);
 
-    constructor(private dataService: DataProvider) {
+    constructor(private dataService: DataService) {
         this.openNode(this.tree);
     }
 

@@ -1,8 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { NgxExplorerModule, DataProvider } from 'ngx-explorer';
-import { DataService } from './data.service';
+import { NgxExplorerModule, DataService } from 'ngx-explorer';
+import { ExampleDataService } from './data.service';
 
 @NgModule({
   declarations: [
@@ -13,7 +13,9 @@ import { DataService } from './data.service';
     NgxExplorerModule
   ],
   providers: [
-    { provide: DataProvider, useClass: DataService }
+    { provide: DataService, useClass: ExampleDataService }
+    // { provide: NxeExplorerConfig, useValue: { example: true } }
+    // { provide: NxeExplorerHelpers, useClass: LittleHelpers }
   ],
   bootstrap: [AppComponent]
 })
