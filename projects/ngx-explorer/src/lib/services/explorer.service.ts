@@ -87,8 +87,15 @@ export class ExplorerService {
         });
     }
 
-    upload(target: XNode, files: File[]) {
+    public upload(target: XNode, files: File[]) {
         this.dataService.uploadFiles(target.data, files).subscribe(() => {
+            this.refresh();
+        });
+    }
+
+    public download(node: XNode) {
+        const target = this.flatPointers[node.id]
+        this.dataService.download(target.data).subscribe(() => {
             this.refresh();
         });
     }

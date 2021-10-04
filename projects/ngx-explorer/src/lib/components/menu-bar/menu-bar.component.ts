@@ -59,4 +59,11 @@ export class MenuBarComponent {
         this.uploader.nativeElement.value = '';
     }
 
+    download() {
+        const selection = this.explorerService.selectedNodes.value;
+        if (selection.length === 1) {
+            this.explorerService.download(selection[0]);
+        }
+    }
+
 }

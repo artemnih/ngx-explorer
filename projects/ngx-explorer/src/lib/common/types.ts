@@ -16,11 +16,12 @@ export interface XNode {
 }
 
 export interface DataProvider {
-    getNodeChildren(nodeInfo: TNode): Observable<NodeContent>;
-    createNode(parentData: TNode, data: TNode) : Observable<TNode>;
-    renameNode(nodeInfo: TNode, newName: string): Observable<TNode>;
-    renameLeaf(leafInfo: TNode, newName: string): Observable<TNode>;
-    deleteNodes(nodeInfos: TNode[]): Observable<any>;
-    deleteLeafs(leafInfos: TNode[]): Observable<any>;
-    uploadFiles(nodeInfo: TNode, files: File[]): Observable<TNode>;
+    getNodeChildren(node: TNode): Observable<NodeContent>;
+    createNode(parentNode: TNode, node: TNode) : Observable<TNode>;
+    renameNode(node: TNode, newName: string): Observable<TNode>;
+    renameLeaf(node: TNode, newName: string): Observable<TNode>;
+    deleteNodes(nodes: TNode[]): Observable<any>;
+    deleteLeafs(nodes: TNode[]): Observable<any>;
+    uploadFiles(node: TNode, files: File[]): Observable<TNode>;
+    download(node: TNode): Observable<any>;
 }
