@@ -28,6 +28,8 @@ export class BreadcrumbsComponent {
     }
 
     private buildBreadcrumbs(node: XNode) {
+
+        // TODO: build breadcrumbs in service and emit to component
         const pieces = [];
 
         let currentNode = node;
