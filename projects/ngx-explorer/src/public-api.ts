@@ -10,3 +10,4 @@ export * from './lib/components/icons/icons.component';
 export * from './lib/components/explorer/explorer.component';
 export * from './lib/components/menu-bar/menu-bar.component';
 export * from './lib/components/breadcrumbs/breadcrumbs.component';
+export * from './lib/common/base-view';
