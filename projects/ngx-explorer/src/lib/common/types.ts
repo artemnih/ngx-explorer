@@ -16,11 +16,15 @@ export interface XNode {
 
 export interface IDataService<T> {
     getNodeChildren(node: T): Observable<NodeContent<T>>;
-    createNode(parentNode: T, name: string) : Observable<any>;
+    createNode(parentNode: T, name: string): Observable<any>;
     renameNode(node: T, newName: string): Observable<any>;
     renameLeaf(node: T, newName: string): Observable<any>;
     deleteNodes(nodes: T[]): Observable<any>;
     deleteLeafs(nodes: T[]): Observable<any>;
     uploadFiles(node: T, files: File[]): Observable<any>;
     download(node: T): Observable<any>;
+}
+
+export interface IHelperService {
+    getName<T>(data: T): string
 }

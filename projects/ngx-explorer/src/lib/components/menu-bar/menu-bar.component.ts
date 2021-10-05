@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ExplorerService } from '../../services/explorer.service';
+import { HelperService } from '../../services/helper.service';
 
 @Component({
     selector: 'nxe-menu-bar',
@@ -9,7 +10,7 @@ import { ExplorerService } from '../../services/explorer.service';
 export class MenuBarComponent {
     @ViewChild('uploader', { static: true }) uploader: ElementRef;
 
-    constructor(private explorerService: ExplorerService) { }
+    constructor(private explorerService: ExplorerService, private helperService: HelperService) { }
 
     back() {
         const currentNode = this.explorerService.openedNode.value;
@@ -33,9 +34,8 @@ export class MenuBarComponent {
     rename() {
         const selection = this.explorerService.selectedNodes.value;
         if (selection.length === 1) {
-
-            // TODO: inject getName
-            const newName = prompt("Enter new name", selection[0].data.name);
+            const oldName = this.helperService.getName(selection[0].data);
+            const newName = prompt("Enter new name", oldName);
             if (newName) {
                 this.explorerService.rename(selection[0], newName);
             }

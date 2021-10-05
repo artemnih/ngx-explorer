@@ -2,6 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { XNode } from '../../common/types';
 import { ExplorerService } from '../../services/explorer.service';
+import { HelperService } from '../../services/helper.service';
 
 @Component({
     selector: 'nxe-icons',
@@ -13,7 +14,7 @@ export class IconsComponent implements OnDestroy {
     public items: XNode[] = [];
     private subs = new Subscription();
 
-    constructor(private explorerService: ExplorerService) {
+    constructor(private explorerService: ExplorerService, private helperService:HelperService) {
         this.subs.add(this.explorerService.openedNode.subscribe(nodes => {
             this.items = nodes.children;
         }));
@@ -23,9 +24,8 @@ export class IconsComponent implements OnDestroy {
         }));
     }
 
-    // TODO: this should be injectable
-    getDisplayName(data: any) {
-        return data.name;
+    getDisplayName(data) {
+       return this.helperService.getName(data);
     }
 
     select(event: MouseEvent, item: XNode) {
