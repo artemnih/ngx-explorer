@@ -10,6 +10,7 @@ import { DataService } from './data.service';
 export class ExplorerService {
     public readonly selectedNodes = new BehaviorSubject<XNode[]>([]);
     public readonly openedNode = new BehaviorSubject<XNode>(undefined);
+    public readonly breadcrumbs = new BehaviorSubject<XNode[]>([]);
 
     private tree = Utils.createNode();
     private flatPointers: Dictionary<XNode> = Utils.getHashMap(this.tree);
@@ -42,8 +43,8 @@ export class ExplorerService {
                 parent.children = childrenNodes.concat(childrenLeafs);
                 this.flatPointers = Utils.getHashMap(this.tree);
                 this.openedNode.next(parent);
-                // TODO: update enitre tree
-                // TODO: update selected nodes: parent node should be selected
+                const breadcrumbs = Utils.buildBreadcrumbs(this.flatPointers, parent);
+                this.breadcrumbs.next(breadcrumbs);
             });
     }
 
@@ -75,7 +76,7 @@ export class ExplorerService {
             })
         } else {
             this.dataService.renameNode(node.data, name).subscribe(() => {
-                this.refresh(); // TODO: refresh entire tree? or all children?
+                this.refresh();
             });
         }
     }
@@ -85,7 +86,7 @@ export class ExplorerService {
         if (selection.length === 0) {
             throw new Error('Nothing selected to remove');
         }
-        
+
         const targets = selection.map(node => this.flatPointers[node.id])
         const nodes = targets.filter(t => !t.isLeaf).map(data => data.data);
         const leafs = targets.filter(t => t.isLeaf).map(data => data.data);

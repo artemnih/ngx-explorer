@@ -23,4 +23,18 @@ export class Utils {
             children: []
         }
     }
+
+    static buildBreadcrumbs(flatPointers: Dictionary<XNode>, node: XNode) {
+        const pieces = [] as XNode[];
+        let currentNode = node;
+        while (true) {
+            pieces.unshift(currentNode);
+            if (currentNode.parentId) {
+                currentNode = flatPointers[currentNode.parentId];
+            } else {
+                break;
+            }
+        }
+        return pieces;
+    }
 }

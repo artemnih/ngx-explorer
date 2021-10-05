@@ -20,27 +20,11 @@ export class BreadcrumbsComponent {
     private sub = new Subscription();
 
     constructor(private explorerService: ExplorerService, private helperService: HelperService) {
-        this.sub.add(this.explorerService.openedNode.subscribe(n => this.buildBreadcrumbs(n)));
+        this.sub.add(this.explorerService.breadcrumbs.subscribe(n => this.buildBreadcrumbs(n)));
     }
 
-    private buildBreadcrumbs(node: XNode) {
-
-        // TODO: build breadcrumbs in service and emit to component
-        const pieces = [];
-
-        let currentNode = node;
-        while (true) {
-            const crumb = { name: this.helperService.getName(currentNode.data) || 'HOME', node: currentNode };
-            pieces.unshift(crumb);
-
-            if (currentNode.parentId) {
-                currentNode = this.explorerService.getNode(currentNode.parentId);
-            } else {
-                break;
-            }
-        }
-
-        this.breadcrumbs = pieces;
+    private buildBreadcrumbs(nodes: XNode[]) {
+        this.breadcrumbs = nodes.map(n => ({ name: this.helperService.getName(n.data) || 'HOME', node: n }));
     }
 
     public click(crumb: Breadcrumb) {
