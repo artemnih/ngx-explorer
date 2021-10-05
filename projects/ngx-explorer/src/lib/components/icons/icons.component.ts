@@ -47,7 +47,7 @@ export class IconsComponent implements OnDestroy {
     open(event: MouseEvent, item: XNode) {
         const metaKeyPressed = event.metaKey || event.ctrlKey || event.shiftKey;
         if (!metaKeyPressed) {
-            this.explorerService.openNode(item);
+            this.explorerService.openNode(item.id);
         }
     }
 

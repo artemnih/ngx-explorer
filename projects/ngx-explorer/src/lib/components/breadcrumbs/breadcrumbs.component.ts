@@ -44,7 +44,7 @@ export class BreadcrumbsComponent {
     }
 
     public click(crumb: Breadcrumb) {
-        this.explorerService.openNode(crumb.node);
+        this.explorerService.openNode(crumb.node.id);
     }
 
 }

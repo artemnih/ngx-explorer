@@ -15,9 +15,10 @@ export class ExplorerService {
     private flatPointers: Dictionary<XNode> = Utils.getHashMap(this.tree);
 
     constructor(private dataService: DataService) {
-        this.openNode(this.tree);
+        this.openNode(this.tree.id);
     }
 
+    // TODO: this should not be needed
     public getNode(nodeId: string) {
         // TODO: this should be immutable
         return this.flatPointers[nodeId];
@@ -27,10 +28,8 @@ export class ExplorerService {
         this.selectedNodes.next(nodes);
     }
 
-    public openNode(node: XNode) {
-        const nodeId = node.id;
-        const parent = this.flatPointers[nodeId];
-
+    public openNode(id: string) {
+        const parent = this.flatPointers[id];
         if (parent.isLeaf) {
             throw new Error('Cannot open leaf node'); // TODO: temp. download or open file
         }
@@ -38,8 +37,8 @@ export class ExplorerService {
         this.dataService
             .getNodeChildren(parent.data)
             .subscribe(({ leafs, nodes }: NodeContent<any>) => {
-                const childrenNodes = nodes.map(data => Utils.createNode(nodeId, false, data));
-                const childrenLeafs = leafs.map(data => Utils.createNode(nodeId, true, data));
+                const childrenNodes = nodes.map(data => Utils.createNode(id, false, data));
+                const childrenLeafs = leafs.map(data => Utils.createNode(id, true, data));
                 parent.children = childrenNodes.concat(childrenLeafs);
                 this.flatPointers = Utils.getHashMap(this.tree);
                 this.openedNode.next(parent);
@@ -48,8 +47,8 @@ export class ExplorerService {
             });
     }
 
-    public createNode(parentNode: XNode, name: string) {
-        const parent = this.flatPointers[parentNode.id];
+    public createNode(name: string) {
+        const parent = this.openedNode.value;
         this.dataService.createNode(parent.data, name).subscribe(() => {
             // as option, get new data and insert into children
             this.refresh();
@@ -57,11 +56,19 @@ export class ExplorerService {
     }
 
     public refresh() {
-        this.openNode(this.openedNode.value); // TODO: temp, until left nav is done
+        this.openNode(this.openedNode.value.id); // TODO: temp, until left nav is done
     }
 
-    public rename(target: XNode, name: string) {
-        const node = this.flatPointers[target.id];
+    public rename(name: string) {
+        const nodes = this.selectedNodes.value;
+        if (nodes.length > 1) {
+            throw new Error('Multiple selection rename not supported');
+        }
+        if (nodes.length === 0) {
+            throw new Error('Nothing selected to rename');
+        }
+
+        const node = nodes[0];
         if (node.isLeaf) {
             this.dataService.renameLeaf(node.data, name).subscribe(() => {
                 this.refresh();
@@ -73,7 +80,12 @@ export class ExplorerService {
         }
     }
 
-    public remove(selection: XNode[]) {
+    public remove() {
+        const selection = this.selectedNodes.value;
+        if (selection.length === 0) {
+            throw new Error('Nothing selected to remove');
+        }
+        
         const targets = selection.map(node => this.flatPointers[node.id])
         const nodes = targets.filter(t => !t.isLeaf).map(data => data.data);
         const leafs = targets.filter(t => t.isLeaf).map(data => data.data);
@@ -86,14 +98,15 @@ export class ExplorerService {
         });
     }
 
-    public upload(target: XNode, files: File[]) {
-        this.dataService.uploadFiles(target.data, files).subscribe(() => {
+    public upload(files: File[]) {
+        const node = this.openedNode.value;
+        this.dataService.uploadFiles(node.data, files).subscribe(() => {
             this.refresh();
         });
     }
 
-    public download(node: XNode) {
-        const target = this.flatPointers[node.id]
+    public download() {
+        const target = this.selectedNodes.value[0].data; // TODO: add mutliple selection support
         this.dataService.download(target.data).subscribe(() => {
             this.refresh();
         });

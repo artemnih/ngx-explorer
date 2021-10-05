@@ -14,17 +14,14 @@ export class MenuBarComponent {
 
     back() {
         const currentNode = this.explorerService.openedNode.value;
-        this.explorerService.openNode(currentNode);
+        this.explorerService.openNode(currentNode.parentId);
     }
 
     createFolder() {
-        const currentNode = this.explorerService.openedNode.value;
         const name = prompt("Enter new folder name");
         if (name) {
-            this.explorerService.createNode(currentNode, name);
+            this.explorerService.createNode(name);
         }
-        // TODO: inject custom popup, inject custom text
-
     }
 
     refresh() {
@@ -37,16 +34,13 @@ export class MenuBarComponent {
             const oldName = this.helperService.getName(selection[0].data);
             const newName = prompt("Enter new name", oldName);
             if (newName) {
-                this.explorerService.rename(selection[0], newName);
+                this.explorerService.rename(newName);
             }
         }
     }
 
     remove() {
-        const selection = this.explorerService.selectedNodes.value;
-        if (selection.length > 0) {
-            this.explorerService.remove(selection);
-        }
+        this.explorerService.remove();
     }
 
     openUploader() {
@@ -54,16 +48,12 @@ export class MenuBarComponent {
     }
 
     handleFiles(files: File[]) {
-        const currentNode = this.explorerService.openedNode.value;
-        this.explorerService.upload(currentNode, files);
+        this.explorerService.upload(files);
         this.uploader.nativeElement.value = '';
     }
 
     download() {
-        const selection = this.explorerService.selectedNodes.value;
-        if (selection.length === 1) {
-            this.explorerService.download(selection[0]);
-        }
+        this.explorerService.download();
     }
 
 }
