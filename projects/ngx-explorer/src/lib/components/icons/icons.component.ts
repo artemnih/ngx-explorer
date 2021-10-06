@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { BaseView } from '../../common/base-view';
 import { NodeType } from '../../common/types';
 import { ExplorerService } from '../../services/explorer.service';
@@ -7,7 +7,8 @@ import { HelperService } from '../../services/helper.service';
 @Component({
     selector: 'nxe-icons',
     templateUrl: './icons.component.html',
-    styleUrls: ['./icons.component.scss']
+    styleUrls: ['./icons.component.scss'],
+    encapsulation: ViewEncapsulation.None,
 })
 export class IconsComponent extends BaseView {
     

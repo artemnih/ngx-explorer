@@ -12,6 +12,10 @@
         margin: 0px 5px;
         height: 100%;
 
+        &:hover {
+            cursor: pointer;
+        }
+
         .nxe-icon {
             margin-top: 5px;
 
@@ -23,10 +27,6 @@
                 &.fa {
                     -webkit-text-stroke: 2px white;
                 }
-            }
-
-            &:hover {
-                cursor: pointer;
             }
         }
 

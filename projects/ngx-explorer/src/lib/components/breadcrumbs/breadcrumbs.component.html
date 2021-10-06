@@ -1,1 +1,8 @@
-<span *ngFor="let crumb of breadcrumbs"><button (click)="click(crumb)">{{ crumb.name }} </button> > </span>
+<div class="nxe-breadcrumbs">
+    <span *ngFor="let crumb of breadcrumbs">
+        <span (click)="click(crumb)" class="nxe-breadcrumb">{{ crumb.name }}</span>
+        <span class="nxe-breadcrumb-separator">
+            <i class="fa fa-angle-right" aria-hidden="true"></i>
+        </span>
+    </span>
+</div>

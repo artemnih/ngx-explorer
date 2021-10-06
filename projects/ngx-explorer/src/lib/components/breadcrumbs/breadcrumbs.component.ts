@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { XNode } from '../../common/types';
 import { ExplorerService } from '../../services/explorer.service';
@@ -12,9 +12,10 @@ interface Breadcrumb {
 @Component({
     selector: 'nxe-breadcrumbs',
     templateUrl: './breadcrumbs.component.html',
-    styleUrls: ['./breadcrumbs.component.scss']
+    styleUrls: ['./breadcrumbs.component.scss'],
+    encapsulation: ViewEncapsulation.None,
 })
-export class BreadcrumbsComponent {
+export class BreadcrumbsComponent implements OnDestroy {
     public breadcrumbs: Breadcrumb[] = [];
 
     private sub = new Subscription();
@@ -24,11 +25,17 @@ export class BreadcrumbsComponent {
     }
 
     private buildBreadcrumbs(nodes: XNode[]) {
-        this.breadcrumbs = nodes.map(n => ({ name: this.helperService.getName(n.data) || 'HOME', node: n }));
+
+        // TODO: configurable home node name
+        this.breadcrumbs = nodes.map(n => ({ name: this.helperService.getName(n.data) || 'Files', node: n }));
     }
 
     public click(crumb: Breadcrumb) {
         this.explorerService.openNode(crumb.node.id);
+    }
+
+    public ngOnDestroy() {
+        this.sub.unsubscribe();
     }
 
 }

@@ -1,0 +1,17 @@
+.nxe-breadcrumbs {
+    margin: 5px 10px;
+
+    .nxe-breadcrumb {
+        cursor: pointer;
+        padding: 5px 5px;
+        border-radius: 5px;
+
+        &:hover {
+            background-color: #d7edff;
+        }
+    }
+
+    .nxe-breadcrumb-separator {
+        margin: 0 10px;
+    }
+}

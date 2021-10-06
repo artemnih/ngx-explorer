@@ -1,11 +1,12 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ExplorerService } from '../../services/explorer.service';
 import { HelperService } from '../../services/helper.service';
 
 @Component({
     selector: 'nxe-menu-bar',
     templateUrl: './menu-bar.component.html',
-    styleUrls: ['./menu-bar.component.scss']
+    styleUrls: ['./menu-bar.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class MenuBarComponent {
     @ViewChild('uploader', { static: true }) uploader: ElementRef;
