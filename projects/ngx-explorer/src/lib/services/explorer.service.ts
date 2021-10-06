@@ -107,7 +107,7 @@ export class ExplorerService {
     }
 
     public download() {
-        const target = this.selectedNodes.value[0].data; // TODO: add mutliple selection support
+        const target = this.selectedNodes.value[0]; // TODO: add mutliple selection support
         this.dataService.download(target.data).subscribe(() => {
             this.refresh();
         });
