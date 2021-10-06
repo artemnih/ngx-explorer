@@ -5,6 +5,8 @@ import { ExplorerComponent } from './components/explorer/explorer.component';
 import { MenuBarComponent } from './components/menu-bar/menu-bar.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 import { ListComponent } from './components/list/list.component';
+import { SecondMenuBarComponent } from './components/second-menu-bar/second-menu-bar.component';
+import { ViewSwitcherComponent } from './components/view-switcher/view-switcher.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +15,8 @@ import { ListComponent } from './components/list/list.component';
     MenuBarComponent,
     BreadcrumbsComponent,
     ListComponent,
+    SecondMenuBarComponent,
+    ViewSwitcherComponent,
   ],
   imports: [
     CommonModule
@@ -21,7 +25,9 @@ import { ListComponent } from './components/list/list.component';
     IconsComponent, 
     ExplorerComponent, 
     MenuBarComponent,
-    BreadcrumbsComponent
+    BreadcrumbsComponent,
+    SecondMenuBarComponent,
+    ViewSwitcherComponent,
   ]
 })
 export class NgxExplorerModule { }

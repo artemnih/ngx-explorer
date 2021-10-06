@@ -34,3 +34,8 @@ export interface IDataService<T> {
 export interface IHelperService {
     getName<T>(data: T): string
 }
+
+export enum AvialableView { // TODO: temp. Allow injection
+    List = "List",
+    Icon = "Icon",
+}

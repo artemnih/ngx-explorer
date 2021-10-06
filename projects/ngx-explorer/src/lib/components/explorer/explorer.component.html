@@ -1,8 +1,15 @@
 <div class="nxe-explorer-container">
     <nxe-menu-bar></nxe-menu-bar>
-    <nxe-breadcrumbs></nxe-breadcrumbs>
+    <nxe-second-menu-bar></nxe-second-menu-bar>
     <div class="nxe-explorer-view-container">
-        <!-- <nxe-icons></nxe-icons> -->
-        <nxe-list></nxe-list>
+
+        <ng-container *ngIf="view === avialableView.Icon">
+            <nxe-icons></nxe-icons>
+        </ng-container>
+
+        <ng-container *ngIf="view === avialableView.List">
+            <nxe-list></nxe-list>
+        </ng-container>
+    
     </div>
 </div>

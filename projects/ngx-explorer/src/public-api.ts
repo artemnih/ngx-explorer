@@ -11,3 +11,5 @@ export * from './lib/components/explorer/explorer.component';
 export * from './lib/components/menu-bar/menu-bar.component';
 export * from './lib/components/breadcrumbs/breadcrumbs.component';
 export * from './lib/components/base-view/base-view.directive';
+export * from './lib/components/second-menu-bar/second-menu-bar.component';
+export * from './lib/components/view-switcher/view-switcher.component';
