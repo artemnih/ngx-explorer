@@ -1,0 +1,31 @@
+.ngx-menubar-container {
+    width: 100%;
+    border: solid #ccc;
+    border-width: 0 0 1px 0;
+    padding: 10px;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box; /* Firefox, other Gecko */
+    box-sizing: border-box; /* Opera/IE 8+ */
+
+    .nxe-menubar-button {
+        cursor: pointer;
+        padding: 5px 5px;
+        border-radius: 5px;
+        background: transparent;
+        border: 0;
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        margin-right: 20px;
+        
+        .fa {
+            margin-right: 5px;
+            color: #555;
+        }
+
+        &:hover {
+            background-color: #d7edff;
+        }
+    }
+
+}

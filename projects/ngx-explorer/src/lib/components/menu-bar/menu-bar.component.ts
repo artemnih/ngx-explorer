@@ -13,11 +13,6 @@ export class MenuBarComponent {
 
     constructor(private explorerService: ExplorerService, private helperService: HelperService) { }
 
-    back() {
-        const currentNode = this.explorerService.openedNode.value;
-        this.explorerService.openNode(currentNode.parentId);
-    }
-
     createFolder() {
         const name = prompt("Enter new folder name");
         if (name) {
