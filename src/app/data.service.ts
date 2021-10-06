@@ -65,7 +65,6 @@ export class ExampleDataService implements IDataService<ExampleNode> {
           const nodePath = node ? mock_folders.find(f => f.id === node.id).path : '';
           const newFile = { id: uuid(), name: file.name, path: nodePath + '/' + file.name, content: reader.result as string };
           mock_files.push(newFile);
-          console.log(mock_files);
           observer.next(reader.result);
           observer.complete();
         }

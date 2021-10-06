@@ -13,7 +13,6 @@ export class BaseView implements OnDestroy {
     constructor(protected explorerService: ExplorerService, protected helperService: HelperService) {
         this.subs.add(this.explorerService.openedNode.subscribe(nodes => {
             this.items = nodes.children;
-            console.log(this.items);
         }));
 
         this.subs.add(this.explorerService.selectedNodes.subscribe(nodes => {
