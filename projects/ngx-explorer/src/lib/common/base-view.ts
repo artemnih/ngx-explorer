@@ -1,9 +1,10 @@
-import { OnDestroy } from '@angular/core';
+import { Directive, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { XNode } from './types';
 import { ExplorerService } from '../services/explorer.service';
 import { HelperService } from '../services/helper.service';
 
+@Directive()
 export class BaseView implements OnDestroy {
     public selection: XNode[] = [];
     public items: XNode[] = [];

@@ -1,17 +1,30 @@
+// TODO: var colors
+
 .nxe-icons-container {
     display: flex;
 
     .nxe-icons-wrapper {
-        & .nxe-icon-selected {
-            background-color: cadetblue;
+        padding-bottom: 5px;
+        width: 80px;
+        border-radius: 8px;
+        text-align: center;
+        border: 1px solid transparent;
+        margin: 0px 5px;
+
+        &.nxe-icon-selected {
+            background-color: #f1f9ff;
+            border: 1px solid #94cfff;
         }
 
         .nxe-icon {
-            width: 50px;
-            height: 50px;
-            border: 1px solid #ccc;
-            border-radius: 10%;
-            margin: 5px 10px;
+            margin-top: 5px;
+
+            i {
+                font-size: 50px;
+                // color: #f8d775;
+                color: #bbb;
+                font-weight: 500;
+            }
 
             &:hover {
                 cursor: pointer;
@@ -21,5 +34,10 @@
 
     .nxe-icon-text {
         text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
     }
 }

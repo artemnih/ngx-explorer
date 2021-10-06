@@ -1,6 +1,8 @@
 <div class="nxe-icons-container">
-    <div class="nxe-icons-wrapper" *ngFor="let item of items" (dblclick)="open($event, item)" (click)="select($event, item)" >
-        <div class="nxe-icon" [ngClass]="{'nxe-icon-selected':isSelected(item)}"></div>
+    <div class="nxe-icons-wrapper" [ngClass]="{'nxe-icon-selected':isSelected(item)}" *ngFor="let item of items" (dblclick)="open($event, item)" (click)="select($event, item)">
+        <div class="nxe-icon">
+            <i class="fi-xtluxl-folder-thin"></i>
+        </div>
         <div class="nxe-icon-text">{{ getDisplayName(item.data) }}</div>
     </div>
 </div>
