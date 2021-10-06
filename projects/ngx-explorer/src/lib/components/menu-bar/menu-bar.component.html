@@ -1,10 +1,10 @@
 <div class="ngx-menubar-container">
     <button class="nxe-menubar-button" (click)="createFolder()"><i class="fa fa-folder-o" aria-hidden="true"></i>New Folder</button>
     <button class="nxe-menubar-button" (click)="refresh()"><i class="fa fa-refresh" aria-hidden="true"></i> Refresh</button>
-    <button class="nxe-menubar-button" (click)="rename()"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Rename</button>
-    <button class="nxe-menubar-button" (click)="remove()"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
     <button class="nxe-menubar-button" (click)="openUploader()"><i class="fa fa-upload" aria-hidden="true"></i> Upload</button>
-    <button class="nxe-menubar-button" (click)="download()"><i class="fa fa-download" aria-hidden="true"></i> Download</button>
+    <button class="nxe-menubar-button" [hidden]="!canDownload" (click)="download()"><i class="fa fa-download" aria-hidden="true"></i> Download</button>
+    <button class="nxe-menubar-button" [hidden]="!canRename" (click)="rename()"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Rename</button>
+    <button class="nxe-menubar-button" [hidden]="!canDelete" (click)="remove()"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
 
     <input style="display: none" type="file" multiple (change)="handleFiles($event.target.files)" #uploader>
 </div>
