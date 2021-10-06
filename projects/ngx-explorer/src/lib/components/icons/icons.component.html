@@ -1,5 +1,6 @@
 <div class="nxe-icons-container">
-    <div class="nxe-icons-wrapper" [ngClass]="{'nxe-icon-selected':isSelected(item)}" *ngFor="let item of items" (dblclick)="open($event, item)" (click)="select($event, item)">
+    <div class="nxe-icons-wrapper" [ngClass]="{'nxe-icon-selected':isSelected(item)}" *ngFor="let item of items" (dblclick)="open($event, item)"
+        (click)="select($event, item)">
         <div class="nxe-icon">
             <i [className]="icons[item.type]"></i>
         </div>
