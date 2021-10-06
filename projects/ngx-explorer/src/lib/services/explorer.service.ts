@@ -45,6 +45,7 @@ export class ExplorerService {
                 this.openedNode.next(parent);
                 const breadcrumbs = Utils.buildBreadcrumbs(this.flatPointers, parent);
                 this.breadcrumbs.next(breadcrumbs);
+                this.selectedNodes.next([]);
             });
     }
 
