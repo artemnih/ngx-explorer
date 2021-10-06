@@ -1,8 +1,8 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { BaseView } from '../../common/base-view';
 import { NodeType } from '../../common/types';
 import { ExplorerService } from '../../services/explorer.service';
 import { HelperService } from '../../services/helper.service';
+import { BaseView } from '../base-view/base-view.directive';
 
 @Component({
     selector: 'nxe-icons',
@@ -20,5 +20,6 @@ export class IconsComponent extends BaseView {
     constructor(explorerService: ExplorerService, helperService: HelperService) {
         super(explorerService, helperService);
     }
+
 }
 

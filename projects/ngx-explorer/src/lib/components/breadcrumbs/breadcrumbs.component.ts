@@ -17,7 +17,6 @@ interface Breadcrumb {
 })
 export class BreadcrumbsComponent implements OnDestroy {
     public breadcrumbs: Breadcrumb[] = [];
-
     private sub = new Subscription();
 
     constructor(private explorerService: ExplorerService, private helperService: HelperService) {
@@ -25,7 +24,6 @@ export class BreadcrumbsComponent implements OnDestroy {
     }
 
     private buildBreadcrumbs(nodes: XNode[]) {
-
         // TODO: configurable home node name
         this.breadcrumbs = nodes.map(n => ({ name: this.helperService.getName(n.data) || 'Files', node: n }));
     }

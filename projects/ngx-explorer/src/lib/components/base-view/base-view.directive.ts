@@ -1,8 +1,8 @@
 import { Directive, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { XNode } from './types';
-import { ExplorerService } from '../services/explorer.service';
-import { HelperService } from '../services/helper.service';
+import { XNode } from '../../common/types';
+import { ExplorerService } from '../../services/explorer.service';
+import { HelperService } from '../../services/helper.service';
 
 @Directive()
 export class BaseView implements OnDestroy {
@@ -49,6 +49,10 @@ export class BaseView implements OnDestroy {
 
     isSelected(item: XNode) {
         return this.selection.indexOf(item) !== -1;
+    }
+
+    emptySpaceClick(): void {
+        this.explorerService.selectNodes([]);
     }
 
     ngOnDestroy() {
