@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, forkJoin, of } from 'rxjs';
-import { XNode, Dictionary, NodeContent } from '../common/types';
+import { XNode, Dictionary, NodeContent, NodeType } from '../common/types';
 import { Utils } from '../shared/utils';
 import { DataService } from './data.service';
 
@@ -12,7 +12,7 @@ export class ExplorerService {
     public readonly openedNode = new BehaviorSubject<XNode>(undefined);
     public readonly breadcrumbs = new BehaviorSubject<XNode[]>([]);
 
-    private tree = Utils.createNode();
+    private tree = Utils.createNode(NodeType.Folder);
     private flatPointers: Dictionary<XNode> = Utils.getHashMap(this.tree);
 
     constructor(private dataService: DataService) {
@@ -38,8 +38,8 @@ export class ExplorerService {
         this.dataService
             .getNodeChildren(parent.data)
             .subscribe(({ leafs, nodes }: NodeContent<any>) => {
-                const childrenNodes = nodes.map(data => Utils.createNode(id, false, data));
-                const childrenLeafs = leafs.map(data => Utils.createNode(id, true, data));
+                const childrenNodes = nodes.map(data => Utils.createNode(NodeType.Folder, id, false, data));
+                const childrenLeafs = leafs.map(data => Utils.createNode(NodeType.File, id, true, data));
                 parent.children = childrenNodes.concat(childrenLeafs);
                 this.flatPointers = Utils.getHashMap(this.tree);
                 this.openedNode.next(parent);
