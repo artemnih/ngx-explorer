@@ -1,0 +1,14 @@
+.nxe-explorer-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.nxe-explorer-view-container {
+    flex-grow: 1;
+    overflow: auto;
+}
+
+.nxe-breadcrumbs-container {
+    border-bottom: 0px !important;
+}
