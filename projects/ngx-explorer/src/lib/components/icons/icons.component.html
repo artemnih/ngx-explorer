@@ -3,7 +3,7 @@
     <div class="nxe-icons-container">
         <div class="nxe-icons-wrapper" *ngFor="let item of items" (dblclick)="open($event, item)" (click)="select($event, item)">
             <div class="nxe-icons-wrapper-inner" [ngClass]="{'nxe-icon-selected':isSelected(item)}">
-                <div class="nxe-icon">
+                <div class="nxe-icons-icon">
                     <i [className]="icons[item.type]"></i>
                 </div>
                 <div class="nxe-icon-text">{{ getDisplayName(item.data) }}</div>

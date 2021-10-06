@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ExplorerComponent } from './components/explorer/explorer.component';
 import { MenuBarComponent } from './components/menu-bar/menu-bar.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
+import { ListComponent } from './components/list/list.component';
 
 @NgModule({
   declarations: [
@@ -11,6 +12,7 @@ import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.compo
     ExplorerComponent,
     MenuBarComponent,
     BreadcrumbsComponent,
+    ListComponent,
   ],
   imports: [
     CommonModule

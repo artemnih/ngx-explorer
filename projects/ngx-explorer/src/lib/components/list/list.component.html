@@ -1,0 +1,31 @@
+<div class="nxe-list">
+    <div class="nxe-list-backpad" (click)="emptySpaceClick()"></div>
+    <div class="nxe-list-container">
+        <div class="nxe-list-wrapper ">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Size</th>
+                        <th>Last Modified</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of items" (dblclick)="open($event, item)" (click)="select($event, item)"
+                        [ngClass]="{'nxe-list-row-selected':isSelected(item)}">
+                        <td>
+                            <span class="nxe-list-icon">
+                                <i [className]="icons[item.type]"></i>
+                            </span>
+                            {{ getDisplayName(item.data) }}
+                        </td>
+                        <td>{{ item.type }}</td>
+                        <td>{{ item.size }}</td>
+                        <td>{{ item.lastModified }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
