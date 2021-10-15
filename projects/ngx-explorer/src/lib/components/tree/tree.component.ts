@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { XNode } from 'ngx-explorer';
 import { ExplorerService } from '../../services/explorer.service';
 import { filter } from 'rxjs/operators';
+import { HelperService } from '../../services/helper.service';
 
 interface TreeNode extends XNode {
     children: TreeNode[];
@@ -11,26 +12,21 @@ interface TreeNode extends XNode {
 @Component({
     selector: 'nxe-tree',
     templateUrl: './tree.component.html',
-    styleUrls: ['./tree.component.scss']
+    styleUrls: ['./tree.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class TreeComponent {
     public treeNodes: any = [];
     private expandedIds: string[] = [];
-    public selectedId = null;
 
-    constructor(private explorerService: ExplorerService) {
+    constructor(private explorerService: ExplorerService, private helperService: HelperService) {
         this.explorerService.tree.pipe(filter(x => !!x)).subscribe(node => {
             this.addExpandedNode(node.id); // always expand root
             this.treeNodes = this.buildTree(node).children;
         });
     }
 
-    select(node: XNode) {
-        this.selectedId = node.id;
-    }
-
     open(node: XNode) {
-        console.log('open', node);
         this.addExpandedNode(node.id);
         this.explorerService.openNode(node.id);
     }
@@ -41,9 +37,13 @@ export class TreeComponent {
     }
 
     collapse(node: XNode) {
-       this.removeExpandedNode(node.id);
+        this.removeExpandedNode(node.id);
         const n = this.explorerService.tree.value;
         this.treeNodes = this.buildTree(n).children;
+    }
+
+    getName(node: XNode) {
+        return this.helperService.getName(node);
     }
 
     private buildTree(node: XNode): TreeNode {
@@ -75,5 +75,4 @@ export class TreeComponent {
         this.expandedIds.splice(index, 1);
     }
 
-    // current node opened - expand all parents
 }
