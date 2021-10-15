@@ -1,4 +1,4 @@
-<ng-container *ngTemplateOutlet="tree;context:{nodes:tempNodes}">
+<ng-container *ngTemplateOutlet="tree;context:{nodes:treeNodes}">
 </ng-container>
 
 <ng-template #tree let-nodes="nodes">
@@ -11,7 +11,7 @@
             <div class="chevron" *ngIf="node.expanded" (click)="collapse(node)"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
 
 
-            <div class="name" [ngClass]="{'selected': node.id === selectedId }" (click)="select(node)">
+            <div class="name" [ngClass]="{'selected': node.id === selectedId }" (click)="select(node)" (dblclick)="open(node)">
                 <div>
                     <i class="fa fa-folder-o" aria-hidden="true"></i>
                 </div>

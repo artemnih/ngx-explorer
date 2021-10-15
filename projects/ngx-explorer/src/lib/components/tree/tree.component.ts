@@ -14,18 +14,39 @@ interface TreeNode extends XNode {
     styleUrls: ['./tree.component.scss']
 })
 export class TreeComponent {
-    public tempNodes: any = [];
+    public treeNodes: any = [];
     private expandedIds: string[] = [];
     public selectedId = null;
 
     constructor(private explorerService: ExplorerService) {
-        this.explorerService.tree.pipe(filter(x => !!x)).subscribe(n => {
-            this.addExpandedNode(n); // always expand root
-            this.tempNodes = this.buildTree(n).children;
+        this.explorerService.tree.pipe(filter(x => !!x)).subscribe(node => {
+            this.addExpandedNode(node.id); // always expand root
+            this.treeNodes = this.buildTree(node).children;
         });
     }
 
-    buildTree(node: XNode): TreeNode {
+    select(node: XNode) {
+        this.selectedId = node.id;
+    }
+
+    open(node: XNode) {
+        console.log('open', node);
+        this.addExpandedNode(node.id);
+        this.explorerService.openNode(node.id);
+    }
+
+    expand(node: XNode) {
+        this.addExpandedNode(node.id);
+        this.explorerService.expand(node.id);
+    }
+
+    collapse(node: XNode) {
+       this.removeExpandedNode(node.id);
+        const n = this.explorerService.tree.value;
+        this.treeNodes = this.buildTree(n).children;
+    }
+
+    private buildTree(node: XNode): TreeNode {
         const treeNode = {
             id: node.id,
             parentId: node.parentId,
@@ -42,29 +63,17 @@ export class TreeComponent {
         return treeNode;
     }
 
-    select(node: XNode) {
-        this.selectedId = node.id;
-    }
-
-    expand(node: XNode) {
-        this.addExpandedNode(node);
-        this.explorerService.expand(node.id);
-    }
-
-    collapse(node: XNode) {
-        const index = this.expandedIds.indexOf(node.id);
-        this.expandedIds.splice(index, 1);
-        const n = this.explorerService.tree.value;
-        this.tempNodes = this.buildTree(n).children;
-    }
-
-    private addExpandedNode(node: XNode) {
-        const index = this.expandedIds.indexOf(node.id);
+    private addExpandedNode(id: string) {
+        const index = this.expandedIds.indexOf(id);
         if (index === -1) {
-            this.expandedIds.push(node.id);
+            this.expandedIds.push(id);
         }
     }
 
-    // on tree update - update the expanded state. 
+    private removeExpandedNode(id: string) {
+        const index = this.expandedIds.indexOf(id);
+        this.expandedIds.splice(index, 1);
+    }
+
     // current node opened - expand all parents
 }
