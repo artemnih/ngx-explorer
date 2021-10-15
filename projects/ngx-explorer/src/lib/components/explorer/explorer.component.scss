@@ -1,10 +1,38 @@
-.nxe-explorer-container {
-    height: 100%;
+.nxe-explorer {
     display: flex;
     flex-direction: column;
+    height: 100%;
+    border: 1px solid #ccc;
 }
 
-.nxe-explorer-view-container {
+.nxe-eplorer-menu {
+    border-bottom: 1px solid #ccc;
+}
+
+.nxe-explorer-containers {
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
+}
+
+.nxe-explorer-left-container {
+    flex-basis: 20rem;
+    flex-grow: 1;
+    border-right: 1px solid #ccc;
+}
+
+.nxe-explorer-right-container {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 0;
+    flex-grow: 999;
+}
+
+.nxe-explorer-right-menu {
+    border-bottom: 1px solid #ccc;
+}
+
+.nxe-explorer-right-content {
     flex-grow: 1;
     overflow: auto;
 }

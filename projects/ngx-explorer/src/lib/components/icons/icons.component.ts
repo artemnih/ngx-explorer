@@ -12,6 +12,7 @@ import { BaseView } from '../base-view/base-view.directive';
 })
 export class IconsComponent extends BaseView {
     
+    // TODO: get rid of node.type
     public readonly icons = {
         [NodeType.Folder]: 'fa fa-folder-o',
         [NodeType.File]: 'fa fa-file-o',

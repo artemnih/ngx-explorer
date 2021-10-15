@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, forkJoin, of } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { XNode, Dictionary, NodeContent, NodeType } from '../common/types';
 import { Utils } from '../shared/utils';
 import { DataService } from './data.service';
@@ -11,18 +12,13 @@ export class ExplorerService {
     public readonly selectedNodes = new BehaviorSubject<XNode[]>([]);
     public readonly openedNode = new BehaviorSubject<XNode>(undefined);
     public readonly breadcrumbs = new BehaviorSubject<XNode[]>([]);
+    public readonly tree = new BehaviorSubject<XNode>(undefined);
 
-    private tree = Utils.createNode(NodeType.Folder);
-    private flatPointers: Dictionary<XNode> = Utils.getHashMap(this.tree);
+    private internalTree = Utils.createNode(NodeType.Folder);
+    private flatPointers: Dictionary<XNode> = Utils.getHashMap(this.internalTree);
 
     constructor(private dataService: DataService) {
-        this.openNode(this.tree.id);
-    }
-
-    // TODO: this should not be needed
-    public getNode(nodeId: string) {
-        // TODO: this should be immutable
-        return this.flatPointers[nodeId];
+        this.openNode(this.internalTree.id);
     }
 
     public selectNodes(nodes: XNode[]) {
@@ -31,22 +27,22 @@ export class ExplorerService {
 
     public openNode(id: string) {
         const parent = this.flatPointers[id];
-        if (parent.isLeaf) {
-            throw new Error('Cannot open leaf node'); // TODO: temp. download or open file
-        }
+        const res = this.getNodeChildren(id);
+        res.subscribe(() => {
+            const breadcrumbs = Utils.buildBreadcrumbs(this.flatPointers, parent);
+            this.breadcrumbs.next(breadcrumbs);
+            this.openedNode.next(parent);
+            this.selectedNodes.next([]);
+            this.tree.next(this.internalTree);
+        });
+    }
 
-        this.dataService
-            .getNodeChildren(parent.data)
-            .subscribe(({ leafs, nodes }: NodeContent<any>) => {
-                const childrenNodes = nodes.map(data => Utils.createNode(NodeType.Folder, id, false, data));
-                const childrenLeafs = leafs.map(data => Utils.createNode(NodeType.File, id, true, data));
-                parent.children = childrenNodes.concat(childrenLeafs);
-                this.flatPointers = Utils.getHashMap(this.tree);
-                this.openedNode.next(parent);
-                const breadcrumbs = Utils.buildBreadcrumbs(this.flatPointers, parent);
-                this.breadcrumbs.next(breadcrumbs);
-                this.selectedNodes.next([]);
-            });
+    public expand(id: string) {
+        const parent = this.flatPointers[id];
+        const res = this.getNodeChildren(id);
+        res.subscribe(() => {
+            this.tree.next(this.internalTree);
+        });
     }
 
     public createNode(name: string) {
@@ -58,7 +54,7 @@ export class ExplorerService {
     }
 
     public refresh() {
-        this.openNode(this.openedNode.value.id); // TODO: temp, until left nav is done
+        this.openNode(this.openedNode.value.id);
     }
 
     public rename(name: string) {
@@ -112,6 +108,26 @@ export class ExplorerService {
         this.dataService.download(target.data).subscribe(() => {
             this.refresh();
         });
+    }
+
+
+    private getNodeChildren(id: string) {
+        const parent = this.flatPointers[id];
+
+        if (parent.isLeaf) {
+            throw new Error('Cannot open leaf node'); // TODO: temp. download or open file
+        }
+
+        const obs = this.dataService
+            .getNodeChildren(parent.data).pipe(map(({ leafs, nodes }: NodeContent<any>) => {
+                const childrenNodes = nodes.map(data => Utils.createNode(NodeType.Folder, id, false, data));
+                const childrenLeafs = leafs.map(data => Utils.createNode(NodeType.File, id, true, data));
+                parent.children = childrenNodes.concat(childrenLeafs);
+                this.flatPointers = Utils.getHashMap(this.internalTree);
+            }));
+
+        // todo: add alwaysRefresh settings
+        return parent.children.length ? of([]) : obs;
     }
 
 }

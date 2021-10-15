@@ -1,0 +1,29 @@
+<ng-container *ngTemplateOutlet="tree;context:{nodes:tempNodes}">
+</ng-container>
+
+<ng-template #tree let-nodes="nodes">
+
+    <ul *ngIf="nodes && nodes.length > 0">
+
+        <li *ngFor="let node of nodes">
+
+            <div class="chevron" *ngIf="!node.expanded" (click)="expand(node)"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
+            <div class="chevron" *ngIf="node.expanded" (click)="collapse(node)"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
+
+
+            <div class="name" [ngClass]="{'selected': node.id === selectedId }" (click)="select(node)">
+                <div>
+                    <i class="fa fa-folder-o" aria-hidden="true"></i>
+                </div>
+                
+                <!-- TODO: getName function -->
+                <div class="grow">{{node.data.name}}</div>
+                <div><i class="fa fa-ellipsis-v" aria-hidden="true"></i></div>
+            </div>
+
+            <ng-container *ngTemplateOutlet="tree;context:{nodes:node.children}">
+            </ng-container>
+        </li>
+
+    </ul>
+</ng-template>
