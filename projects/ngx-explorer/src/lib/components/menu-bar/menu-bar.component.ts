@@ -1,5 +1,4 @@
 import { Component, ElementRef, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
-import { NodeType } from 'ngx-explorer';
 import { Subscription } from 'rxjs';
 import { ExplorerService } from '../../services/explorer.service';
 import { HelperService } from '../../services/helper.service';
@@ -21,7 +20,7 @@ export class MenuBarComponent implements OnDestroy {
 
     constructor(private explorerService: ExplorerService, private helperService: HelperService) {
         this.sub.add(this.explorerService.selectedNodes.subscribe(n => {
-            this.canDownload = n.filter(x => x.type === NodeType.File).length === 1;
+            this.canDownload = n.filter(x => x.isLeaf).length === 1;
             this.canDelete = n.length > 0;
             this.canRename = n.length === 1;
         }));

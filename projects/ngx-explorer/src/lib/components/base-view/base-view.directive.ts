@@ -61,7 +61,7 @@ export class BaseView implements OnDestroy {
 
 }
 
-// TODO: add keyboard events such as Enter, Right, Left, Up, Space etc.
+// TODO: add keyboard events such as Tab, Enter, Right, Left, Up, Space etc.
 // TODO: figure out custom icons for folders and files
 // TODO: allow configurable back icon
 // TODO: add button condtions for disable/enable

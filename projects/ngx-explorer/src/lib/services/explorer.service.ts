@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, forkJoin, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { XNode, Dictionary, NodeContent, NodeType } from '../common/types';
+import { XNode, Dictionary, NodeContent } from '../common/types';
 import { Utils } from '../shared/utils';
 import { DataService } from './data.service';
 
@@ -14,7 +14,7 @@ export class ExplorerService {
     public readonly breadcrumbs = new BehaviorSubject<XNode[]>([]);
     public readonly tree = new BehaviorSubject<XNode>(undefined);
 
-    private internalTree = Utils.createNode(NodeType.Folder);
+    private internalTree = Utils.createNode();
     private flatPointers: Dictionary<XNode> = Utils.getHashMap(this.internalTree);
 
     constructor(private dataService: DataService) {
@@ -120,8 +120,8 @@ export class ExplorerService {
 
         const obs = this.dataService
             .getNodeChildren(parent.data).pipe(map(({ leafs, nodes }: NodeContent<any>) => {
-                const childrenNodes = nodes.map(data => Utils.createNode(NodeType.Folder, id, false, data));
-                const childrenLeafs = leafs.map(data => Utils.createNode(NodeType.File, id, true, data));
+                const childrenNodes = nodes.map(data => Utils.createNode( id, false, data));
+                const childrenLeafs = leafs.map(data => Utils.createNode( id, true, data));
                 parent.children = childrenNodes.concat(childrenLeafs);
                 this.flatPointers = Utils.getHashMap(this.internalTree);
             }));
