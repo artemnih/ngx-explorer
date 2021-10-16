@@ -25,11 +25,11 @@ $item-spacing: 10px;
         font-size: 1.3rem;
     }
 
-    .name {
+    .item {
         display: flex;
         cursor: pointer;
-        padding: 5px 0px;
-        border-radius: 3px;
+        padding: 5px 5px;
+        border-radius: 5px;
 
         .folder-icon {
             margin-right: 5px;
