@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, forkJoin, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { XNode, Dictionary, NodeContent } from '../common/types';
 import { Utils } from '../shared/utils';
 import { DataService } from './data.service';
@@ -27,20 +27,18 @@ export class ExplorerService {
 
     public openNode(id: string) {
         const parent = this.flatPointers[id];
-        const res = this.getNodeChildren(id);
-        res.subscribe(() => {
+        this.openedNode.next(parent);
+        
+        this.getNodeChildren(id).subscribe(() => {
             const breadcrumbs = Utils.buildBreadcrumbs(this.flatPointers, parent);
             this.breadcrumbs.next(breadcrumbs);
-            this.openedNode.next(parent);
             this.selectedNodes.next([]);
             this.tree.next(this.internalTree);
         });
     }
 
     public expand(id: string) {
-        const parent = this.flatPointers[id];
-        const res = this.getNodeChildren(id);
-        res.subscribe(() => {
+        this.getNodeChildren(id).subscribe(() => {
             this.tree.next(this.internalTree);
         });
     }
@@ -48,7 +46,6 @@ export class ExplorerService {
     public createNode(name: string) {
         const parent = this.openedNode.value;
         this.dataService.createNode(parent.data, name).subscribe(() => {
-            // as option, get new data and insert into children
             this.refresh();
         })
     }
@@ -110,7 +107,6 @@ export class ExplorerService {
         });
     }
 
-
     private getNodeChildren(id: string) {
         const parent = this.flatPointers[id];
 
@@ -118,20 +114,13 @@ export class ExplorerService {
             throw new Error('Cannot open leaf node'); // TODO: temp. download or open file
         }
 
-        const obs = this.dataService
+        return this.dataService
             .getNodeChildren(parent.data).pipe(map(({ leafs, nodes }: NodeContent<any>) => {
-                const childrenNodes = nodes.map(data => Utils.createNode( id, false, data));
-                const childrenLeafs = leafs.map(data => Utils.createNode( id, true, data));
+                const childrenNodes = nodes.map(data => Utils.createNode(id, false, data));
+                const childrenLeafs = leafs.map(data => Utils.createNode(id, true, data));
                 parent.children = childrenNodes.concat(childrenLeafs);
                 this.flatPointers = Utils.getHashMap(this.internalTree);
             }));
-
-        // todo: add alwaysRefresh settings
-        return parent.children.length ? of([]) : obs;
     }
 
 }
-
-// TODO: navigateToNode // -- later feature for left nav
-// TODO: expandNode // --- later feature for left nav
-// TODO: collapseNode // --- later feature for left nav
