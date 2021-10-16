@@ -28,8 +28,10 @@ import { TreeComponent } from './components/tree/tree.component';
     ExplorerComponent, 
     MenuBarComponent,
     BreadcrumbsComponent,
+    ListComponent,
     SecondMenuBarComponent,
     ViewSwitcherComponent,
+    TreeComponent
   ]
 })
 export class NgxExplorerModule { }
