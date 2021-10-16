@@ -4,20 +4,20 @@ import { BehaviorSubject } from 'rxjs';
 import { CURRENT_VIEW } from '../../injection-tokens/current-view.token';
 
 @Component({
-  selector: 'nxe-view-switcher',
-  templateUrl: './view-switcher.component.html',
-  styleUrls: ['./view-switcher.component.scss'],
-  encapsulation: ViewEncapsulation.None
+    selector: 'nxe-view-switcher',
+    templateUrl: './view-switcher.component.html',
+    styleUrls: ['./view-switcher.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class ViewSwitcherComponent {
 
-  public avialableView = AvialableView;
+    public avialableView = AvialableView;
 
-  constructor(@Inject(CURRENT_VIEW) private currentView: BehaviorSubject<AvialableView>) {
-  }
+    constructor(@Inject(CURRENT_VIEW) private currentView: BehaviorSubject<AvialableView>) {
+    }
 
-  setView(view: AvialableView) {
-    this.currentView.next(view);
-  }
+    setView(view: AvialableView) {
+        this.currentView.next(view);
+    }
 
 }

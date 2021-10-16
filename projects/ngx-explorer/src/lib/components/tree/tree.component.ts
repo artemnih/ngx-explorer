@@ -1,8 +1,9 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { XNode } from 'ngx-explorer';
 import { ExplorerService } from '../../services/explorer.service';
 import { filter } from 'rxjs/operators';
 import { HelperService } from '../../services/helper.service';
+import { Subscription } from 'rxjs';
 
 interface TreeNode extends XNode {
     children: TreeNode[];
@@ -15,15 +16,16 @@ interface TreeNode extends XNode {
     styleUrls: ['./tree.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class TreeComponent {
+export class TreeComponent implements OnDestroy {
     public treeNodes: any = [];
     private expandedIds: string[] = [];
+    private sub = new Subscription();
 
     constructor(private explorerService: ExplorerService, private helperService: HelperService) {
-        this.explorerService.tree.pipe(filter(x => !!x)).subscribe(node => {
+        this.sub.add(this.explorerService.tree.pipe(filter(x => !!x)).subscribe(node => {
             this.addExpandedNode(node.id); // always expand root
             this.treeNodes = this.buildTree(node).children;
-        });
+        }));
     }
 
     open(node: XNode) {
@@ -44,6 +46,10 @@ export class TreeComponent {
 
     getName(node: XNode) {
         return this.helperService.getName(node);
+    }
+
+    ngOnDestroy(): void {
+        this.sub.unsubscribe();
     }
 
     private buildTree(node: XNode): TreeNode {
