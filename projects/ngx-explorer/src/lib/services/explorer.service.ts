@@ -8,12 +8,16 @@ import { DataService } from './data.service';
     providedIn: 'root'
 })
 export class ExplorerService {
-    public readonly selectedNodes = new BehaviorSubject<XNode[]>([]);
-    public readonly openedNode = new BehaviorSubject<XNode>(undefined);
-    public readonly breadcrumbs = new BehaviorSubject<XNode[]>([]);
-
     private tree = Utils.createNode(NodeType.Folder);
     private flatPointers: Dictionary<XNode> = Utils.getHashMap(this.tree);
+
+    private readonly _selectedNodes = new BehaviorSubject<XNode[]>([]);
+    private readonly _openedNode = new BehaviorSubject<XNode>(undefined);
+    private readonly _breadcrumbs = new BehaviorSubject<XNode[]>([]);
+
+    public readonly selectedNodes = this._selectedNodes.asObservable();
+    public readonly openedNode = this._openedNode.asObservable();
+    public readonly breadcrumbs = this._breadcrumbs.asObservable();
 
     constructor(private dataService: DataService) {
         this.openNode(this.tree.id);
@@ -26,7 +30,7 @@ export class ExplorerService {
     }
 
     public selectNodes(nodes: XNode[]) {
-        this.selectedNodes.next(nodes);
+        this._selectedNodes.next(nodes);
     }
 
     public openNode(id: string) {
@@ -42,15 +46,15 @@ export class ExplorerService {
                 const childrenLeafs = leafs.map(data => Utils.createNode(NodeType.File, id, true, data));
                 parent.children = childrenNodes.concat(childrenLeafs);
                 this.flatPointers = Utils.getHashMap(this.tree);
-                this.openedNode.next(parent);
+                this._openedNode.next(parent);
                 const breadcrumbs = Utils.buildBreadcrumbs(this.flatPointers, parent);
-                this.breadcrumbs.next(breadcrumbs);
-                this.selectedNodes.next([]);
+                this._breadcrumbs.next(breadcrumbs);
+                this._selectedNodes.next([]);
             });
     }
 
     public createNode(name: string) {
-        const parent = this.openedNode.value;
+        const parent = this._openedNode.value;
         this.dataService.createNode(parent.data, name).subscribe(() => {
             // as option, get new data and insert into children
             this.refresh();
@@ -58,11 +62,11 @@ export class ExplorerService {
     }
 
     public refresh() {
-        this.openNode(this.openedNode.value.id); // TODO: temp, until left nav is done
+        this.openNode(this._openedNode.value.id); // TODO: temp, until left nav is done
     }
 
     public rename(name: string) {
-        const nodes = this.selectedNodes.value;
+        const nodes = this._selectedNodes.value;
         if (nodes.length > 1) {
             throw new Error('Multiple selection rename not supported');
         }
@@ -83,7 +87,7 @@ export class ExplorerService {
     }
 
     public remove() {
-        const selection = this.selectedNodes.value;
+        const selection = this._selectedNodes.value;
         if (selection.length === 0) {
             throw new Error('Nothing selected to remove');
         }
@@ -101,14 +105,14 @@ export class ExplorerService {
     }
 
     public upload(files: File[]) {
-        const node = this.openedNode.value;
+        const node = this._openedNode.value;
         this.dataService.uploadFiles(node.data, files).subscribe(() => {
             this.refresh();
         });
     }
 
     public download() {
-        const target = this.selectedNodes.value[0]; // TODO: add mutliple selection support
+        const target = this._selectedNodes.value[0]; // TODO: add mutliple selection support
         this.dataService.download(target.data).subscribe(() => {
             this.refresh();
         });

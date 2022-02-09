@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NodeType } from 'ngx-explorer';
 import { Subscription } from 'rxjs';
+import { XNode } from '../../common/types';
 import { ExplorerService } from '../../services/explorer.service';
 import { HelperService } from '../../services/helper.service';
 
@@ -18,9 +19,11 @@ export class MenuBarComponent implements OnDestroy {
     canRename = false;
 
     private sub = new Subscription();
+    private selection: XNode[] = [];
 
     constructor(private explorerService: ExplorerService, private helperService: HelperService) {
         this.sub.add(this.explorerService.selectedNodes.subscribe(n => {
+            this.selection = n;
             this.canDownload = n.filter(x => x.type === NodeType.File).length === 1;
             this.canDelete = n.length > 0;
             this.canRename = n.length === 1;
@@ -39,9 +42,8 @@ export class MenuBarComponent implements OnDestroy {
     }
 
     rename() {
-        const selection = this.explorerService.selectedNodes.value;
-        if (selection.length === 1) {
-            const oldName = this.helperService.getName(selection[0].data);
+        if (this.selection.length === 1) {
+            const oldName = this.helperService.getName(this.selection[0].data);
             const newName = prompt("Enter new name", oldName);
             if (newName) {
                 this.explorerService.rename(newName);
