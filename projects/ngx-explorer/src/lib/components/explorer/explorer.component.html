@@ -1,15 +1,23 @@
-<div class="nxe-explorer-container">
-    <nxe-menu-bar></nxe-menu-bar>
-    <nxe-second-menu-bar></nxe-second-menu-bar>
-    <div class="nxe-explorer-view-container">
-
-        <ng-container *ngIf="view === avialableView.Icon">
-            <nxe-icons></nxe-icons>
-        </ng-container>
-
-        <ng-container *ngIf="view === avialableView.List">
-            <nxe-list></nxe-list>
-        </ng-container>
-    
+<div class="nxe-explorer">
+    <div class="nxe-eplorer-menu">
+        <nxe-menu-bar></nxe-menu-bar>
     </div>
-</div>
+    <div class="nxe-explorer-containers">
+        <div class="nxe-explorer-left-container">
+            <nxe-tree></nxe-tree>
+        </div>
+        <div class="nxe-explorer-right-container">
+            <div class="nxe-explorer-right-menu">
+                <nxe-second-menu-bar></nxe-second-menu-bar>
+            </div>
+            <div class="nxe-explorer-right-content">
+                <ng-container *ngIf="view === avialableView.Icon">
+                    <nxe-icons></nxe-icons>
+                </ng-container>
+                <ng-container *ngIf="view === avialableView.List">
+                    <nxe-list></nxe-list>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div> 

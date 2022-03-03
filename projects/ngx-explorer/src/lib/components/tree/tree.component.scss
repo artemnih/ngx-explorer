@@ -1,0 +1,46 @@
+$item-spacing: 10px;
+
+.nxe-tree {
+    ul {
+        list-style-position: inside;
+        padding: 0;
+        margin: 0;
+        margin-left: 20px;
+    }
+
+    li {
+        list-style-type: none;
+        position: relative;
+        padding: 0;
+    }
+
+    .chevron {
+        position: absolute;
+        cursor: pointer;
+        text-align: center;
+        color: #333;
+        width: 21px;
+        top: 1px;
+        left: -20px;
+        font-size: 1.3rem;
+    }
+
+    .item {
+        display: flex;
+        cursor: pointer;
+        padding: 5px 5px;
+        border-radius: 5px;
+
+        .folder-icon {
+            margin-right: 5px;
+        }
+
+        .grow {
+            flex: 1;
+        }
+
+        &:hover {
+            background-color: #d7edff;
+        }
+    }
+}
