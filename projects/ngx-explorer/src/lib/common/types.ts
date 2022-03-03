@@ -6,17 +6,11 @@ export interface Dictionary<T> {
     [Key: string]: T;
 }
 
-export enum NodeType {
-    Folder = "folder",
-    File = "file"
-}
-
 export interface XNode {
     id: string;
     parentId: string;
     data: any;
     isLeaf: boolean;
-    type: NodeType;
     children: XNode[];
 }
 

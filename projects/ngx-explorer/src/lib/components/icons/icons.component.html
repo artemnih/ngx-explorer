@@ -4,7 +4,7 @@
         <div class="nxe-icons-wrapper" *ngFor="let item of items" (dblclick)="open($event, item)" (click)="select($event, item)">
             <div class="nxe-icons-wrapper-inner" [ngClass]="{'nxe-icon-selected':isSelected(item)}">
                 <div class="nxe-icons-icon">
-                    <i [className]="icons[item.type]"></i>
+                    <i [className]="item.isLeaf ? icons.leaf : icons.node"></i>
                 </div>
                 <div class="nxe-icon-text">{{ getDisplayName(item.data) }}</div>
             </div>

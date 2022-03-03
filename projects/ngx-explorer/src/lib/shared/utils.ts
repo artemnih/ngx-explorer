@@ -14,13 +14,12 @@ export class Utils {
         return hashMap;
     }
 
-    static createNode(type, parentId = '', isLeaf = false, data?: any): XNode {
+    static createNode(parentId = '', isLeaf = false, data?: any): XNode {
         return {
             id: uuid(),
             parentId: parentId,
             data: data,
             isLeaf: isLeaf,
-            type: type,
             children: []
         }
     }
