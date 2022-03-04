@@ -1,6 +1,6 @@
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
-import { AvialableView } from 'ngx-explorer';
 import { BehaviorSubject } from 'rxjs';
+import { AvialableView } from '../../common/types';
 import { CURRENT_VIEW } from '../../injection-tokens/current-view.token';
 
 @Component({

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { IDataService } from "ngx-explorer";
+import { IDataService } from "../common/types";
 
 @Injectable({
     providedIn: 'root'

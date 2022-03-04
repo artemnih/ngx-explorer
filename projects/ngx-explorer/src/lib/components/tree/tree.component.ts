@@ -1,9 +1,9 @@
 import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { XNode } from 'ngx-explorer';
 import { ExplorerService } from '../../services/explorer.service';
 import { filter } from 'rxjs/operators';
 import { HelperService } from '../../services/helper.service';
 import { Subscription } from 'rxjs';
+import { XNode } from '../../common/types';
 
 interface TreeNode extends XNode {
     children: TreeNode[];
