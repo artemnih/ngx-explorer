@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build ngx-explorer",
+    "build": "ng build ngx-explorer --prod=true",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
