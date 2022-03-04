@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, forkJoin, of } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { XNode, Dictionary, NodeContent } from '../common/types';
 import { Utils } from '../shared/utils';
 import { DataService } from './data.service';
@@ -30,42 +31,18 @@ export class ExplorerService {
     }
 
     public openNode(id: string) {
-        const parent = this.flatPointers[id];
-        if (parent.isLeaf) {
-            throw new Error('Cannot open leaf node'); // TODO: temp. download or open file
-        }
+        this.getNodeChildren(id).subscribe(() => {
+            const parent = this.flatPointers[id];
+            this._openedNode.next(parent);
+            const breadcrumbs = Utils.buildBreadcrumbs(this.flatPointers, parent);
+            this._breadcrumbs.next(breadcrumbs);
+            this._selectedNodes.next([]);
 
-        this.dataService
-            .getNodeChildren(parent.data)
-            .subscribe(({ leafs, nodes }: NodeContent<any>) => {
-                const childrenNodes = nodes.map(data => Utils.createNode(id, false, data));
-                const childrenLeafs = leafs.map(data => Utils.createNode(id, true, data));
-                parent.children = childrenNodes.concat(childrenLeafs);
-                this.flatPointers = Utils.getHashMap(this.inTree);
-                this._openedNode.next(parent);
-                this._tree.next(this.inTree);
-                const breadcrumbs = Utils.buildBreadcrumbs(this.flatPointers, parent);
-                this._breadcrumbs.next(breadcrumbs);
-                this._selectedNodes.next([]);
-
-            });
+        })
     }
 
     public expandNode(id: string) {
-        const parent = this.flatPointers[id];
-        if (parent.isLeaf) {
-            throw new Error('Cannot open leaf node'); // TODO: temp. download or open file
-        }
-
-        this.dataService
-            .getNodeChildren(parent.data)
-            .subscribe(({ leafs, nodes }: NodeContent<any>) => {
-                const childrenNodes = nodes.map(data => Utils.createNode(id, false, data));
-                const childrenLeafs = leafs.map(data => Utils.createNode(id, true, data));
-                parent.children = childrenNodes.concat(childrenLeafs);
-                this.flatPointers = Utils.getHashMap(this.inTree);
-                this._tree.next(this.inTree);
-            });
+        this.getNodeChildren(id).subscribe();
     }
 
     public createNode(name: string) {
@@ -133,6 +110,21 @@ export class ExplorerService {
         });
     }
 
-}
+    private getNodeChildren(id: string) {
+        const parent = this.flatPointers[id];
+        if (parent.isLeaf) {
+            throw new Error('Cannot open leaf node');
+        }
 
-// TODO: navigateToNode // -- later feature for left nav
+        return this.dataService
+            .getNodeChildren(parent.data)
+            .pipe(tap(({ leafs, nodes }: NodeContent<any>) => {
+                const childrenNodes = nodes.map(data => Utils.createNode(id, false, data));
+                const childrenLeafs = leafs.map(data => Utils.createNode(id, true, data));
+                parent.children = childrenNodes.concat(childrenLeafs);
+                this.flatPointers = Utils.getHashMap(this.inTree);
+                this._tree.next(this.inTree);
+            }))
+    }
+
+}
