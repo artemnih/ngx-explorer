@@ -17,7 +17,7 @@ interface TreeNode extends XNode {
     encapsulation: ViewEncapsulation.None
 })
 export class TreeComponent implements OnDestroy {
-    public treeNodes: any = [];
+    public treeNodes: TreeNode[] = [];
     private expandedIds: string[] = [];
     private sub = new Subscription();
 

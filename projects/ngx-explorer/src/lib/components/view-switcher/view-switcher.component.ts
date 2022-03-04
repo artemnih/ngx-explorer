@@ -11,7 +11,7 @@ import { CURRENT_VIEW } from '../../injection-tokens/current-view.token';
 })
 export class ViewSwitcherComponent {
 
-  public avialableView = AvialableView;
+  public readonly avialableView = AvialableView;
 
   constructor(@Inject(CURRENT_VIEW) private currentView: BehaviorSubject<AvialableView>) {
   }

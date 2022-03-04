@@ -37,7 +37,6 @@ export class ExplorerService {
             const breadcrumbs = Utils.buildBreadcrumbs(this.flatPointers, parent);
             this._breadcrumbs.next(breadcrumbs);
             this._selectedNodes.next([]);
-
         })
     }
 
@@ -48,13 +47,12 @@ export class ExplorerService {
     public createNode(name: string) {
         const parent = this._openedNode.value;
         this.dataService.createNode(parent.data, name).subscribe(() => {
-            // as option, get new data and insert into children
             this.refresh();
         })
     }
 
     public refresh() {
-        this.openNode(this._openedNode.value.id); // TODO: temp, until left nav is done
+        this.openNode(this._openedNode.value.id);
     }
 
     public rename(name: string) {
@@ -104,7 +102,7 @@ export class ExplorerService {
     }
 
     public download() {
-        const target = this._selectedNodes.value[0]; // TODO: add mutliple selection support
+        const target = this._selectedNodes.value[0];
         this.dataService.download(target.data).subscribe(() => {
             this.refresh();
         });
@@ -121,7 +119,16 @@ export class ExplorerService {
             .pipe(tap(({ leafs, nodes }: NodeContent<any>) => {
                 const childrenNodes = nodes.map(data => Utils.createNode(id, false, data));
                 const childrenLeafs = leafs.map(data => Utils.createNode(id, true, data));
-                parent.children = childrenNodes.concat(childrenLeafs);
+                const newChildren = childrenNodes.concat(childrenLeafs);
+                const oldChildren = parent.children;
+                const added = newChildren.filter(c => !oldChildren.find(o => Utils.compareObjects(o.data, c.data)));
+                const removed = oldChildren.filter(o => !newChildren.find(c => Utils.compareObjects(o.data, c.data)));
+                added.forEach(c => parent.children.push(c));
+                removed.forEach(c => {
+                    const index = parent.children.findIndex(o => o.id === c.id);
+                    parent.children.splice(index, 1);
+                });
+
                 this.flatPointers = Utils.getHashMap(this.inTree);
                 this._tree.next(this.inTree);
             }))

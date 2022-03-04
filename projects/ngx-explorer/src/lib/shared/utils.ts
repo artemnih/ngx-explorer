@@ -37,4 +37,8 @@ export class Utils {
         }
         return pieces;
     }
+
+    static compareObjects(a: any, b: any) {
+        return JSON.stringify(a) === JSON.stringify(b);
+    }
 }
