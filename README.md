@@ -32,5 +32,6 @@ import { NgxExplorerModule, DataService } from 'ngx-explorer';
 })
 export class AppModule { }
 ```
+- Add `<nxe-explorer></nxe-explorer>` to the template
 
 ![explorer](docs/ss.png)
