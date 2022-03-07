@@ -1,2 +1,4 @@
 # ngx-explorer
-Simple Angular File Explorer module. Plug and Play... almost
+Lightweight and easy-to-use Angular File Explorer module.
+
+![explorer](docs/ss.png)
