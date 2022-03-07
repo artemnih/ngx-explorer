@@ -35,6 +35,7 @@ font-awesome
 (OFL-1.1 AND MIT)
 
 ngx-explorer
+MIT
 
 rxjs
 Apache-2.0
