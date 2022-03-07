@@ -4,8 +4,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build:lib": "ng build ngx-explorer --prod=true",
+    "build:lib": "ng build ngx-explorer --prod=true && npm run copy",
     "build": "ng build --prod=true",
+    "copy": "cp README.md dist/ngx-explorer/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
