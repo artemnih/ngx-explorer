@@ -4,6 +4,7 @@ import { tap } from 'rxjs/operators';
 import { XNode, Dictionary, NodeContent } from '../common/types';
 import { Utils } from '../shared/utils';
 import { DataService } from './data.service';
+import { HelperService } from './helper.service';
 
 @Injectable({
     providedIn: 'root'
@@ -22,7 +23,7 @@ export class ExplorerService {
     public readonly breadcrumbs = this.breadcrumbs$.asObservable();
     public readonly tree = this.tree$.asObservable();
 
-    constructor(private dataService: DataService) {
+    constructor(private dataService: DataService, private helper: HelperService) {
         this.openNode(this.internalTree.id);
     }
 
@@ -117,17 +118,11 @@ export class ExplorerService {
         return this.dataService
             .getNodeChildren(parent.data)
             .pipe(tap(({ leafs, nodes }: NodeContent<any>) => {
-                const childrenNodes = nodes.map(data => Utils.createNode(id, false, data));
-                const childrenLeafs = leafs.map(data => Utils.createNode(id, true, data));
-                const newChildren = childrenNodes.concat(childrenLeafs);
-                const oldChildren = parent.children;
-                const added = newChildren.filter(c => !oldChildren.find(o => Utils.compareObjects(o.data, c.data)));
-                const removed = oldChildren.filter(o => !newChildren.find(c => Utils.compareObjects(o.data, c.data)));
-
-                added.forEach(c => {
-                    parent.children.push(c);
-                    this.flatPointers[c.id] = c;
-                });
+                const newNodes = nodes.map(data => Utils.createNode(id, false, data));
+                const newLeafs = leafs.map(data => Utils.createNode(id, true, data));
+                const newChildren = newNodes.concat(newLeafs);
+                const added = newChildren.filter(c => !parent.children.find(o => Utils.compareObjects(o.data, c.data)));
+                const removed = parent.children.filter(o => !newChildren.find(c => Utils.compareObjects(o.data, c.data)));
 
                 removed.forEach(c => {
                     const index = parent.children.findIndex(o => o.id === c.id);
@@ -135,7 +130,16 @@ export class ExplorerService {
                     delete this.flatPointers[c.id];
                 });
 
-                console.log(this.flatPointers);
+                added.forEach(c => {
+                    parent.children.push(c);
+                    this.flatPointers[c.id] = c;
+                });
+
+                parent.children.sort((a, b) => a.data.name.localeCompare(b.data.name));
+                const nodeChildren = parent.children.filter(c => !c.isLeaf);
+                const leafChildren = parent.children.filter(c => c.isLeaf);
+                parent.children = nodeChildren.concat(leafChildren);
+
                 this.tree$.next(this.internalTree);
             }));
     }
