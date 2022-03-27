@@ -4,7 +4,7 @@ export class Utils {
 
     private static id = 0;
 
-    static createNode(parentId = 0, isLeaf = false, data?: any): XNode {    
+    static createNode(parentId = 0, isLeaf = false, data?: any): XNode {
         const id = ++this.id;
         return {
             id,

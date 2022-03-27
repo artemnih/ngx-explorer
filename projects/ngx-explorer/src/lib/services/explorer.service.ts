@@ -9,34 +9,34 @@ import { DataService } from './data.service';
     providedIn: 'root'
 })
 export class ExplorerService {
-    private inTree = Utils.createNode();
-    private flatPointers: Dictionary<XNode> = { [this.inTree.id]: this.inTree };
+    private internalTree = Utils.createNode();
+    private flatPointers: Dictionary<XNode> = { [this.internalTree.id]: this.internalTree };
 
-    private readonly _selectedNodes = new BehaviorSubject<XNode[]>([]);
-    private readonly _openedNode = new BehaviorSubject<XNode>(undefined);
-    private readonly _breadcrumbs = new BehaviorSubject<XNode[]>([]);
-    private readonly _tree = new BehaviorSubject<XNode>(this.inTree);
+    private readonly selectedNodes$ = new BehaviorSubject<XNode[]>([]);
+    private readonly openedNode$ = new BehaviorSubject<XNode>(undefined);
+    private readonly breadcrumbs$ = new BehaviorSubject<XNode[]>([]);
+    private readonly tree$ = new BehaviorSubject<XNode>(this.internalTree);
 
-    public readonly selectedNodes = this._selectedNodes.asObservable();
-    public readonly openedNode = this._openedNode.asObservable();
-    public readonly breadcrumbs = this._breadcrumbs.asObservable();
-    public readonly tree = this._tree.asObservable();
+    public readonly selectedNodes = this.selectedNodes$.asObservable();
+    public readonly openedNode = this.openedNode$.asObservable();
+    public readonly breadcrumbs = this.breadcrumbs$.asObservable();
+    public readonly tree = this.tree$.asObservable();
 
     constructor(private dataService: DataService) {
-        this.openNode(this.inTree.id);
+        this.openNode(this.internalTree.id);
     }
 
     public selectNodes(nodes: XNode[]) {
-        this._selectedNodes.next(nodes);
+        this.selectedNodes$.next(nodes);
     }
 
     public openNode(id: number) {
         this.getNodeChildren(id).subscribe(() => {
             const parent = this.flatPointers[id];
-            this._openedNode.next(parent);
+            this.openedNode$.next(parent);
             const breadcrumbs = Utils.buildBreadcrumbs(this.flatPointers, parent);
-            this._breadcrumbs.next(breadcrumbs);
-            this._selectedNodes.next([]);
+            this.breadcrumbs$.next(breadcrumbs);
+            this.selectedNodes$.next([]);
         });
     }
 
@@ -45,18 +45,18 @@ export class ExplorerService {
     }
 
     public createNode(name: string) {
-        const parent = this._openedNode.value;
+        const parent = this.openedNode$.value;
         this.dataService.createNode(parent.data, name).subscribe(() => {
             this.refresh();
         });
     }
 
     public refresh() {
-        this.openNode(this._openedNode.value.id);
+        this.openNode(this.openedNode$.value.id);
     }
 
     public rename(name: string) {
-        const nodes = this._selectedNodes.value;
+        const nodes = this.selectedNodes$.value;
         if (nodes.length > 1) {
             throw new Error('Multiple selection rename not supported');
         }
@@ -77,7 +77,7 @@ export class ExplorerService {
     }
 
     public remove() {
-        const selection = this._selectedNodes.value;
+        const selection = this.selectedNodes$.value;
         if (selection.length === 0) {
             throw new Error('Nothing selected to remove');
         }
@@ -95,14 +95,14 @@ export class ExplorerService {
     }
 
     public upload(files: File[]) {
-        const node = this._openedNode.value;
+        const node = this.openedNode$.value;
         this.dataService.uploadFiles(node.data, files).subscribe(() => {
             this.refresh();
         });
     }
 
     public download() {
-        const target = this._selectedNodes.value[0];
+        const target = this.selectedNodes$.value[0];
         this.dataService.download(target.data).subscribe(() => {
             this.refresh();
         });
@@ -136,7 +136,7 @@ export class ExplorerService {
                 });
 
                 console.log(this.flatPointers);
-                this._tree.next(this.inTree);
+                this.tree$.next(this.internalTree);
             }));
     }
 
