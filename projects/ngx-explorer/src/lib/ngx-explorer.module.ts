@@ -24,8 +24,8 @@ import { TreeComponent } from './components/tree/tree.component';
     CommonModule
   ],
   exports: [
-    IconsComponent, 
-    ExplorerComponent, 
+    IconsComponent,
+    ExplorerComponent,
     MenuBarComponent,
     BreadcrumbsComponent,
     ListComponent,

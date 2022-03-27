@@ -30,7 +30,7 @@ export class MenuBarComponent implements OnDestroy {
     }
 
     createFolder() {
-        const name = prompt("Enter new folder name");
+        const name = prompt('Enter new folder name');
         if (name) {
             this.explorerService.createNode(name);
         }
@@ -43,7 +43,7 @@ export class MenuBarComponent implements OnDestroy {
     rename() {
         if (this.selection.length === 1) {
             const oldName = this.helperService.getName(this.selection[0].data);
-            const newName = prompt("Enter new name", oldName);
+            const newName = prompt('Enter new name', oldName);
             if (newName) {
                 this.explorerService.rename(newName);
             }
@@ -51,7 +51,7 @@ export class MenuBarComponent implements OnDestroy {
     }
 
     remove() {
-        if (confirm("Are you sure you want to delete the selected files?")) {
+        if (confirm('Are you sure you want to delete the selected files?')) {
             this.explorerService.remove();
         }
     }

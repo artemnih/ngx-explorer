@@ -14,7 +14,7 @@ export class ListComponent extends BaseView {
   public readonly icons = {
     node: 'fa fa-folder-o',
     leaf: 'fa fa-file-o',
-  }
+  };
 
   constructor(explorerService: ExplorerService, helperService: HelperService) {
     super(explorerService, helperService);

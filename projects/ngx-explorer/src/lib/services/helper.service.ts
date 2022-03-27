@@ -1,12 +1,12 @@
-import { Injectable } from "@angular/core";
-import { IHelperService } from "../common/types";
+import { Injectable } from '@angular/core';
+import { IHelperService } from '../common/types';
 
 @Injectable({
     providedIn: 'root'
 })
 export class HelperService implements IHelperService {
 
-    getName(data: any) {
+    getName(data: any): string {
         return data?.name;
     }
 }

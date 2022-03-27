@@ -1,4 +1,4 @@
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 
 export type NodeContent<T> = { leafs: T[], nodes: T[] };
 
@@ -7,8 +7,8 @@ export interface Dictionary<T> {
 }
 
 export interface XNode {
-    id: string;
-    parentId: string;
+    id: number;
+    parentId: number;
     data: any;
     isLeaf: boolean;
     children: XNode[];
@@ -26,10 +26,10 @@ export interface IDataService<T> {
 }
 
 export interface IHelperService {
-    getName<T>(data: T): string
+    getName<T>(data: T): string;
 }
 
 export enum AvialableView { // TODO: temp. Allow injection
-    List = "List",
-    Icon = "Icon",
+    List = 'List',
+    Icon = 'Icon',
 }

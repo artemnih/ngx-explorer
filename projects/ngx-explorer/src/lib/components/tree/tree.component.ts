@@ -18,7 +18,7 @@ interface TreeNode extends XNode {
 })
 export class TreeComponent implements OnDestroy {
     public treeNodes: TreeNode[] = [];
-    private expandedIds: string[] = [];
+    private expandedIds: number[] = [];
     private sub = new Subscription();
 
     constructor(private explorerService: ExplorerService, private helperService: HelperService) {
@@ -70,14 +70,14 @@ export class TreeComponent implements OnDestroy {
         return treeNode;
     }
 
-    private addExpandedNode(id: string) {
+    private addExpandedNode(id: number) {
         const index = this.expandedIds.indexOf(id);
         if (index === -1) {
             this.expandedIds.push(id);
         }
     }
 
-    private removeExpandedNode(id: string) {
+    private removeExpandedNode(id: number) {
         const index = this.expandedIds.indexOf(id);
         this.expandedIds.splice(index, 1);
     }

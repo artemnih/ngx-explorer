@@ -10,7 +10,7 @@ import { DataService } from './data.service';
 })
 export class ExplorerService {
     private inTree = Utils.createNode();
-    private flatPointers: Dictionary<XNode> = Utils.getHashMap(this.inTree);
+    private flatPointers: Dictionary<XNode> = { [this.inTree.id]: this.inTree };
 
     private readonly _selectedNodes = new BehaviorSubject<XNode[]>([]);
     private readonly _openedNode = new BehaviorSubject<XNode>(undefined);
@@ -30,17 +30,17 @@ export class ExplorerService {
         this._selectedNodes.next(nodes);
     }
 
-    public openNode(id: string) {
+    public openNode(id: number) {
         this.getNodeChildren(id).subscribe(() => {
             const parent = this.flatPointers[id];
             this._openedNode.next(parent);
             const breadcrumbs = Utils.buildBreadcrumbs(this.flatPointers, parent);
             this._breadcrumbs.next(breadcrumbs);
             this._selectedNodes.next([]);
-        })
+        });
     }
 
-    public expandNode(id: string) {
+    public expandNode(id: number) {
         this.getNodeChildren(id).subscribe();
     }
 
@@ -48,7 +48,7 @@ export class ExplorerService {
         const parent = this._openedNode.value;
         this.dataService.createNode(parent.data, name).subscribe(() => {
             this.refresh();
-        })
+        });
     }
 
     public refresh() {
@@ -68,7 +68,7 @@ export class ExplorerService {
         if (node.isLeaf) {
             this.dataService.renameLeaf(node.data, name).subscribe(() => {
                 this.refresh();
-            })
+            });
         } else {
             this.dataService.renameNode(node.data, name).subscribe(() => {
                 this.refresh();
@@ -82,7 +82,7 @@ export class ExplorerService {
             throw new Error('Nothing selected to remove');
         }
 
-        const targets = selection.map(node => this.flatPointers[node.id])
+        const targets = selection.map(node => this.flatPointers[node.id]);
         const nodes = targets.filter(t => !t.isLeaf).map(data => data.data);
         const leafs = targets.filter(t => t.isLeaf).map(data => data.data);
 
@@ -108,7 +108,7 @@ export class ExplorerService {
         });
     }
 
-    private getNodeChildren(id: string) {
+    private getNodeChildren(id: number) {
         const parent = this.flatPointers[id];
         if (parent.isLeaf) {
             throw new Error('Cannot open leaf node');
@@ -123,15 +123,21 @@ export class ExplorerService {
                 const oldChildren = parent.children;
                 const added = newChildren.filter(c => !oldChildren.find(o => Utils.compareObjects(o.data, c.data)));
                 const removed = oldChildren.filter(o => !newChildren.find(c => Utils.compareObjects(o.data, c.data)));
-                added.forEach(c => parent.children.push(c));
+
+                added.forEach(c => {
+                    parent.children.push(c);
+                    this.flatPointers[c.id] = c;
+                });
+
                 removed.forEach(c => {
                     const index = parent.children.findIndex(o => o.id === c.id);
                     parent.children.splice(index, 1);
+                    delete this.flatPointers[c.id];
                 });
 
-                this.flatPointers = Utils.getHashMap(this.inTree);
+                console.log(this.flatPointers);
                 this._tree.next(this.inTree);
-            }))
+            }));
     }
 
 }

@@ -24,5 +24,5 @@ export class ExplorerComponent implements OnDestroy {
     ngOnDestroy() {
         this.sub.unsubscribe();
     }
-    
+
 }
