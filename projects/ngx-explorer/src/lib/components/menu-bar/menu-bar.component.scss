@@ -1,11 +1,12 @@
-.ngx-menubar-container {
-    width: 100%;
-    padding: 10px;
-    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-    -moz-box-sizing: border-box; /* Firefox, other Gecko */
-    box-sizing: border-box; /* Opera/IE 8+ */
+.nxe-menu-bar {
+    display: flex;
 
-    .nxe-menubar-button {
+    .nxe-menu-bar-left {
+        flex-grow: 1;
+        padding: 10px;
+    }
+
+    .nxe-menu-bar-button {
         cursor: pointer;
         padding: 5px 5px;
         border-radius: 5px;
@@ -15,7 +16,7 @@
         font-size: inherit;
         font-weight: inherit;
         margin-right: 20px;
-        
+
         .fa {
             margin-right: 5px;
             color: #555;
@@ -25,5 +26,4 @@
             background-color: #d7edff;
         }
     }
-
 }
