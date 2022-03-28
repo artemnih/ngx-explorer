@@ -20,3 +20,4 @@ export * from './lib/components/tree/tree.component';
 export * from './lib/components/list/list.component';
 export * from './lib/components/filter/filter.component';
 export * from './lib/shared/utils';
+export * from './lib/directives/drag-drop.directive';

@@ -9,6 +9,7 @@ import { SecondMenuBarComponent } from './components/second-menu-bar/second-menu
 import { ViewSwitcherComponent } from './components/view-switcher/view-switcher.component';
 import { TreeComponent } from './components/tree/tree.component';
 import { FilterComponent } from './components/filter/filter.component';
+import { DragDropDirective } from './directives/drag-drop.directive';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { FilterComponent } from './components/filter/filter.component';
     ViewSwitcherComponent,
     TreeComponent,
     FilterComponent,
+    DragDropDirective,
   ],
   imports: [
     CommonModule
