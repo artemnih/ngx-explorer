@@ -19,17 +19,10 @@ export class IconsComponent extends BaseView {
         leaf: 'fa fa-file-o',
     };
 
-    constructor(explorerService: ExplorerService, helperService: HelperService, @Inject(FILTER_STRING) private filter: BehaviorSubject<string>) {
-        super(explorerService, helperService);
+    constructor(explorerService: ExplorerService, helperService: HelperService, @Inject(FILTER_STRING) filter: BehaviorSubject<string>) {
+        super(explorerService, helperService, filter);
     }
 
-    get filteredItems(): INode[] {
-        const filter = this.filter.value;
-        if (!filter) {
-            return this.items;
-        }
-        return this.items.filter(i => this.helperService.getName(i.data).toLowerCase().includes(filter.toLowerCase()));
-    }
 
 }
 

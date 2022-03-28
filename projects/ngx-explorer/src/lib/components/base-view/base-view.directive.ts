@@ -1,6 +1,7 @@
-import { Directive, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Directive, Inject, OnDestroy } from '@angular/core';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { INode } from '../../common/types';
+import { FILTER_STRING } from '../../injection-tokens/current-view.token';
 import { ExplorerService } from '../../services/explorer.service';
 import { HelperService } from '../../services/helper.service';
 
@@ -10,7 +11,7 @@ export class BaseView implements OnDestroy {
     public items: INode[] = [];
     protected subs = new Subscription();
 
-    constructor(protected explorerService: ExplorerService, protected helperService: HelperService) {
+    constructor(protected explorerService: ExplorerService, protected helperService: HelperService, @Inject(FILTER_STRING) private filter: BehaviorSubject<string>) {
         this.subs.add(this.explorerService.openedNode.subscribe(nodes => {
             this.items = nodes.children;
         }));
@@ -18,6 +19,15 @@ export class BaseView implements OnDestroy {
         this.subs.add(this.explorerService.selectedNodes.subscribe(nodes => {
             this.selection = nodes;
         }));
+    }
+
+
+    get filteredItems(): INode[] {
+        const filter = this.filter.value;
+        if (!filter) {
+            return this.items;
+        }
+        return this.items.filter(i => this.helperService.getName(i.data).toLowerCase().includes(filter.toLowerCase()));
     }
 
     getDisplayName(data) {
