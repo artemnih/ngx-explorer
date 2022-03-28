@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, forkJoin, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { XNode, Dictionary, NodeContent } from '../common/types';
+import { INode, Dictionary, NodeContent } from '../common/types';
 import { Utils } from '../shared/utils';
 import { DataService } from './data.service';
 import { HelperService } from './helper.service';
@@ -11,12 +11,12 @@ import { HelperService } from './helper.service';
 })
 export class ExplorerService {
     private internalTree = Utils.createNode();
-    private flatPointers: Dictionary<XNode> = { [this.internalTree.id]: this.internalTree };
+    private flatPointers: Dictionary<INode> = { [this.internalTree.id]: this.internalTree };
 
-    private readonly selectedNodes$ = new BehaviorSubject<XNode[]>([]);
-    private readonly openedNode$ = new BehaviorSubject<XNode>(undefined);
-    private readonly breadcrumbs$ = new BehaviorSubject<XNode[]>([]);
-    private readonly tree$ = new BehaviorSubject<XNode>(this.internalTree);
+    private readonly selectedNodes$ = new BehaviorSubject<INode[]>([]);
+    private readonly openedNode$ = new BehaviorSubject<INode>(undefined);
+    private readonly breadcrumbs$ = new BehaviorSubject<INode[]>([]);
+    private readonly tree$ = new BehaviorSubject<INode>(this.internalTree);
 
     public readonly selectedNodes = this.selectedNodes$.asObservable();
     public readonly openedNode = this.openedNode$.asObservable();
@@ -27,7 +27,7 @@ export class ExplorerService {
         this.openNode(this.internalTree.id);
     }
 
-    public selectNodes(nodes: XNode[]) {
+    public selectNodes(nodes: INode[]) {
         this.selectedNodes$.next(nodes);
     }
 

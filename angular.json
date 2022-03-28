@@ -192,6 +192,12 @@
           }
         }
       }
-    }},
-  "defaultProject": "explorer-app"
+    }
+  },
+  "defaultProject": "explorer-app",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  }
 }

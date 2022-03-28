@@ -1,4 +1,4 @@
-<div class="nxe-breadcrumbs-container">
+<div class="nxe-breadcrumbs">
     <span *ngFor="let crumb of breadcrumbs; last as last">
         <button (click)="click(crumb)" class="nxe-breadcrumb-button">{{ crumb.name }}</button>
         <span *ngIf="!last" class="nxe-breadcrumb-separator">

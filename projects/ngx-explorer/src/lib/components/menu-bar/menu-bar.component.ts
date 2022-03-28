@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { XNode } from '../../common/types';
+import { INode } from '../../common/types';
 import { ExplorerService } from '../../services/explorer.service';
 import { HelperService } from '../../services/helper.service';
 
@@ -18,7 +18,7 @@ export class MenuBarComponent implements OnDestroy {
     canRename = false;
 
     private sub = new Subscription();
-    private selection: XNode[] = [];
+    private selection: INode[] = [];
 
     constructor(private explorerService: ExplorerService, private helperService: HelperService) {
         this.sub.add(this.explorerService.selectedNodes.subscribe(n => {

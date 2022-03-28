@@ -8,6 +8,7 @@ import { ListComponent } from './components/list/list.component';
 import { SecondMenuBarComponent } from './components/second-menu-bar/second-menu-bar.component';
 import { ViewSwitcherComponent } from './components/view-switcher/view-switcher.component';
 import { TreeComponent } from './components/tree/tree.component';
+import { FilterComponent } from './components/filter/filter.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { TreeComponent } from './components/tree/tree.component';
     SecondMenuBarComponent,
     ViewSwitcherComponent,
     TreeComponent,
+    FilterComponent,
   ],
   imports: [
     CommonModule
@@ -32,6 +34,7 @@ import { TreeComponent } from './components/tree/tree.component';
     SecondMenuBarComponent,
     ViewSwitcherComponent,
     TreeComponent,
+    FilterComponent
   ]
 })
 export class NgxExplorerModule { }

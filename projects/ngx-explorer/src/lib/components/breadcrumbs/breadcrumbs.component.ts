@@ -1,11 +1,11 @@
 import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { XNode } from '../../common/types';
+import { INode } from '../../common/types';
 import { ExplorerService } from '../../services/explorer.service';
 import { HelperService } from '../../services/helper.service';
 
 interface Breadcrumb {
-    node: XNode;
+    node: INode;
     name: string;
 }
 
@@ -23,7 +23,7 @@ export class BreadcrumbsComponent implements OnDestroy {
         this.sub.add(this.explorerService.breadcrumbs.subscribe(n => this.buildBreadcrumbs(n)));
     }
 
-    private buildBreadcrumbs(nodes: XNode[]) {
+    private buildBreadcrumbs(nodes: INode[]) {
         // TODO: configurable home node name
         this.breadcrumbs = nodes.map(n => ({ name: this.helperService.getName(n.data) || 'Files', node: n }));
     }

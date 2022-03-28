@@ -1,10 +1,10 @@
-import { XNode, Dictionary } from '../common/types';
+import { INode, Dictionary } from '../common/types';
 
 export class Utils {
 
     private static id = 0;
 
-    static createNode(parentId = 0, isLeaf = false, data?: any): XNode {
+    static createNode(parentId = 0, isLeaf = false, data?: any): INode {
         const id = ++this.id;
         return {
             id,
@@ -15,8 +15,8 @@ export class Utils {
         };
     }
 
-    static buildBreadcrumbs(flatPointers: Dictionary<XNode>, node: XNode) {
-        const pieces = [] as XNode[];
+    static buildBreadcrumbs(flatPointers: Dictionary<INode>, node: INode) {
+        const pieces = [] as INode[];
         let currentNode = node;
         while (true) {
             pieces.unshift(currentNode);

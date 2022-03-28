@@ -18,4 +18,5 @@ export * from './lib/components/view-switcher/view-switcher.component';
 export * from './lib/components/icons/icons.component';
 export * from './lib/components/tree/tree.component';
 export * from './lib/components/list/list.component';
+export * from './lib/components/filter/filter.component';
 export * from './lib/shared/utils';

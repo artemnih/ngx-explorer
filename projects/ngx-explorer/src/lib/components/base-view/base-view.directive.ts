@@ -1,13 +1,13 @@
 import { Directive, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { XNode } from '../../common/types';
+import { INode } from '../../common/types';
 import { ExplorerService } from '../../services/explorer.service';
 import { HelperService } from '../../services/helper.service';
 
 @Directive()
 export class BaseView implements OnDestroy {
-    public selection: XNode[] = [];
-    public items: XNode[] = [];
+    public selection: INode[] = [];
+    public items: INode[] = [];
     protected subs = new Subscription();
 
     constructor(protected explorerService: ExplorerService, protected helperService: HelperService) {
@@ -24,7 +24,7 @@ export class BaseView implements OnDestroy {
         return this.helperService.getName(data);
     }
 
-    select(event: MouseEvent, item: XNode) {
+    select(event: MouseEvent, item: INode) {
         const selectedIndex = this.selection.findIndex(i => i === item);
         const alreadySelected = selectedIndex !== -1;
         const metaKeyPressed = event.metaKey || event.ctrlKey || event.shiftKey;
@@ -40,14 +40,14 @@ export class BaseView implements OnDestroy {
         this.explorerService.selectNodes(this.selection);
     }
 
-    open(event: MouseEvent, item: XNode) {
+    open(event: MouseEvent, item: INode) {
         const metaKeyPressed = event.metaKey || event.ctrlKey || event.shiftKey;
         if (!metaKeyPressed) {
             this.explorerService.openNode(item.id);
         }
     }
 
-    isSelected(item: XNode) {
+    isSelected(item: INode) {
         return this.selection.indexOf(item) !== -1;
     }
 

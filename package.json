@@ -18,7 +18,6 @@
     "@angular/common": "~10.0.14",
     "@angular/compiler": "~10.0.14",
     "@angular/core": "~10.0.14",
-    "@angular/forms": "~10.0.14",
     "@angular/platform-browser": "~10.0.14",
     "@angular/platform-browser-dynamic": "~10.0.14",
     "@angular/router": "~10.0.14",

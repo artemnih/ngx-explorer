@@ -6,12 +6,12 @@ export interface Dictionary<T> {
     [Key: string]: T;
 }
 
-export interface XNode {
+export interface INode {
     id: number;
     parentId: number;
     data: any;
     isLeaf: boolean;
-    children: XNode[];
+    children: INode[];
 }
 
 export interface IDataService<T> {

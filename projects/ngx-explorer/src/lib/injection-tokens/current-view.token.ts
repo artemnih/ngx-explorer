@@ -6,3 +6,8 @@ export const CURRENT_VIEW = new InjectionToken<BehaviorSubject<AvialableView>>('
     providedIn: 'root',
     factory: () => new BehaviorSubject(AvialableView.Icon),
 });
+
+export const FILTER_STRING = new InjectionToken<BehaviorSubject<string>>('FILTER_STRING', {
+    providedIn: 'root',
+    factory: () => new BehaviorSubject(''),
+});

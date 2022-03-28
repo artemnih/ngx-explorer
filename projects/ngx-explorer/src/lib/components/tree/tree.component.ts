@@ -3,9 +3,9 @@ import { ExplorerService } from '../../services/explorer.service';
 import { filter } from 'rxjs/operators';
 import { HelperService } from '../../services/helper.service';
 import { Subscription } from 'rxjs';
-import { XNode } from '../../common/types';
+import { INode } from '../../common/types';
 
-interface TreeNode extends XNode {
+interface TreeNode extends INode {
     children: TreeNode[];
     expanded: boolean;
 }
@@ -28,24 +28,24 @@ export class TreeComponent implements OnDestroy {
         }));
     }
 
-    open(node: XNode) {
+    open(node: INode) {
         this.addExpandedNode(node.id);
         this.explorerService.openNode(node.id);
     }
 
-    expand(node: XNode) {
+    expand(node: INode) {
         this.addExpandedNode(node.id);
         this.explorerService.expandNode(node.id);
     }
 
-    collapse(node: XNode) {
+    collapse(node: INode) {
         this.removeExpandedNode(node.id);
-        let nodes: XNode;
-        this.explorerService.tree.pipe(filter(x => !!x)).subscribe(x => nodes = x);
+        let nodes: INode;
+        this.sub.add(this.explorerService.tree.pipe(filter(x => !!x)).subscribe(x => nodes = x));
         this.treeNodes = this.buildTree(nodes).children;
     }
 
-    getName(node: XNode) {
+    getName(node: INode) {
         return this.helperService.getName(node);
     }
 
@@ -53,7 +53,7 @@ export class TreeComponent implements OnDestroy {
         this.sub.unsubscribe();
     }
 
-    private buildTree(node: XNode): TreeNode {
+    private buildTree(node: INode): TreeNode {
         const treeNode = {
             id: node.id,
             parentId: node.parentId,
