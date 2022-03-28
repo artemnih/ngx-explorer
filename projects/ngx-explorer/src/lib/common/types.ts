@@ -29,7 +29,7 @@ export interface IHelperService {
     getName<T>(data: T): string;
 }
 
-export enum AvialableView { // TODO: temp. Allow injection
+export enum AvialableView {
     List = 'List',
     Icon = 'Icon',
 }

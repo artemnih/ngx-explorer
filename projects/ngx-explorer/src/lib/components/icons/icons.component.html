@@ -1,4 +1,5 @@
-<div class="nxe-icons">
+<div class="nxe-icons" nxeDragDrop (dragging)="dragging = $event">
+    <div class="nxe-icons-drag" [ngClass]="{ dragging: dragging}"></div>
     <div class="nxe-icons-backpad" (click)="emptySpaceClick()"></div>
     <div class="nxe-icons-container">
         <div class="nxe-icons-wrapper" *ngFor="let item of filteredItems" (dblclick)="open($event, item)" (click)="select($event, item)">

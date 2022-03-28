@@ -3,6 +3,19 @@
     height: 100%;
     position: relative;
 
+    .nxe-icons-drag {
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        bottom: 2px;
+        right: 2px;
+
+        &.dragging {
+            border: 2px #30a2ff dashed;
+            margin: -2px;
+        }
+    }
+
     .nxe-icons-backpad {
         position: absolute;
         top: 0;

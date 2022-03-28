@@ -24,7 +24,6 @@ export class BreadcrumbsComponent implements OnDestroy {
     }
 
     private buildBreadcrumbs(nodes: INode[]) {
-        // TODO: configurable home node name
         this.breadcrumbs = nodes.map(n => ({ name: this.helperService.getName(n.data) || 'Files', node: n }));
     }
 

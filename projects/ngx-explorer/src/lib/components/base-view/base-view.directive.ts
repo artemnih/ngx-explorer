@@ -9,6 +9,7 @@ import { HelperService } from '../../services/helper.service';
 export class BaseView implements OnDestroy {
     public selection: INode[] = [];
     public items: INode[] = [];
+    public dragging = false;
     protected subs = new Subscription();
 
     constructor(protected explorerService: ExplorerService, protected helperService: HelperService, @Inject(FILTER_STRING) private filter: BehaviorSubject<string>) {
@@ -20,7 +21,6 @@ export class BaseView implements OnDestroy {
             this.selection = nodes;
         }));
     }
-
 
     get filteredItems(): INode[] {
         const filter = this.filter.value;
@@ -70,8 +70,3 @@ export class BaseView implements OnDestroy {
     }
 
 }
-
-// TODO: add keyboard events such as Enter, Right, Left, Up, Space etc.
-// TODO: figure out custom icons for folders and files
-// TODO: allow configurable back icon
-// TODO: add button condtions for disable/enable

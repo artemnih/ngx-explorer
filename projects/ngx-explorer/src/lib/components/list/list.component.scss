@@ -3,6 +3,20 @@
     height: 100%;
     position: relative;
 
+    .nxe-list-drag {
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        bottom: 2px;
+        right: 2px;
+        z-index: 1;
+
+        &.dragging {
+            border: 2px #30a2ff dashed;
+            margin: -2px;
+        }
+    }
+
     .nxe-list-backpad {
         position: absolute;
         top: 0;

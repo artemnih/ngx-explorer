@@ -1,4 +1,5 @@
-<div class="nxe-list">
+<div class="nxe-list" nxeDragDrop (dragging)="dragging = $event">
+    <div class="nxe-list-drag" [ngClass]="{ dragging: dragging}"></div>
     <div class="nxe-list-backpad" (click)="emptySpaceClick()"></div>
     <div class="nxe-list-container">
         <div class="nxe-list-wrapper ">
