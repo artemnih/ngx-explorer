@@ -1,3 +1,5 @@
+@import "../vars.scss";
+
 .nxe-icons {
     width: 100%;
     height: 100%;
@@ -51,11 +53,15 @@
 
                     i {
                         font-size: 50px;
-                        color: #999;
+                        color: #555;
                         font-weight: 500;
 
-                        &.fa {
-                            -webkit-text-stroke: 2px white;
+                        &.nxe-folder {
+                            color: $folder-bg;
+                        }
+
+                        &.nxe-doc {
+                            -webkit-text-stroke: 3px white;
                         }
                     }
                 }
@@ -66,8 +72,8 @@
 
                     .nxe-icons-icon {
                         i {
-                            &.fa {
-                                -webkit-text-stroke: 2px #d7edff;
+                            &.nxe-doc {
+                                -webkit-text-stroke: 3px #f1f9ff;
                             }
                         }
                     }

@@ -14,8 +14,8 @@ import { BaseView } from '../base-view/base-view.directive';
 export class ListComponent extends BaseView {
 
   public readonly icons = {
-    node: 'fa fa-folder-o',
-    leaf: 'fa fa-file-o',
+    node: 'nxe-folder',
+    leaf: 'nxe-doc',
   };
 
   constructor(explorerService: ExplorerService, helperService: HelperService, @Inject(FILTER_STRING) filter: BehaviorSubject<string>) {

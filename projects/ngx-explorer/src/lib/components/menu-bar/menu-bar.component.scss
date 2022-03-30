@@ -1,3 +1,5 @@
+@import "../vars.scss";
+
 .nxe-menu-bar {
     display: flex;
 
@@ -17,9 +19,16 @@
         font-weight: inherit;
         margin-right: 20px;
 
-        .fa {
-            margin-right: 5px;
-            color: #555;
+        .nxe-folder {
+            color: $folder-bg;
+        }
+
+        .nxe-arrows-cw {
+            color: #008000
+        }
+
+        .nxe-trash-empty {
+            color: $negative-red;
         }
 
         &:hover {

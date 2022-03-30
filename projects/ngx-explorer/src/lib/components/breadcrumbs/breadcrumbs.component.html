@@ -2,7 +2,7 @@
     <span *ngFor="let crumb of breadcrumbs; last as last">
         <button (click)="click(crumb)" class="nxe-breadcrumb-button">{{ crumb.name }}</button>
         <span *ngIf="!last" class="nxe-breadcrumb-separator">
-            <i class="fa fa-angle-right" aria-hidden="true"></i>
+            <i class="nxe-angle-right" aria-hidden="true"></i>
         </span>
     </span>
 </div>

@@ -6,11 +6,11 @@
 <ng-template #tree let-nodes="nodes">
     <ul *ngIf="nodes && nodes.length > 0">
         <li *ngFor="let node of nodes">
-            <div class="chevron" *ngIf="!node.expanded" (click)="expand(node)"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
-            <div class="chevron" *ngIf="node.expanded" (click)="collapse(node)"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
+            <div class="chevron" *ngIf="!node.expanded" (click)="expand(node)"><i class="nxe-angle-right" aria-hidden="true"></i></div>
+            <div class="chevron" *ngIf="node.expanded" (click)="collapse(node)"><i class="nxe-angle-down" aria-hidden="true"></i></div>
 
             <div class="item" (dblclick)="open(node)">
-                <div class="folder-icon"><i class="fa fa-folder-o" aria-hidden="true"></i></div>
+                <div class="folder-icon"><i class="nxe-folder" aria-hidden="true"></i></div>
                 <div class="grow" [innerText]="getName(node.data)"></div>
                 <!-- <div class="ellipsis-icon"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></div> -->
                 <div class="highlighter"></div>

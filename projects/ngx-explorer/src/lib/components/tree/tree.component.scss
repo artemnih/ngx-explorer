@@ -1,3 +1,5 @@
+@import "../vars.scss";
+
 $item-spacing: 10px;
 
 .nxe-tree {
@@ -33,6 +35,15 @@ $item-spacing: 10px;
 
         .folder-icon {
             margin-right: 5px;
+
+            i {
+                color: #555;
+                font-weight: 500;
+                
+                &.nxe-folder {
+                    color: $folder-bg;
+                }
+            }
         }
 
         .grow {

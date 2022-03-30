@@ -9,9 +9,6 @@
   "dependencies": {
     "tslib": "^2.0.0"
   },
-  "optionalDependencies": {
-    "font-awesome": "^4.7.0"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/artemnih/ngx-explorer.git"
