@@ -14,11 +14,11 @@ export class BaseView implements OnDestroy {
 
     constructor(protected explorerService: ExplorerService, protected helperService: HelperService, @Inject(FILTER_STRING) private filter: BehaviorSubject<string>) {
         this.subs.add(this.explorerService.openedNode.subscribe(nodes => {
-            this.items = nodes.children;
+            this.items = nodes ? nodes.children : [];
         }));
 
         this.subs.add(this.explorerService.selectedNodes.subscribe(nodes => {
-            this.selection = nodes;
+            this.selection = nodes ? nodes : [];
         }));
     }
 
