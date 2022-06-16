@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - dev
+      
 jobs:
   release:
     if: github.event.pull_request.merged == true
