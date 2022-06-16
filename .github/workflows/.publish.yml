@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: 14
           always-auth: true
-          registry-url: https://registry.npmjs.orgz
+          registry-url: https://registry.npmjs.org
 
       - name: Install dependencies
         run: npm ci
