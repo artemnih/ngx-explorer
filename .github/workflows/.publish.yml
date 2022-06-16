@@ -1,0 +1,33 @@
+name: Publish to NPM
+on:
+  pull_request:
+    branches:
+      - dev
+    types: [closed]
+jobs:
+  release:
+    if: github.event.pull_request.merged == true
+    name: Publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+          always-auth: true
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: npm ci --no-optional
+
+      - name: Build
+        run: npm run build:lib
+
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
