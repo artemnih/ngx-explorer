@@ -1,6 +1,6 @@
 {
   "name": "ngx-explorer",
-  "version": "0.2.2",
+  "version": "1.0.0",
   "peerDependencies": {
     "@angular/common": ">= 10.0.0",
     "@angular/core": ">= 10.0.0",
@@ -28,5 +28,13 @@
     "manager",
     "storage",
     "files"
-  ]
+  ],
+  "main": "bundles/ngx-explorer.umd.js",
+  "module": "fesm2015/ngx-explorer.js",
+  "es2015": "fesm2015/ngx-explorer.js",
+  "esm2015": "esm2015/ngx-explorer.js",
+  "fesm2015": "fesm2015/ngx-explorer.js",
+  "typings": "ngx-explorer.d.ts",
+  "metadata": "ngx-explorer.metadata.json",
+  "sideEffects": false
 }
