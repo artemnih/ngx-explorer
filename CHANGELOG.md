@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/artemnih/ngx-explorer/compare/v1.1.1...v1.2.0) (2022-10-16)
+
+
+### Features
+
+* add simple tooltip [#66](https://github.com/artemnih/ngx-explorer/issues/66) ([bbd4ba8](https://github.com/artemnih/ngx-explorer/commit/bbd4ba87afe717c22b4355132629d37fe280f6fc))
+
 ## [1.1.1](https://github.com/artemnih/ngx-explorer/compare/v1.1.0...v1.1.1) (2022-10-16)
 
 
