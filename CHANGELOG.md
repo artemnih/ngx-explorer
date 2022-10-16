@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/artemnih/ngx-explorer/compare/v1.0.0...v1.1.0) (2022-10-16)
+
+
+### Features
+
+* vulnerable packages ([a81a51a](https://github.com/artemnih/ngx-explorer/commit/a81a51af8874fecb10de04d80b9ecfa94527a3a6))
+
 # 1.0.0 (2022-06-16)
 
 
