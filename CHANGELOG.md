@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/artemnih/ngx-explorer/compare/v1.1.0...v1.1.1) (2022-10-16)
+
+
+### Bug Fixes
+
+* minor css ([f7824df](https://github.com/artemnih/ngx-explorer/commit/f7824df229c32d54b05cf2d42d65793fee0937ca))
+
 # [1.1.0](https://github.com/artemnih/ngx-explorer/compare/v1.0.0...v1.1.0) (2022-10-16)
 
 
