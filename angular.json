@@ -50,6 +50,7 @@
               "src/assets"
             ],
             "styles": [
+              "projects/ngx-explorer/src/assets/icons/css/nxe.css",
               "src/styles.scss"
             ],
             "scripts": []
