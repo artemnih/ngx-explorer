@@ -34,6 +34,7 @@ interface ExampleNode {
 
 export class ExampleDataService implements IDataService<ExampleNode> {
   private id = 0;
+  private folderId = 20;
 
   download(node: ExampleNode): Observable<any> {
     const file = MOCK_FILES.find(f => f.id === node.id);
@@ -60,7 +61,9 @@ export class ExampleDataService implements IDataService<ExampleNode> {
     for (const file of files) {
       const obs = new Observable((observer: Subscriber<any>): void => {
         const reader = new FileReader();
+
         const id = ++this.id;
+
         reader.onload = () => {
           const nodePath = node ? MOCK_FOLDERS.find(f => f.id === node.id).path : '';
           const newFile = { id, name: file.name, path: nodePath + '/' + file.name, content: reader.result as string };
@@ -99,7 +102,7 @@ export class ExampleDataService implements IDataService<ExampleNode> {
 
   createNode(node: ExampleNode, name: string): Observable<any> {
     const path = (node?.path ? node.path + '/' : '') + name.replace(/[\W_]+/g, ' ');
-    const id = ++this.id;
+    const id = ++this.folderId;
     const newFolder = { path, id, name };
     MOCK_FOLDERS.push(newFolder);
     return of(newFolder);
