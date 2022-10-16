@@ -3,7 +3,7 @@
     <div class="nxe-icons-backpad" (click)="emptySpaceClick()"></div>
     <div class="nxe-icons-container">
         <div class="nxe-icons-wrapper" *ngFor="let item of filteredItems" (dblclick)="open($event, item)" (click)="select($event, item)">
-            <div class="nxe-icons-wrapper-inner" [ngClass]="{'nxe-icon-selected':isSelected(item)}">
+            <div class="nxe-icons-wrapper-inner" [ngClass]="{'nxe-icon-selected':isSelected(item)}" [title]="getDisplayName(item.data)">
                 <div class="nxe-icons-icon">
                     <i [className]="item.isLeaf ? icons.leaf : icons.node"></i>
                 </div>
