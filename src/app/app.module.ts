@@ -13,8 +13,8 @@ import { ExampleDataService } from './data.service';
     NgxExplorerModule
   ],
   providers: [
-    { provide: DataService, useClass: ExampleDataService }
-    // { provide: NxeExplorerConfig, useValue: { example: true } }
+    { provide: DataService, useClass: ExampleDataService },
+    // { provide: NGX_EXPLORER_CONFIG, useValue: { test: 123 } }
     // { provide: NxeExplorerHelpers, useClass: LittleHelpers }
   ],
   bootstrap: [AppComponent]

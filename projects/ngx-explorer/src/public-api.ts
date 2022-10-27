@@ -8,6 +8,7 @@ export * from './lib/services/data.service';
 export * from './lib/services/explorer.service';
 export * from './lib/services/helper.service';
 export * from './lib/injection-tokens/current-view.token';
+export * from './lib/injection-tokens/config';
 export * from './lib/components/icons/icons.component';
 export * from './lib/components/explorer/explorer.component';
 export * from './lib/components/menu-bar/menu-bar.component';

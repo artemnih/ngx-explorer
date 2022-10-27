@@ -33,3 +33,7 @@ export enum AvialableView {
     List = 'List',
     Icon = 'Icon',
 }
+
+export interface NgxExplorerConfig {
+    test?: number;
+}
