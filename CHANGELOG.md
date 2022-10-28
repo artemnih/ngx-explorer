@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/artemnih/ngx-explorer/compare/v1.2.1...v1.2.2) (2022-10-28)
+
+
+### Bug Fixes
+
+* scrolling ([dec0db8](https://github.com/artemnih/ngx-explorer/commit/dec0db89376271be0f359f83811a61a2be35b660))
+
 ## [1.2.1](https://github.com/artemnih/ngx-explorer/compare/v1.2.0...v1.2.1) (2022-10-16)
 
 
