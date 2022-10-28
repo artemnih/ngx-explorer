@@ -19,6 +19,8 @@
     flex-basis: 20rem;
     flex-grow: 1;
     border-right: 1px solid #ccc;
+    position: relative;
+    overflow: auto;
 }
 
 .nxe-explorer-right-container {
@@ -35,4 +37,5 @@
 .nxe-explorer-right-content {
     flex-grow: 1;
     overflow: auto;
+    position: relative;
 }
