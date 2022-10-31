@@ -10,6 +10,7 @@ import { ViewSwitcherComponent } from './components/view-switcher/view-switcher.
 import { TreeComponent } from './components/tree/tree.component';
 import { FilterComponent } from './components/filter/filter.component';
 import { DragDropDirective } from './directives/drag-drop.directive';
+import { Config } from './shared/default-config';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,12 @@ import { DragDropDirective } from './directives/drag-drop.directive';
     ViewSwitcherComponent,
     TreeComponent,
     FilterComponent
+  ],
+  providers: [
+    {
+      provide: Config,
+      useValue: Config
+    }
   ]
 })
 export class NgxExplorerModule { }

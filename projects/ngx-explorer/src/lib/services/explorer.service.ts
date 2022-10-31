@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, forkJoin, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { INode, Dictionary, NodeContent } from '../common/types';
+import { INode, Dictionary, NodeContent } from '../shared/types';
 import { Utils } from '../shared/utils';
 import { DataService } from './data.service';
-import { HelperService } from './helper.service';
 
 @Injectable({
     providedIn: 'root'
@@ -23,7 +22,7 @@ export class ExplorerService {
     public readonly breadcrumbs = this.breadcrumbs$.asObservable();
     public readonly tree = this.tree$.asObservable();
 
-    constructor(private dataService: DataService, private helper: HelperService) {
+    constructor(private dataService: DataService) {
         this.openNode(this.internalTree.id);
     }
 

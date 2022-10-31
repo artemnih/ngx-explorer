@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { NgxExplorerModule, DataService } from 'ngx-explorer';
+import { NgxExplorerModule, DataService, NgeExplorerConfig, ConfigProvider } from 'ngx-explorer';
 import { ExampleDataService } from './data.service';
 
 @NgModule({
@@ -14,7 +14,11 @@ import { ExampleDataService } from './data.service';
   ],
   providers: [
     { provide: DataService, useClass: ExampleDataService },
-    // { provide: NGX_EXPLORER_CONFIG, useValue: { test: 123 } }
+    {
+      provide: ConfigProvider, useValue: new ConfigProvider({
+        homeNodeName: 'Home'
+      } as NgeExplorerConfig)
+    }
     // { provide: NxeExplorerHelpers, useClass: LittleHelpers }
   ],
   bootstrap: [AppComponent]

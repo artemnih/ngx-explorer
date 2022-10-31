@@ -1,7 +1,7 @@
 import { Directive, Inject, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { INode } from '../../common/types';
-import { FILTER_STRING } from '../../injection-tokens/current-view.token';
+import { INode } from '../../shared/types';
+import { FILTER_STRING } from '../../injection-tokens/tokens';
 import { ExplorerService } from '../../services/explorer.service';
 import { HelperService } from '../../services/helper.service';
 

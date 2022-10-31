@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { AvialableView } from '../common/types';
+import { AvialableView } from '../shared/types';
 
 export const CURRENT_VIEW = new InjectionToken<BehaviorSubject<AvialableView>>('CURRENT_VIEW', {
     providedIn: 'root',

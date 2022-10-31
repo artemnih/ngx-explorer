@@ -3,7 +3,7 @@ import { ExplorerService } from '../../services/explorer.service';
 import { filter } from 'rxjs/operators';
 import { HelperService } from '../../services/helper.service';
 import { Subscription } from 'rxjs';
-import { INode } from '../../common/types';
+import { INode } from '../../shared/types';
 
 interface TreeNode extends INode {
     children: TreeNode[];
