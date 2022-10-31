@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IHelperService } from '../common/types';
+import { IHelperService } from '../shared/types';
 
 @Injectable({
     providedIn: 'root'

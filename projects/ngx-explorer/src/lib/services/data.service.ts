@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IDataService } from '../common/types';
+import { IDataService } from '../shared/types';
 
 @Injectable({
     providedIn: 'root'

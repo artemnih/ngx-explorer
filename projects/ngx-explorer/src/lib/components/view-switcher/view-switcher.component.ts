@@ -1,7 +1,7 @@
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { AvialableView } from '../../common/types';
-import { CURRENT_VIEW } from '../../injection-tokens/current-view.token';
+import { AvialableView } from '../../shared/types';
+import { CURRENT_VIEW } from '../../injection-tokens/tokens';
 
 @Component({
   selector: 'nxe-view-switcher',

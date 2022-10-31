@@ -1,4 +1,4 @@
-import { INode, Dictionary } from '../common/types';
+import { INode, Dictionary } from './types';
 
 export class Utils {
 

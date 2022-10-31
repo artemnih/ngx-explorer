@@ -1,6 +1,6 @@
 import { Component, ElementRef, Inject, OnDestroy, ViewChild } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { FILTER_STRING } from '../../injection-tokens/current-view.token';
+import { FILTER_STRING } from '../../injection-tokens/tokens';
 import { ExplorerService } from '../../services/explorer.service';
 
 @Component({
