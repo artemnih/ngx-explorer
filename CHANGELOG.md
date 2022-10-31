@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/artemnih/ngx-explorer/compare/v1.2.2...v1.3.0) (2022-10-31)
+
+
+### Features
+
+* implement config root node name ([d415650](https://github.com/artemnih/ngx-explorer/commit/d4156502e50479a8996f98e5836cd4e0ce33cb6a))
+
 ## [1.2.2](https://github.com/artemnih/ngx-explorer/compare/v1.2.1...v1.2.2) (2022-10-28)
 
 
