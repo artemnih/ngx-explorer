@@ -16,7 +16,9 @@ import { ExampleDataService } from './data.service';
     { provide: DataService, useClass: ExampleDataService },
     {
       provide: ConfigProvider, useValue: new ConfigProvider({
-        homeNodeName: 'Home'
+        homeNodeName: 'Home',
+        autoRefresh: false,
+        autoRefreshInterval: 10000
       } as NgeExplorerConfig)
     }
     // { provide: NxeExplorerHelpers, useClass: LittleHelpers }

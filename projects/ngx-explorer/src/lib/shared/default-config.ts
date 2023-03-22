@@ -1,5 +1,7 @@
 import { NgeExplorerConfig } from './types';
 
 export const Config: NgeExplorerConfig = {
-    homeNodeName: 'Files'
+    homeNodeName: 'Files',
+    autoRefresh: false,
+    autoRefreshInterval: 10000
 };
