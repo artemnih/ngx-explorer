@@ -5,7 +5,7 @@ This is a front-end implementation only. There are no services at this point.
 [DEMO](https://artemnih.github.io/ngx-explorer/)
 
 ## How to use
-- Install package 
+- Install package
 ```
 npm i ngx-explorer
 ```
@@ -14,7 +14,7 @@ npm i ngx-explorer
 import { IDataService } from 'ngx-explorer';
 
 export class MyDataService implements IDataService<MyNodeType> {
-    ... 
+    ...
 }
 ```
 - Add `NgxExplorerModule` and data provider to `NgModule`
@@ -27,7 +27,13 @@ import { NgxExplorerModule, DataService } from 'ngx-explorer';
         NgxExplorerModule
     ],
     providers: [
-        { provide: DataService, useClass: MyDataService }
+        { provide: DataService, useClass: MyDataService },
+        {
+        provide: ConfigProvider, useValue: new ConfigProvider({
+            homeNodeName: 'Home',
+            autoRefresh: false,
+            autoRefreshInterval: 10000,
+        } as NgeExplorerConfig)
     ]
 })
 export class AppModule { }
