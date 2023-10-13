@@ -1,3 +1,15 @@
+# [3.0.0](https://github.com/artemnih/ngx-explorer/compare/v2.0.4...v3.0.0) (2023-10-13)
+
+
+### Bug Fixes
+
+* **readme:** files ([c22020b](https://github.com/artemnih/ngx-explorer/commit/c22020b67f64de47c7465aa4f5de5852f72d6cb4))
+
+
+### BREAKING CHANGES
+
+* **readme:** move to angular 16
+
 ## [2.0.4](https://github.com/artemnih/ngx-explorer/compare/v2.0.3...v2.0.4) (2023-10-13)
 
 
