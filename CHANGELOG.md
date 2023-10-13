@@ -1,3 +1,10 @@
+## [2.0.4](https://github.com/artemnih/ngx-explorer/compare/v2.0.3...v2.0.4) (2023-10-13)
+
+
+### Bug Fixes
+
+* **publish:** script ([9dfe8a0](https://github.com/artemnih/ngx-explorer/commit/9dfe8a083c8a0411a79f8448f40c75f979f6a6e3))
+
 ## [2.0.3](https://github.com/artemnih/ngx-explorer/compare/v2.0.2...v2.0.3) (2023-10-13)
 
 
