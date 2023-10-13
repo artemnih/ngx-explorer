@@ -1,3 +1,15 @@
+# [4.0.0](https://github.com/artemnih/ngx-explorer/compare/v3.0.0...v4.0.0) (2023-10-13)
+
+
+### Bug Fixes
+
+* **package:** removed error ([c3487b6](https://github.com/artemnih/ngx-explorer/commit/c3487b618a77fdfafb3b3e3700e8f25969376da8))
+
+
+### BREAKING CHANGES
+
+* **package:** angular 16
+
 # [3.0.0](https://github.com/artemnih/ngx-explorer/compare/v2.0.4...v3.0.0) (2023-10-13)
 
 
