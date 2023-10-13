@@ -1,3 +1,11 @@
+## [2.0.1](https://github.com/artemnih/ngx-explorer/compare/v2.0.0...v2.0.1) (2023-10-13)
+
+
+### Bug Fixes
+
+* **angular:** remove default project ([c351dd0](https://github.com/artemnih/ngx-explorer/commit/c351dd0dad110a07742eca2e18f6e6e88197bfae))
+* **packages:** remove deps ([c43bff9](https://github.com/artemnih/ngx-explorer/commit/c43bff96e273ef21404be36147d1aaffe0274fd7))
+
 # [2.0.0](https://github.com/artemnih/ngx-explorer/compare/v1.3.0...v2.0.0) (2023-10-13)
 
 
