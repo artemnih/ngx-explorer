@@ -1,6 +1,6 @@
 {
   "name": "ngx-explorer",
-  "version": "4.0.0",
+  "version": "2.0.0",
   "peerDependencies": {
     "@angular/common": ">= 16.0.0",
     "@angular/core": ">= 16.0.0",
@@ -47,8 +47,5 @@
       "esm": "./esm2022/ngx-explorer.mjs",
       "default": "./fesm2022/ngx-explorer.mjs"
     }
-  },
-  "scripts": {
-    "prepublishOnly": "node --eval \"console.error('ERROR: Trying to publish a package that has been compiled by Ivy in full compilation mode. This is not allowed.\\nPlease delete and rebuild the package with Ivy partial compilation mode, before attempting to publish.\\n')\" && exit 1"
   }
 }
