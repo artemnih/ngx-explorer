@@ -1,3 +1,11 @@
+## [4.0.1](https://github.com/artemnih/ngx-explorer/compare/v4.0.0...v4.0.1) (2023-10-13)
+
+
+### Bug Fixes
+
+* **ts:** angular config ([f35f9cc](https://github.com/artemnih/ngx-explorer/commit/f35f9cc2191ae07944387187fb149d7ab40c3228))
+* **ts:** angular ivy error ([b14df54](https://github.com/artemnih/ngx-explorer/commit/b14df54fc716248ee459cf9cfa115be539420fa5))
+
 # [4.0.0](https://github.com/artemnih/ngx-explorer/compare/v3.0.0...v4.0.0) (2023-10-13)
 
 
