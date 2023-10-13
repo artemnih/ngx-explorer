@@ -147,7 +147,7 @@
       "prefix": "nxe",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/ngx-explorer/tsconfig.lib.json",
             "project": "projects/ngx-explorer/ng-package.json"
@@ -186,5 +186,8 @@
     "@schematics/angular:component": {
       "styleext": "scss"
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
