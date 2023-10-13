@@ -7,7 +7,8 @@ This is a front-end implementation only. There are no services at this point.
 ## How to use
 - Install package
 ```
-npm i ngx-explorer
+npm i ngx-explorer # install
+npm start # run demo
 ```
 - Implement `IDataService` provider interface
 ```Typescript
