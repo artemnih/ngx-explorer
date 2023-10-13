@@ -1,3 +1,24 @@
+# [2.0.0](https://github.com/artemnih/ngx-explorer/compare/v1.3.0...v2.0.0) (2023-10-13)
+
+
+### Bug Fixes
+
+* files upload ([5b83f74](https://github.com/artemnih/ngx-explorer/commit/5b83f74b1f8ceff3d2fb1034426fcc4a0d79fe38))
+* **ga:** script fix ([1d040dd](https://github.com/artemnih/ngx-explorer/commit/1d040dd73e04baa66792227d8d251e940f7abfad))
+* **package:** update packages ([8229950](https://github.com/artemnih/ngx-explorer/commit/822995035f2316d19e32e21f662e76262fffa6c5))
+* **ts:** types and tsconfig ([74ab1c9](https://github.com/artemnih/ngx-explorer/commit/74ab1c9dfb034b72672703f01afdba8bc21e1b58))
+* **upload:** correct FileList type ([1f7ce7f](https://github.com/artemnih/ngx-explorer/commit/1f7ce7fe46ac24a1f1bdbec45ad58eab0fe162de))
+
+
+### Features
+
+* **tree:** auto refresh ([916532b](https://github.com/artemnih/ngx-explorer/commit/916532bf994efdc589751c400f42a6bade019c7a))
+
+
+### BREAKING CHANGES
+
+* **package:** migrate to Angular 16
+
 # [1.3.0](https://github.com/artemnih/ngx-explorer/compare/v1.2.2...v1.3.0) (2022-10-31)
 
 
