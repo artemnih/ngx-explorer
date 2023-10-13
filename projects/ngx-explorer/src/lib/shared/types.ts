@@ -21,7 +21,7 @@ export interface IDataService<T> {
     renameLeaf(node: T, newName: string): Observable<any>;
     deleteNodes(nodes: T[]): Observable<any>;
     deleteLeafs(nodes: T[]): Observable<any>;
-    uploadFiles(node: T, files: File[]): Observable<any>;
+    uploadFiles(node: T, files: FileList): Observable<any>;
     download(node: T): Observable<any>;
 }
 

@@ -104,7 +104,7 @@ export class ExplorerService {
         });
     }
 
-    public upload(files: File[]) {
+    public upload(files: FileList) {
         const node = this.openedNode$.value;
         this.dataService.uploadFiles(node.data, files).subscribe(() => {
             this.refresh();

@@ -60,7 +60,11 @@ export class MenuBarComponent implements OnDestroy {
         this.uploader.nativeElement.click();
     }
 
-    handleFiles(files: File[]) {
+    handleFiles(event: Event) {
+        const files = (event.target as HTMLInputElement).files;
+        if (!files || files.length === 0) {
+            return;
+        }
         this.explorerService.upload(files);
         this.uploader.nativeElement.value = '';
     }
