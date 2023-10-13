@@ -11,7 +11,7 @@ export abstract class DataService implements IDataService<any> {
     abstract renameLeaf(node: any, newName: string);
     abstract deleteNodes(nodes: any[]);
     abstract deleteLeafs(nodes: any[]);
-    abstract uploadFiles(node: any, files: File[]);
+    abstract uploadFiles(node: any, files: FileList);
     abstract download(node: any); // TODO multple download. should be configurable in settings
     // move(from to) // TODO: on/off in settings
     // copyPaste(from to) // TODO: on/off in settings

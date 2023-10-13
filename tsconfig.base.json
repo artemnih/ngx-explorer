@@ -21,5 +21,8 @@
         "projects/ngx-explorer/src/public-api.ts",
       ]
     }
-  }
+  },
+  "angularCompilerOptions": {
+    "strictTemplates": true
+  },
 }

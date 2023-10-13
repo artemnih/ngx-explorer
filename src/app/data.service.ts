@@ -55,10 +55,11 @@ export class ExampleDataService implements IDataService<ExampleNode> {
     return of(null);
   }
 
-  uploadFiles(node: ExampleNode, files: File[]): Observable<any> {
+  uploadFiles(node: ExampleNode, files: FileList): Observable<any> {
     const results = [];
 
-    for (const file of files) {
+    for (let i = 0; i < files.length; i++) {
+      const file = files.item(i);
       const obs = new Observable((observer: Subscriber<any>): void => {
         const reader = new FileReader();
 

@@ -42,7 +42,8 @@ export class DragDropDirective {
   public onDrop(event) {
     event.preventDefault();
     event.stopPropagation();
-    const files = event.dataTransfer.files;
+    const files = event.dataTransfer.files as FileList;
+    console.log(files);
     if (files.length > 0) {
       this.explorerService.upload(files);
       this.dragDrop.emit(files);
