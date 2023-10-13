@@ -1,3 +1,10 @@
+## [2.0.3](https://github.com/artemnih/ngx-explorer/compare/v2.0.2...v2.0.3) (2023-10-13)
+
+
+### Bug Fixes
+
+* **package:** removed extractcss ([d54c01d](https://github.com/artemnih/ngx-explorer/commit/d54c01d1078ed3812475ca9faddf0cb97b2cf5e4))
+
 ## [2.0.2](https://github.com/artemnih/ngx-explorer/compare/v2.0.1...v2.0.2) (2023-10-13)
 
 
