@@ -1,3 +1,10 @@
+## [2.0.2](https://github.com/artemnih/ngx-explorer/compare/v2.0.1...v2.0.2) (2023-10-13)
+
+
+### Bug Fixes
+
+* build ([e6c70cc](https://github.com/artemnih/ngx-explorer/commit/e6c70cc5d8a0e58ad7873005b293e37dd8d07c3e))
+
 ## [2.0.1](https://github.com/artemnih/ngx-explorer/compare/v2.0.0...v2.0.1) (2023-10-13)
 
 
