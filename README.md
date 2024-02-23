@@ -5,22 +5,47 @@ This is a front-end implementation only. There are no services at this point.
 [DEMO](https://artemnih.github.io/ngx-explorer/)
 
 ## How to use
-- Install package
+- Install package 
+```bash
+npm i ngx-explorer
 ```
-npm i ngx-explorer # install
-npm start # run demo
-```
-- Implement `IDataService` provider interface
+- Implement `IDataService` provider interface which contains API for fetching data from the server.
 ```Typescript
 import { IDataService } from 'ngx-explorer';
 
 export class MyDataService implements IDataService<MyNodeType> {
-    ...
+    ... 
 }
 ```
-- Add `NgxExplorerModule` and data provider to `NgModule`
+And provide the implementation:
+```
+ { provide: DataService, useClass: ExampleDataService },
+```
+
+### Standalone usage:
+
 ```Typescript
-import { NgxExplorerModule, DataService } from 'ngx-explorer';
+import { ExplorerComponent } from 'ngx-explorer';
+
+@Component({
+  selector: 'my-component',
+  templateUrl: './my.component.html',
+  styleUrls: ['./my.component.scss'],
+  standalone: true,
+  imports: [ExplorerComponent],
+
+  //  if you want to provide inside the component instead of main.ts or mnodule
+  //   providers: [
+  //     { provide: DataService, useClass: MyDataService }
+  //   ]
+})
+export class MyComponent {
+```
+You may also provide `DataService` in `main.ts` instead.
+
+### Non-Standalone usage:
+```Typescript
+import { NgxExplorer, DataService } from 'ngx-explorer';
 
 @NgModule({
     imports: [
@@ -28,18 +53,24 @@ import { NgxExplorerModule, DataService } from 'ngx-explorer';
         NgxExplorerModule
     ],
     providers: [
-        { provide: DataService, useClass: MyDataService },
-        {
-        provide: ConfigProvider, useValue: new ConfigProvider({
-            homeNodeName: 'Home',
-            autoRefresh: false,
-            autoRefreshInterval: 10000,
-        } as NgeExplorerConfig)
+        { provide: DataService, useClass: MyDataService }
     ]
 })
 export class AppModule { }
 ```
-- Add `<nxe-explorer></nxe-explorer>` to the template
-- Add css import `@import '~ngx-explorer/src/assets/icons/css/nxe.css'`
+
+### Template and styles
+- Add tag to the template:
+```html
+<h1>My Component</h1>
+<div>
+    <nxe-explorer></nxe-explorer>
+</div>
+```
+- Add css import `styles.scss`:
+```scss
+@import '~ngx-explorer/src/assets/icons/css/nxe.css';
+```
+
 
 ![explorer](docs/ss.png)

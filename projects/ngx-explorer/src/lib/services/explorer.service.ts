@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, forkJoin, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { INode, Dictionary, NodeContent } from '../shared/types';
+import { INode, Dictionary, NodeContent, NgeExplorerConfig } from '../shared/types';
 import { Utils } from '../shared/utils';
-import { ConfigProvider } from './config.provider';
 import { DataService } from './data.service';
+import { CONFIG } from '../shared/providers';
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +14,7 @@ export class ExplorerService {
     private flatPointers: Dictionary<INode> = { [this.internalTree.id]: this.internalTree };
 
     private readonly selectedNodes$ = new BehaviorSubject<INode[]>([]);
-    private readonly openedNode$ = new BehaviorSubject<INode>(undefined);
+    private readonly openedNode$ = new BehaviorSubject<INode | undefined>(undefined);
     private readonly breadcrumbs$ = new BehaviorSubject<INode[]>([]);
     private readonly tree$ = new BehaviorSubject<INode>(this.internalTree);
 
@@ -24,15 +24,15 @@ export class ExplorerService {
     public readonly tree = this.tree$.asObservable();
 
     constructor(
-        private dataService: DataService,
-        private config: ConfigProvider
+        private dataService: DataService<INode>,
+       @Inject(CONFIG) private config: NgeExplorerConfig
     ) {
         this.openNode(this.internalTree.id);
 
-        if (this.config.config.autoRefresh) {
+        if (this.config.autoRefresh) {
             setInterval(() => {
                 this.refresh();
-            }, this.config.config.autoRefreshInterval);
+            }, this.config.autoRefreshInterval);
         }
     }
 
@@ -56,13 +56,13 @@ export class ExplorerService {
 
     public createNode(name: string) {
         const parent = this.openedNode$.value;
-        this.dataService.createNode(parent.data, name).subscribe(() => {
+        this.dataService.createNode(parent!.data, name).subscribe(() => {
             this.refresh();
         });
     }
 
     public refresh() {
-        this.openNode(this.openedNode$.value.id);
+        this.openNode(this.openedNode$.value!.id);
     }
 
     public rename(name: string) {
@@ -105,7 +105,7 @@ export class ExplorerService {
     }
 
     public upload(files: FileList) {
-        const node = this.openedNode$.value;
+        const node = this.openedNode$.value!;
         this.dataService.uploadFiles(node.data, files).subscribe(() => {
             this.refresh();
         });

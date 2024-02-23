@@ -39,14 +39,14 @@ export class ExampleDataService implements IDataService<ExampleNode> {
   download(node: ExampleNode): Observable<any> {
     const file = MOCK_FILES.find(f => f.id === node.id);
 
-    const myblob = new Blob([file.content], {
+    const myblob = new Blob([file!.content], {
       type: 'text/plain'
     });
     const objectUrl = window.URL.createObjectURL(myblob);
     const a: HTMLAnchorElement = document.createElement('a') as HTMLAnchorElement;
 
     a.href = objectUrl;
-    a.download = file.name;
+    a.download = file!.name;
     document.body.appendChild(a);
     a.click();
 
@@ -59,14 +59,14 @@ export class ExampleDataService implements IDataService<ExampleNode> {
     const results = [];
 
     for (let i = 0; i < files.length; i++) {
-      const file = files.item(i);
+      const file = files.item(i)!;
       const obs = new Observable((observer: Subscriber<any>): void => {
         const reader = new FileReader();
 
         const id = ++this.id;
 
         reader.onload = () => {
-          const nodePath = node ? MOCK_FOLDERS.find(f => f.id === node.id).path : '';
+          const nodePath = node ? MOCK_FOLDERS.find(f => f.id === node.id)!.path : '';
           const newFile = { id, name: file.name, path: nodePath + '/' + file.name, content: reader.result as string };
           MOCK_FILES.push(newFile);
           observer.next(reader.result);
@@ -93,7 +93,7 @@ export class ExampleDataService implements IDataService<ExampleNode> {
 
   deleteLeafs(nodes: ExampleNode[]): Observable<any> {
     const results = nodes.map(node => {
-      const leaf = MOCK_FILES.find(f => f.id === node.id);
+      const leaf = MOCK_FILES.find(f => f.id === node.id)!;
       const index = MOCK_FILES.indexOf(leaf);
       MOCK_FILES.splice(index, 1);
       return of({});
@@ -130,13 +130,13 @@ export class ExampleDataService implements IDataService<ExampleNode> {
   }
 
   renameNode(nodeInfo: ExampleNode, newName: string): Observable<ExampleNode> {
-    const node = MOCK_FOLDERS.find(f => f.id === nodeInfo.id);
+    const node = MOCK_FOLDERS.find(f => f.id === nodeInfo.id)!;
     node.name = newName;
     return of(node);
   }
 
   renameLeaf(leafInfo: ExampleNode, newName: string): Observable<ExampleNode> {
-    const leaf = MOCK_FILES.find(f => f.id === leafInfo.id);
+    const leaf = MOCK_FILES.find(f => f.id === leafInfo.id)!;
     leaf.name = newName;
     return of(leaf);
   }

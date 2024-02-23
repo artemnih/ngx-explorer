@@ -3,15 +3,18 @@ import { Subscription } from 'rxjs';
 import { INode } from '../../shared/types';
 import { ExplorerService } from '../../services/explorer.service';
 import { HelperService } from '../../services/helper.service';
+import { ViewSwitcherComponent } from '../view-switcher/view-switcher.component';
 
 @Component({
     selector: 'nxe-menu-bar',
     templateUrl: './menu-bar.component.html',
     styleUrls: ['./menu-bar.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation:  ViewEncapsulation.None,
+    standalone: true,
+    imports: [ViewSwitcherComponent]
 })
 export class MenuBarComponent implements OnDestroy {
-    @ViewChild('uploader', { static: true }) uploader: ElementRef;
+    @ViewChild('uploader', { static: true }) uploader!: ElementRef;
 
     canDownload = false;
     canDelete = false;

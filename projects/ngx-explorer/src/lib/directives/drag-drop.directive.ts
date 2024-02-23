@@ -2,7 +2,8 @@ import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
 import { ExplorerService } from '../services/explorer.service';
 
 @Directive({
-  selector: '[nxeDragDrop]'
+  selector: '[nxeDragDrop]',
+  standalone: true
 })
 export class DragDropDirective {
   @Output() dragEnter = new EventEmitter<any>();
@@ -14,7 +15,7 @@ export class DragDropDirective {
   constructor(private explorerService: ExplorerService) { }
 
   @HostListener('dragenter', ['$event'])
-  public onDragEnter(event) {
+  public onDragEnter(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
     this.dragEnter.emit(event);
@@ -23,7 +24,7 @@ export class DragDropDirective {
   }
 
   @HostListener('dragover', ['$event'])
-  public onDragOver(event) {
+  public onDragOver(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
     this.dragOver.emit(event);
@@ -31,7 +32,7 @@ export class DragDropDirective {
   }
 
   @HostListener('dragleave', ['$event'])
-  public onDragLeave(event) {
+  public onDragLeave(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
     this.dragLeave.emit(event);
@@ -39,10 +40,10 @@ export class DragDropDirective {
   }
 
   @HostListener('drop', ['$event'])
-  public onDrop(event) {
+  public onDrop(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
-    const files = event.dataTransfer.files as FileList;
+    const files = event.dataTransfer!.files as FileList;
     console.log(files);
     if (files.length > 0) {
       this.explorerService.upload(files);
