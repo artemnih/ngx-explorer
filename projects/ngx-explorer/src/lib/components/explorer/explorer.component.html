@@ -11,12 +11,14 @@
                 <nxe-second-menu-bar></nxe-second-menu-bar>
             </div>
             <div class="nxe-explorer-right-content">
-                <ng-container *ngIf="view === avialableView.Icon">
+                @switch (view) {
+                    @case (avialableView.Icon) {
                     <nxe-icons></nxe-icons>
-                </ng-container>
-                <ng-container *ngIf="view === avialableView.List">
+                    }
+                    @case (avialableView.List) {
                     <nxe-list></nxe-list>
-                </ng-container>
+                    }
+                }
             </div>
         </div>
     </div>

@@ -1,15 +1,17 @@
-import { Component, ElementRef, Inject, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { FILTER_STRING } from '../../injection-tokens/tokens';
+import { FILTER_STRING } from '../../shared/providers';
 import { ExplorerService } from '../../services/explorer.service';
 
 @Component({
   selector: 'nxe-filter',
   templateUrl: './filter.component.html',
-  styleUrls: ['./filter.component.scss']
+  styleUrls: ['./filter.component.scss'],
+  standalone: true,
+  encapsulation: ViewEncapsulation.None,
 })
 export class FilterComponent implements OnDestroy {
-  @ViewChild('input') input: ElementRef<HTMLInputElement>;
+  @ViewChild('input') input!: ElementRef<HTMLInputElement>;
 
   private sub = new Subscription();
 

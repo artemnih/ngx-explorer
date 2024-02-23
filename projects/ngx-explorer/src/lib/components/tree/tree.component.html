@@ -4,10 +4,17 @@
 </div>
 
 <ng-template #tree let-nodes="nodes">
-    <ul *ngIf="nodes && nodes.length > 0">
-        <li *ngFor="let node of nodes">
-            <div class="chevron" *ngIf="!node.expanded" (click)="expand(node)"><i class="nxe-angle-right" aria-hidden="true"></i></div>
-            <div class="chevron" *ngIf="node.expanded" (click)="collapse(node)"><i class="nxe-angle-down" aria-hidden="true"></i></div>
+    @if (nodes && nodes.length > 0) {
+    <ul>
+        @for (node of nodes; track $index) {
+        <li>
+            @if(!node.expanded) {
+            <div class="chevron"  (click)="expand(node)"><i class="nxe-angle-right" aria-hidden="true"></i></div>
+            }
+
+            @if(node.expanded) {
+            <div class="chevron" (click)="collapse(node)"><i class="nxe-angle-down" aria-hidden="true"></i></div>
+            }
 
             <div class="item" (dblclick)="open(node)">
                 <div class="folder-icon"><i class="nxe-folder" aria-hidden="true"></i></div>
@@ -19,5 +26,7 @@
             <ng-container *ngTemplateOutlet="tree;context:{nodes:node.children}">
             </ng-container>
         </li>
+    }
     </ul>
+    }  
 </ng-template> 

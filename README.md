@@ -43,3 +43,9 @@ export class AppModule { }
 - Add css import `@import '~ngx-explorer/src/assets/icons/css/nxe.css'`
 
 ![explorer](docs/ss.png)
+
+## Development
+- Clone the repository
+- Run `npm i` to install dependencies
+- Run `npm run build:watch` to build the library continuously
+- Run `npm start` to start the demo

@@ -1,9 +1,10 @@
 import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { ExplorerService } from '../../services/explorer.service';
-import { filter } from 'rxjs/operators';
+import { filter, take, tap } from 'rxjs/operators';
 import { HelperService } from '../../services/helper.service';
 import { Subscription } from 'rxjs';
 import { INode } from '../../shared/types';
+import { NgTemplateOutlet } from '@angular/common';
 
 interface TreeNode extends INode {
     children: TreeNode[];
@@ -14,7 +15,9 @@ interface TreeNode extends INode {
     selector: 'nxe-tree',
     templateUrl: './tree.component.html',
     styleUrls: ['./tree.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    standalone: true,
+    imports: [NgTemplateOutlet]
 })
 export class TreeComponent implements OnDestroy {
     public treeNodes: TreeNode[] = [];
@@ -40,9 +43,10 @@ export class TreeComponent implements OnDestroy {
 
     collapse(node: INode) {
         this.removeExpandedNode(node.id);
-        let nodes: INode;
-        this.sub.add(this.explorerService.tree.pipe(filter(x => !!x)).subscribe(x => nodes = x));
-        this.treeNodes = this.buildTree(nodes).children;
+        this.explorerService.tree.pipe(
+            take(1),
+            filter(x => !!x)),
+            tap((x: INode) => this.buildTree(x));
     }
 
     getName(node: INode) {

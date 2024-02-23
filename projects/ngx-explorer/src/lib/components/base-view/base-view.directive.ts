@@ -1,7 +1,7 @@
 import { Directive, Inject, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { INode } from '../../shared/types';
-import { FILTER_STRING } from '../../injection-tokens/tokens';
+import { FILTER_STRING } from '../../shared/providers';
 import { ExplorerService } from '../../services/explorer.service';
 import { HelperService } from '../../services/helper.service';
 
@@ -30,7 +30,7 @@ export class BaseView implements OnDestroy {
         return this.items.filter(i => this.helperService.getName(i.data).toLowerCase().includes(filter.toLowerCase()));
     }
 
-    getDisplayName(data) {
+    getDisplayName(data: unknown) {
         return this.helperService.getName(data);
     }
 

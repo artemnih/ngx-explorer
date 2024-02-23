@@ -13,7 +13,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of filteredItems" (dblclick)="open($event, item)" (click)="select($event, item)"
+                    @for (item of filteredItems; track $index) {
+                    <tr (dblclick)="open($event, item)" (click)="select($event, item)"
                         [ngClass]="{'nxe-list-row-selected':isSelected(item)}">
                         <td>
                             <span class="nxe-list-icon">
@@ -25,6 +26,7 @@
                         <td></td>
                         <td></td>
                     </tr>
+                    }
                 </tbody>
             </table>
         </div>

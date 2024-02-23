@@ -1,9 +1,9 @@
-import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { INode } from '../../shared/types';
+import { INode, NgeExplorerConfig } from '../../shared/types';
 import { ExplorerService } from '../../services/explorer.service';
 import { HelperService } from '../../services/helper.service';
-import { ConfigProvider } from '../../services/config.provider';
+import { CONFIG } from '../../shared/providers';
 
 interface Breadcrumb {
     node: INode;
@@ -15,17 +15,18 @@ interface Breadcrumb {
     templateUrl: './breadcrumbs.component.html',
     styleUrls: ['./breadcrumbs.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: true,
 })
 export class BreadcrumbsComponent implements OnDestroy {
     public breadcrumbs: Breadcrumb[] = [];
     private sub = new Subscription();
 
-    constructor(private explorerService: ExplorerService, private helperService: HelperService, private config: ConfigProvider) {
+    constructor(private explorerService: ExplorerService, private helperService: HelperService, @Inject(CONFIG )private config: NgeExplorerConfig) {
         this.sub.add(this.explorerService.breadcrumbs.subscribe(n => this.buildBreadcrumbs(n)));
     }
 
     private buildBreadcrumbs(nodes: INode[]) {
-        this.breadcrumbs = nodes.map(n => ({ name: this.helperService.getName(n.data) || this.config.config.homeNodeName, node: n }));
+        this.breadcrumbs = nodes.map(n => ({ name: this.helperService.getName(n.data) || this.config.homeNodeName, node: n }));
     }
 
     public click(crumb: Breadcrumb) {
