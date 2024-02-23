@@ -3,7 +3,7 @@
     <span>
         <button (click)="click(crumb)" class="nxe-breadcrumb-button">{{ crumb.name }}</button>
         @if (!last) {
-        <span *ngIf="!last" class="nxe-breadcrumb-separator">
+        <span class="nxe-breadcrumb-separator">
             <i class="nxe-angle-right" aria-hidden="true"></i>
         </span>
         }
