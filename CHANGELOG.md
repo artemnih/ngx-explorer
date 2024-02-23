@@ -1,48 +1,17 @@
-# [5.0.0](https://github.com/artemnih/ngx-explorer/compare/v4.0.1...v5.0.0) (2024-02-23)
-
-
-### Bug Fixes
-
-* **package:** added back semantic release packages ([83cfa4a](https://github.com/artemnih/ngx-explorer/commit/83cfa4a3d713fd945456acfa1a761bb3564b07a0))
-* removed ngIf tag ([8082228](https://github.com/artemnih/ngx-explorer/commit/8082228895bc8d77c86810f2308f1e7941ff695b))
-
-
-### Features
-
-* migrate to angular 17, fully standalone components ([9c6b7ca](https://github.com/artemnih/ngx-explorer/commit/9c6b7ca13c31c9cb917811e8532bce093980a845))
-
+# [3.0.0](https://github.com/artemnih/ngx-explorer/compare/v2.0.4...v3.0.0) (2023-10-13)
 
 ### BREAKING CHANGES
 
 * ng17 and standalone components
 
 ## [4.0.1](https://github.com/artemnih/ngx-explorer/compare/v4.0.0...v4.0.1) (2023-10-13)
-
-
-### Bug Fixes
-
 * **ts:** angular config ([f35f9cc](https://github.com/artemnih/ngx-explorer/commit/f35f9cc2191ae07944387187fb149d7ab40c3228))
 * **ts:** angular ivy error ([b14df54](https://github.com/artemnih/ngx-explorer/commit/b14df54fc716248ee459cf9cfa115be539420fa5))
-
-# [4.0.0](https://github.com/artemnih/ngx-explorer/compare/v3.0.0...v4.0.0) (2023-10-13)
-
-
-### Bug Fixes
-
 * **package:** removed error ([c3487b6](https://github.com/artemnih/ngx-explorer/commit/c3487b618a77fdfafb3b3e3700e8f25969376da8))
-
-
-### BREAKING CHANGES
-
-* **package:** angular 16
-
-# [3.0.0](https://github.com/artemnih/ngx-explorer/compare/v2.0.4...v3.0.0) (2023-10-13)
-
-
-### Bug Fixes
-
+* **package:** added back semantic release packages ([83cfa4a](https://github.com/artemnih/ngx-explorer/commit/83cfa4a3d713fd945456acfa1a761bb3564b07a0))
+* removed ngIf tag ([8082228](https://github.com/artemnih/ngx-explorer/commit/8082228895bc8d77c86810f2308f1e7941ff695b))
+* migrate to angular 17, fully standalone components ([9c6b7ca](https://github.com/artemnih/ngx-explorer/commit/9c6b7ca13c31c9cb917811e8532bce093980a845))
 * **readme:** files ([c22020b](https://github.com/artemnih/ngx-explorer/commit/c22020b67f64de47c7465aa4f5de5852f72d6cb4))
-
 
 ### BREAKING CHANGES
 

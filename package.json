@@ -14,6 +14,7 @@
     "semantic-release": "semantic-release"
   },
   "private": false,
+  "license": "Apache-2.0",
   "dependencies": {
     "@angular/animations": "^17.0.0",
     "@angular/common": "^17.0.0",
@@ -30,11 +31,6 @@
     "@angular-devkit/build-angular": "^17.0.6",
     "@angular/cli": "^17.0.6",
     "@angular/compiler-cli": "^17.0.0",
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/commit-analyzer": "^11.0.0",
-    "@semantic-release/exec": "^6.0.3",
-    "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^9.2.1",
     "@types/jasmine": "~5.1.0",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
@@ -44,37 +40,5 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "ng-packagr": "^17.2.0",
     "typescript": "~5.2.2"
-  },
-  "release": {
-    "branches": [
-      "dev"
-    ],
-    "plugins": [
-      "@semantic-release/commit-analyzer",
-      "@semantic-release/release-notes-generator",
-      "@semantic-release/changelog",
-      [
-        "@semantic-release/npm",
-        {
-          "pkgRoot": "dist/ngx-explorer"
-        }
-      ],
-      [
-        "@semantic-release/exec",
-        {
-          "prepareCmd": "cp ./dist/ngx-explorer/package.json ./projects/ngx-explorer/package.json"
-        }
-      ],
-      "@semantic-release/github",
-      [
-        "@semantic-release/git",
-        {
-          "assets": [
-            "CHANGELOG.md",
-            "projects/ngx-explorer/package.json"
-          ]
-        }
-      ]
-    ]
   }
 }

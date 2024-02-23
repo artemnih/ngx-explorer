@@ -1,6 +1,6 @@
 {
   "name": "ngx-explorer",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "peerDependencies": {
     "@angular/common": "^17.2.0",
     "@angular/core": "^17.2.0"
@@ -10,7 +10,22 @@
   },
   "sideEffects": false,
   "module": "fesm2022/ngx-explorer.mjs",
+  "license": "Apache-2.0",
+  "author": "artemnih",
+  "description": "Angular file explorer component with tree view",
   "typings": "index.d.ts",
+  "repository": "artemnih/ngx-explorer",
+  "keywords": [
+    "angular",
+    "ngx",
+    "explorer",
+    "file",
+    "folder",
+    "tree",
+    "tree-view",
+    "treeview",
+    "file-explorer"
+  ],
   "exports": {
     "./package.json": {
       "default": "./package.json"
