@@ -12,6 +12,17 @@
   "module": "fesm2022/ngx-explorer.mjs",
   "license": "Apache-2.0",
   "typings": "index.d.ts",
+  "keywords": [
+    "angular",
+    "ngx",
+    "explorer",
+    "file",
+    "folder",
+    "tree",
+    "tree-view",
+    "treeview",
+    "file-explorer"
+  ],
   "exports": {
     "./package.json": {
       "default": "./package.json"
