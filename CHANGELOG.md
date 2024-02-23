@@ -1,3 +1,21 @@
+# [5.0.0](https://github.com/artemnih/ngx-explorer/compare/v4.0.1...v5.0.0) (2024-02-23)
+
+
+### Bug Fixes
+
+* **package:** added back semantic release packages ([83cfa4a](https://github.com/artemnih/ngx-explorer/commit/83cfa4a3d713fd945456acfa1a761bb3564b07a0))
+* removed ngIf tag ([8082228](https://github.com/artemnih/ngx-explorer/commit/8082228895bc8d77c86810f2308f1e7941ff695b))
+
+
+### Features
+
+* migrate to angular 17, fully standalone components ([9c6b7ca](https://github.com/artemnih/ngx-explorer/commit/9c6b7ca13c31c9cb917811e8532bce093980a845))
+
+
+### BREAKING CHANGES
+
+* ng17 and standalone components
+
 ## [4.0.1](https://github.com/artemnih/ngx-explorer/compare/v4.0.0...v4.0.1) (2023-10-13)
 
 
