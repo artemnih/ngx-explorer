@@ -4,6 +4,9 @@ This is a front-end implementation only. There are no services at this point.
 
 [DEMO](https://artemnih.github.io/ngx-explorer/)
 
+## Prerequisites
+- Angular 17+
+
 ## How to use
 - Install package 
 ```bash
