@@ -1,6 +1,6 @@
 {
   "name": "ngx-explorer",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "peerDependencies": {
     "@angular/common": "^17.2.0",
     "@angular/core": "^17.2.0"
@@ -10,6 +10,7 @@
   },
   "sideEffects": false,
   "module": "fesm2022/ngx-explorer.mjs",
+  "license": "Apache-2.0",
   "typings": "index.d.ts",
   "exports": {
     "./package.json": {
