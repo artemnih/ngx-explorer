@@ -1,18 +1,35 @@
-name: Build and Deploy Angular Demo Site
+name: Deploy Demo to GitHub Pages
 on:
   push:
     branches:
     - dev
+
 jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-    - uses: actions/checkout@v3
-    - name: Deploy Angular Demo
-      uses: AhsanAyaz/angular-deploy-gh-pages-actions@v1.3.2 ## replace by latest version without it you will see Expected format {org}/{repo}[/path]@ref. Actual 'AhsanAyaz/angular-deploy-gh-pages-actions',Input string was not in a correct format.
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
       with:
-        github_access_token: ${{ secrets.ACCESS_TOKEN }} # see the Configuration section for how you can create secrets vvvcvc      n b
-        base_href: /ngx-explorer/ # make sure this corresponds to https://<your_username>.github.io/<base_href>/
-        deploy_branch: gh-pages # The branch the action should deploy to.
-        angular_dist_build_folder: dist/explorer-app # The folder where your project is supposed to be after running ng build by the action.
+        node-version: '20'
+
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Build Library
+      run: npm run build:lib
+
+    - name: Build Angular App
+      run: npm run build
+
+    - name: Deploy Angular Demo
+       peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.ACCESS_TOKEN }}
+        publish_dir: dist/explorer-app/browser
