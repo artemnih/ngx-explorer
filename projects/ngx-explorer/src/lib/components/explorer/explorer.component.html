@@ -11,7 +11,7 @@
                 <nxe-second-menu-bar></nxe-second-menu-bar>
             </div>
             <div class="nxe-explorer-right-content">
-                @switch (view) {
+                @switch (view$ | async) {
                     @case (avialableView.Icon) {
                     <nxe-icons></nxe-icons>
                     }
