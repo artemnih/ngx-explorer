@@ -26,7 +26,7 @@ jobs:
       run: npm run build:lib
 
     - name: Build Angular App
-      run: ng build --prod --base-href /explorer-app/
+      run: npm run build:gh
 
     - name: Deploy Angular Demo
       if: success()
