@@ -12,13 +12,13 @@ if (environment.production) {
 bootstrapApplication(AppComponent, {
   providers: [
     { provide: DataService, useClass: ExampleDataService },
-    {
-      provide: CONFIG, useValue: {
-        homeNodeName: 'Home',
-        autoRefresh: false,
-        autoRefreshInterval: 10000
-      } as NgeExplorerConfig
-    },
+    // {
+    //   provide: CONFIG, useValue: {
+    //     homeNodeName: 'Home',
+    //     autoRefresh: false,
+    //     autoRefreshInterval: 10000
+    //   } as NgeExplorerConfig
+    // },
      // { provide: NxeExplorerHelpers, useClass: LittleHelpers }
   ]
 });

@@ -38,4 +38,5 @@ export interface NgeExplorerConfig {
     homeNodeName: string;
     autoRefresh: boolean;
     autoRefreshInterval: number;
+    defaultView: AvialableView;
 }
