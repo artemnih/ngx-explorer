@@ -54,14 +54,13 @@
                     i {
                         font-size: 50px;
                         color: #555;
-                        font-weight: 500;
 
                         &.nxe-folder {
                             color: $folder-bg;
                         }
 
                         &.nxe-doc {
-                            -webkit-text-stroke: 3px white;
+                            color: #555
                         }
                     }
                 }
