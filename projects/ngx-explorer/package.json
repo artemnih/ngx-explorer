@@ -1,6 +1,6 @@
 {
   "name": "ngx-explorer",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "peerDependencies": {
     "@angular/common": "^17.2.0",
     "@angular/core": "^17.2.0"
@@ -29,6 +29,9 @@
   "exports": {
     "./package.json": {
       "default": "./package.json"
+    },
+    "./src/assets/icons/css/nxe.css": {
+      "default": "./src/assets/icons/css/nxe.css"
     },
     ".": {
       "types": "./index.d.ts",
