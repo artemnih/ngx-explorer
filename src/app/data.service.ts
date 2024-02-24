@@ -1,7 +1,14 @@
 import { forkJoin, Observable, of, Subscriber } from 'rxjs';
-import { IDataService, NodeContent } from 'ngx-explorer';
+import { Data, IDataService } from 'ngx-explorer';
 
-let MOCK_FOLDERS = [
+interface MyExplorerEntity extends Data {
+  id: number;
+  name: string;
+  path: string;
+  content: string;
+}
+
+let MOCK_DIRS = [
   { id: 1, name: 'Music', path: 'music' },
   { id: 2, name: 'Movies', path: 'movies' },
   { id: 3, name: 'Books', path: 'books' },
@@ -13,7 +20,7 @@ let MOCK_FOLDERS = [
   { id: 16, name: 'AC/DC', path: 'music/rock/acdc' },
   { id: 17, name: 'Led Zeppelin', path: 'music/rock/ledzeppelin' },
   { id: 18, name: 'The Beatles', path: 'music/rock/thebeatles' },
-];
+] as MyExplorerEntity[];
 
 let MOCK_FILES = [
   { id: 428, name: 'notes.txt', path: '', content: 'hi, this is an example' },
@@ -23,21 +30,14 @@ let MOCK_FILES = [
   { id: 30, name: 'All You Need Is Love.txt', path: 'music/rock/thebeatles', content: 'hi, this is an example' },
   { id: 31, name: 'Hey Jude.txt', path: 'music/rock/ledzeppelin/heyjude', content: 'hi, this is an example' },
   { id: 32, name: 'Rock And Roll All Nite.txt', path: 'music/rock/ledzeppelin/rockandrollallnight', content: 'hi, this is an example' },
-];
+] as MyExplorerEntity[];
 
-interface ExampleNode {
-  name: string;
-  path: string;
-  content?: string;
-  id: number | string;
-}
-
-export class ExampleDataService implements IDataService<ExampleNode> {
+export class ExampleDataService implements IDataService<MyExplorerEntity> {
   private id = 0;
   private folderId = 20;
 
-  download(node: ExampleNode): Observable<any> {
-    const file = MOCK_FILES.find(f => f.id === node.id);
+  downloadFile(data: MyExplorerEntity): Observable<any> {
+    const file = MOCK_FILES.find(f => f.id === data.id);
 
     const myblob = new Blob([file!.content], {
       type: 'text/plain'
@@ -55,7 +55,7 @@ export class ExampleDataService implements IDataService<ExampleNode> {
     return of(null);
   }
 
-  uploadFiles(node: ExampleNode, files: FileList): Observable<any> {
+  uploadFiles(parent: MyExplorerEntity, files: FileList): Observable<any> {
     const results = [];
 
     for (let i = 0; i < files.length; i++) {
@@ -66,7 +66,7 @@ export class ExampleDataService implements IDataService<ExampleNode> {
         const id = ++this.id;
 
         reader.onload = () => {
-          const nodePath = node ? MOCK_FOLDERS.find(f => f.id === node.id)!.path : '';
+          const nodePath = parent ? MOCK_DIRS.find(f => f.id === parent.id)!.path : '';
           const newFile = { id, name: file.name, path: nodePath + '/' + file.name, content: reader.result as string };
           MOCK_FILES.push(newFile);
           observer.next(reader.result);
@@ -80,18 +80,18 @@ export class ExampleDataService implements IDataService<ExampleNode> {
     return forkJoin(results);
   }
 
-  deleteNodes(nodes: ExampleNode[]): Observable<any> {
-    const results = nodes.map(node => {
-      const path = node.path + '/';
+  deleteDirs(datas: MyExplorerEntity[]): Observable<any> {
+    const results = datas.map(data => {
+      const path = data.path + '/';
       MOCK_FILES = MOCK_FILES.filter(f => !f.path.startsWith(path));
-      MOCK_FOLDERS = MOCK_FOLDERS.filter(f => !f.path.startsWith(path));
-      MOCK_FOLDERS = MOCK_FOLDERS.filter(f => f.id !== node.id);
+      MOCK_DIRS = MOCK_DIRS.filter(f => !f.path.startsWith(path));
+      MOCK_DIRS = MOCK_DIRS.filter(f => f.id !== data.id);
       return of({});
     });
     return forkJoin(results);
   }
 
-  deleteLeafs(nodes: ExampleNode[]): Observable<any> {
+  deleteFiles(nodes: MyExplorerEntity[]): Observable<any> {
     const results = nodes.map(node => {
       const leaf = MOCK_FILES.find(f => f.id === node.id)!;
       const index = MOCK_FILES.indexOf(leaf);
@@ -101,42 +101,42 @@ export class ExampleDataService implements IDataService<ExampleNode> {
     return forkJoin(results);
   }
 
-  createNode(node: ExampleNode, name: string): Observable<any> {
-    const path = (node?.path ? node.path + '/' : '') + name.replace(/[\W_]+/g, ' ');
+  createDir(data: MyExplorerEntity, name: string): Observable<any> {
+    const path = (data.path ? data.path + '/' : '') + name.replace(/[\W_]+/g, ' ');
     const id = ++this.folderId;
-    const newFolder = { path, id, name };
-    MOCK_FOLDERS.push(newFolder);
+    const newFolder = { path, id, name, content: ''};
+    MOCK_DIRS.push(newFolder);
     return of(newFolder);
   }
 
-  getNodeChildren(node: ExampleNode): Observable<NodeContent<ExampleNode>> {
-    const folderPath = node?.path || '';
+  getContent(data: MyExplorerEntity) {
+    const folderPath = data.path || '';
 
-    const nodes = MOCK_FOLDERS.filter(f => {
+    const dirs = MOCK_DIRS.filter(f => {
       const paths = f.path.split('/');
       paths.pop();
       const filteredPath = paths.join('/');
       return filteredPath === folderPath;
     });
 
-    const leafs = MOCK_FILES.filter(f => {
+    const files = MOCK_FILES.filter(f => {
       const paths = f.path.split('/');
       paths.pop();
       const filteredPath = paths.join('/');
       return filteredPath === folderPath;
     });
 
-    return of({ leafs, nodes });
+    return of({ files, dirs });
   }
 
-  renameNode(nodeInfo: ExampleNode, newName: string): Observable<ExampleNode> {
-    const node = MOCK_FOLDERS.find(f => f.id === nodeInfo.id)!;
+  renameDir(data: MyExplorerEntity, newName: string) {
+    const node = MOCK_DIRS.find(f => f.id === data.id)!;
     node.name = newName;
     return of(node);
   }
 
-  renameLeaf(leafInfo: ExampleNode, newName: string): Observable<ExampleNode> {
-    const leaf = MOCK_FILES.find(f => f.id === leafInfo.id)!;
+  renameFile(data: MyExplorerEntity, newName: string) {
+    const leaf = MOCK_FILES.find(f => f.id === data.id)!;
     leaf.name = newName;
     return of(leaf);
   }

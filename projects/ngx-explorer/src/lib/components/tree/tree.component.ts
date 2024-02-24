@@ -38,7 +38,7 @@ export class TreeComponent implements OnDestroy {
 
     expand(node: INode) {
         this.addExpandedNode(node.id);
-        this.explorerService.expandNode(node.id);
+        this.explorerService.expand(node.id);
     }
 
     collapse(node: INode) {

@@ -1,5 +1,5 @@
 <div class="nxe-breadcrumbs">
-    @for (crumb of breadcrumbs; track $index; let last = $last) {
+    @for (crumb of breadcrumbs$ | async; track $index; let last = $last) {
     <span>
         <button (click)="click(crumb)" class="nxe-breadcrumb-button">{{ crumb.name }}</button>
         @if (!last) {

@@ -1,10 +1,10 @@
-import { INode, Dictionary } from './types';
+import { INode } from './types';
 
 export class Utils {
 
     private static id = 0;
 
-    static createNode(parentId = 0, isLeaf = false, data:any = {}): INode {
+    static createNode(parentId = 0, isLeaf = false, data:any = {}) {
         const id = ++this.id;
         return {
             id,
@@ -12,21 +12,7 @@ export class Utils {
             data,
             isLeaf,
             children: []
-        };
-    }
-
-    static buildBreadcrumbs(flatPointers: Dictionary<INode>, node: INode) {
-        const pieces = [] as INode[];
-        let currentNode = node;
-        while (true) {
-            pieces.unshift(currentNode);
-            if (currentNode.parentId) {
-                currentNode = flatPointers[currentNode.parentId];
-            } else {
-                break;
-            }
-        }
-        return pieces;
+        } as INode;
     }
 
     static compareObjects(a: any, b: any) {

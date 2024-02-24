@@ -35,7 +35,7 @@ export class MenuBarComponent implements OnDestroy {
     createFolder() {
         const name = prompt('Enter new folder name');
         if (name) {
-            this.explorerService.createNode(name);
+            this.explorerService.createDir(name);
         }
     }
 

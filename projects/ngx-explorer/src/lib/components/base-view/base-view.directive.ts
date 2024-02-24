@@ -47,7 +47,7 @@ export class BaseView implements OnDestroy {
             }
             this.selection.push(item);
         }
-        this.explorerService.selectNodes(this.selection);
+        this.explorerService.select(this.selection);
     }
 
     open(event: MouseEvent, item: INode) {
@@ -62,7 +62,7 @@ export class BaseView implements OnDestroy {
     }
 
     emptySpaceClick(): void {
-        this.explorerService.selectNodes([]);
+        this.explorerService.select([]);
     }
 
     ngOnDestroy() {

@@ -1,11 +1,10 @@
 import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, forkJoin, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { INode, Dictionary, NodeContent, NgeExplorerConfig } from '../shared/types';
+import { INode, Dictionary, NgeExplorerConfig } from '../shared/types';
 import { Utils } from '../shared/utils';
 import { DataService } from './data.service';
 import { CONFIG } from '../shared/providers';
-import { HelperService } from './helper.service';
 
 @Injectable({
     providedIn: 'root'
@@ -16,17 +15,14 @@ export class ExplorerService {
 
     private readonly selectedNodes$ = new BehaviorSubject<INode[]>([]);
     private readonly openedNode$ = new BehaviorSubject<INode | undefined>(undefined);
-    private readonly breadcrumbs$ = new BehaviorSubject<INode[]>([]);
     private readonly tree$ = new BehaviorSubject<INode>(this.internalTree);
 
     public readonly selectedNodes = this.selectedNodes$.asObservable();
     public readonly openedNode = this.openedNode$.asObservable();
-    public readonly breadcrumbs = this.breadcrumbs$.asObservable();
     public readonly tree = this.tree$.asObservable();
 
     constructor(
-        private dataService: DataService<INode>,
-        private helpers: HelperService,
+        private dataService: DataService,
        @Inject(CONFIG) private config: NgeExplorerConfig
     ) {
         this.openNode(this.internalTree.id);
@@ -38,27 +34,29 @@ export class ExplorerService {
         }
     }
 
-    public selectNodes(nodes: INode[]) {
+    public getNode(id: number) {
+        return this.flatPointers[id];
+    }
+
+    public select(nodes: INode[]) {
         this.selectedNodes$.next(nodes);
     }
 
     public openNode(id: number) {
-        this.getNodeChildren(id).subscribe(() => {
+        this.getContent(id).subscribe(() => {
             const parent = this.flatPointers[id];
             this.openedNode$.next(parent);
-            const breadcrumbs = Utils.buildBreadcrumbs(this.flatPointers, parent);
-            this.breadcrumbs$.next(breadcrumbs);
             this.selectedNodes$.next([]);
         });
     }
 
-    public expandNode(id: number) {
-        this.getNodeChildren(id).subscribe();
+    public expand(id: number) {
+        this.getContent(id).subscribe();
     }
 
-    public createNode(name: string) {
+    public createDir(name: string) {
         const parent = this.openedNode$.value;
-        this.dataService.createNode(parent!.data, name).subscribe(() => {
+        this.dataService.createDir(parent!.data, name).subscribe(() => {
             this.refresh();
         });
     }
@@ -78,11 +76,11 @@ export class ExplorerService {
 
         const node = nodes[0];
         if (node.isLeaf) {
-            this.dataService.renameLeaf(node.data, name).subscribe(() => {
+            this.dataService.renameFile(node.data, name).subscribe(() => {
                 this.refresh();
             });
         } else {
-            this.dataService.renameNode(node.data, name).subscribe(() => {
+            this.dataService.renameDir(node.data, name).subscribe(() => {
                 this.refresh();
             });
         }
@@ -98,8 +96,8 @@ export class ExplorerService {
         const nodes = targets.filter(t => !t.isLeaf).map(data => data.data);
         const leafs = targets.filter(t => t.isLeaf).map(data => data.data);
 
-        const sub1 = nodes.length ? this.dataService.deleteNodes(nodes) : of([]);
-        const sub2 = leafs.length ? this.dataService.deleteLeafs(leafs) : of([]);
+        const sub1 = nodes.length ? this.dataService.deleteDirs(nodes) : of([]);
+        const sub2 = leafs.length ? this.dataService.deleteFiles(leafs) : of([]);
 
         forkJoin([sub1, sub2]).subscribe(() => {
             this.refresh();
@@ -115,23 +113,28 @@ export class ExplorerService {
 
     public download() {
         const target = this.selectedNodes$.value[0];
-        this.dataService.download(target.data).subscribe(() => {
+        this.dataService.downloadFile(target.data).subscribe(() => {
             this.refresh();
         });
     }
 
-    private getNodeChildren(id: number) {
+    private getContent(id: number) {
         const parent = this.flatPointers[id];
+
+        if (!parent) {
+            throw new Error('Node not found');
+        }
+
         if (parent.isLeaf) {
-            throw new Error('Cannot open leaf node');
+            throw new Error('Cannot open a file node');
         }
 
         return this.dataService
-            .getNodeChildren(parent)
-            .pipe(tap(({ leafs, nodes }: NodeContent<any>) => {
-                const newNodes = nodes.map(data => Utils.createNode(id, false, data));
-                const newLeafs = leafs.map(data => Utils.createNode(id, true, data));
-                const newChildren = newNodes.concat(newLeafs);
+            .getContent(parent.data)
+            .pipe(tap(({ files, dirs }) => {
+                const newFolderNodes = dirs.map((data) => Utils.createNode(id, false, data));
+                const newFileNodes = files.map((data) => Utils.createNode(id, true, data));
+                const newChildren = newFolderNodes.concat(newFileNodes);
                 const added = newChildren.filter(c => !parent.children.find(o => Utils.compareObjects(o.data, c.data)));
                 const removed = parent.children.filter(o => !newChildren.find(c => Utils.compareObjects(o.data, c.data)));
 
@@ -146,7 +149,6 @@ export class ExplorerService {
                     this.flatPointers[c.id] = c;
                 });
 
-                parent.children.sort((a, b) => this.helpers.getName(a).localeCompare(this.helpers.getName(b)));
                 const nodeChildren = parent.children.filter(c => !c.isLeaf);
                 const leafChildren = parent.children.filter(c => c.isLeaf);
                 parent.children = nodeChildren.concat(leafChildren);
