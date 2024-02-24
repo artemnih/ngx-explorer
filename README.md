@@ -48,12 +48,12 @@ You may also provide `DataService` in `main.ts` instead.
 
 ### Non-Standalone usage:
 ```Typescript
-import { NgxExplorer, DataService } from 'ngx-explorer';
+import { ExplorerComponent, DataService } from 'ngx-explorer';
 
 @NgModule({
     imports: [
         ...
-        NgxExplorerModule
+        ExplorerComponent
     ],
     providers: [
         { provide: DataService, useClass: MyDataService }
