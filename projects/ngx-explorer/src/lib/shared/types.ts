@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { Observable } from 'rxjs';
 
 export type NodeContent<T> = { leafs: T[], nodes: T[] };
@@ -29,14 +30,15 @@ export interface IHelperService {
     getName(node: INode): string;
 }
 
-export enum AvialableView {
-    List = 'List',
-    Icon = 'Icon',
+export interface View {
+    name: string;
+    icon: string;
+    component: Type<any>;
 }
 
 export interface NgeExplorerConfig {
     homeNodeName: string;
     autoRefresh: boolean;
     autoRefreshInterval: number;
-    defaultView: AvialableView;
+    defaultView: string;
 }

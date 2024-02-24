@@ -11,15 +11,8 @@
                 <nxe-second-menu-bar></nxe-second-menu-bar>
             </div>
             <div class="nxe-explorer-right-content">
-                @switch (view$ | async) {
-                    @case (avialableView.Icon) {
-                    <nxe-icons></nxe-icons>
-                    }
-                    @case (avialableView.List) {
-                    <nxe-list></nxe-list>
-                    }
-                }
+                <ng-container *ngComponentOutlet="viewComponent$ | async"></ng-container>
             </div>
         </div>
     </div>
-</div> 
+</div>

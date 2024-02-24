@@ -1,4 +1,5 @@
 <div class="nxe-view-switcher">
-    <button (click)="setView(avialableView.Icon)"><i class="nxe-th-large" aria-hidden="true"></i></button>
-    <button (click)="setView(avialableView.List)"><i class="nxe-menu" aria-hidden="true"></i></button>
+    @for (item of views; track $index) {
+        <button (click)="setView(item.name)"><i class="{{item.icon}}"></i></button>
+    }
 </div>

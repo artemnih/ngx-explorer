@@ -1,7 +1,7 @@
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { AvialableView } from '../../shared/types';
-import { CURRENT_VIEW } from '../../shared/providers';
+import { View } from '../../shared/types';
+import { CURRENT_VIEW, VIEWS } from '../../shared/providers';
 
 @Component({
   selector: 'nxe-view-switcher',
@@ -11,13 +11,13 @@ import { CURRENT_VIEW } from '../../shared/providers';
   standalone: true,
 })
 export class ViewSwitcherComponent {
-
-  public readonly avialableView = AvialableView;
-
-  constructor(@Inject(CURRENT_VIEW) private currentView: BehaviorSubject<AvialableView>) {
+  constructor(
+    @Inject(CURRENT_VIEW) private currentView: BehaviorSubject<string>,
+    @Inject(VIEWS) protected views: View[],
+  ) {
   }
 
-  setView(view: AvialableView) {
+  setView(view: string) {
     this.currentView.next(view);
   }
 

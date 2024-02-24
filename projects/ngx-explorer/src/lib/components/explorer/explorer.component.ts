@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { AvialableView } from '../../shared/types';
-import { CURRENT_VIEW } from '../../shared/providers';
+import { BehaviorSubject, map } from 'rxjs';
+import { View } from '../../shared/types';
+import { CURRENT_VIEW, VIEWS } from '../../shared/providers';
 import { MenuBarComponent } from '../menu-bar/menu-bar.component';
 import { TreeComponent } from '../tree/tree.component';
 import { SecondMenuBarComponent } from '../second-menu-bar/second-menu-bar.component';
 import { IconsComponent } from '../icons/icons.component';
 import { ListComponent } from '../list/list.component';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgComponentOutlet } from '@angular/common';
 
 @Component({
     selector: 'nxe-explorer',
@@ -16,11 +16,13 @@ import { AsyncPipe } from '@angular/common';
     encapsulation: ViewEncapsulation.None,
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [AsyncPipe, MenuBarComponent, TreeComponent, SecondMenuBarComponent, IconsComponent, ListComponent]
+    imports: [AsyncPipe, MenuBarComponent, TreeComponent, SecondMenuBarComponent, IconsComponent, ListComponent, NgComponentOutlet]
 })
 export class ExplorerComponent {
-    public avialableView = AvialableView;
-    public view$ = this.currentView.asObservable();
+    public viewComponent$ = this.currentView$.pipe(map((view) => this.views.find((v) => v.name === view)!.component));
 
-    constructor(@Inject(CURRENT_VIEW) private currentView: BehaviorSubject<AvialableView>) {}
+    constructor(
+        @Inject(CURRENT_VIEW) private currentView$: BehaviorSubject<string>,
+        @Inject(VIEWS) protected views: View[],
+    ) { }
 }
