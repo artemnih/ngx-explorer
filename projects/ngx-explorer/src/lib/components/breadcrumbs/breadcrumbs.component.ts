@@ -26,7 +26,7 @@ export class BreadcrumbsComponent implements OnDestroy {
     }
 
     private buildBreadcrumbs(nodes: INode[]) {
-        this.breadcrumbs = nodes.map(n => ({ name: this.helperService.getName(n.data) || this.config.homeNodeName, node: n }));
+        this.breadcrumbs = nodes.map(n => ({ name: this.helperService.getName(n) || this.config.homeNodeName, node: n }));
     }
 
     public click(crumb: Breadcrumb) {

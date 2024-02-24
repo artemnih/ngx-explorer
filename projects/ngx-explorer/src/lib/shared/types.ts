@@ -26,7 +26,7 @@ export interface IDataService<T> {
 }
 
 export interface IHelperService {
-    getName<T>(data: T): string;
+    getName(node: INode): string;
 }
 
 export enum AvialableView {

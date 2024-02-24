@@ -27,11 +27,11 @@ export class BaseView implements OnDestroy {
         if (!filter) {
             return this.items;
         }
-        return this.items.filter(i => this.helperService.getName(i.data).toLowerCase().includes(filter.toLowerCase()));
+        return this.items.filter(i => this.helperService.getName(i).toLowerCase().includes(filter.toLowerCase()));
     }
 
-    getDisplayName(data: unknown) {
-        return this.helperService.getName(data);
+    getDisplayName(node: INode) {
+        return this.helperService.getName(node);
     }
 
     select(event: MouseEvent, item: INode) {

@@ -45,7 +45,7 @@ export class MenuBarComponent implements OnDestroy {
 
     rename() {
         if (this.selection.length === 1) {
-            const oldName = this.helperService.getName(this.selection[0].data);
+            const oldName = this.helperService.getName(this.selection[0]);
             const newName = prompt('Enter new name', oldName);
             if (newName) {
                 this.explorerService.rename(newName);

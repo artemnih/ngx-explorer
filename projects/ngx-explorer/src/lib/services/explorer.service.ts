@@ -5,6 +5,7 @@ import { INode, Dictionary, NodeContent, NgeExplorerConfig } from '../shared/typ
 import { Utils } from '../shared/utils';
 import { DataService } from './data.service';
 import { CONFIG } from '../shared/providers';
+import { HelperService } from './helper.service';
 
 @Injectable({
     providedIn: 'root'
@@ -25,6 +26,7 @@ export class ExplorerService {
 
     constructor(
         private dataService: DataService<INode>,
+        private helpers: HelperService,
        @Inject(CONFIG) private config: NgeExplorerConfig
     ) {
         this.openNode(this.internalTree.id);
@@ -125,7 +127,7 @@ export class ExplorerService {
         }
 
         return this.dataService
-            .getNodeChildren(parent.data)
+            .getNodeChildren(parent)
             .pipe(tap(({ leafs, nodes }: NodeContent<any>) => {
                 const newNodes = nodes.map(data => Utils.createNode(id, false, data));
                 const newLeafs = leafs.map(data => Utils.createNode(id, true, data));
@@ -144,7 +146,7 @@ export class ExplorerService {
                     this.flatPointers[c.id] = c;
                 });
 
-                parent.children.sort((a, b) => a.data.name.localeCompare(b.data.name));
+                parent.children.sort((a, b) => this.helpers.getName(a).localeCompare(this.helpers.getName(b)));
                 const nodeChildren = parent.children.filter(c => !c.isLeaf);
                 const leafChildren = parent.children.filter(c => c.isLeaf);
                 parent.children = nodeChildren.concat(leafChildren);

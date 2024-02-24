@@ -8,6 +8,7 @@
     "build:watch": "ng build ngx-explorer --watch",
     "build": "ng build",
     "build:gh": "ng build --base-href=/ngx-explorer/",
+    "pack": "rm -rf dist && ng build ngx-explorer && npm run copy && cd dist/ngx-explorer && npm pack",
     "copy": "cp README.md dist/ngx-explorer/",
     "test": "ng test",
     "lint": "ng lint",
