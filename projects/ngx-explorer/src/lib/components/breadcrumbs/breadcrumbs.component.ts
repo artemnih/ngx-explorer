@@ -35,7 +35,6 @@ export class BreadcrumbsComponent {
                 break;
             }
         }
-        console.log(pieces);
         return pieces;
     }));
 

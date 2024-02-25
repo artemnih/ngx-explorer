@@ -16,11 +16,9 @@
             <div class="chevron" (click)="collapse(node)"><i class="nxe-angle-down" aria-hidden="true"></i></div>
             }
 
-            <div class="item" (click)="open(node)">
-                <div class="folder-icon"><i class="nxe-folder" aria-hidden="true"></i></div>
-                <div class="grow" [innerText]="getName(node)"></div>
-                <!-- <div class="ellipsis-icon"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></div> -->
-                <div class="highlighter"></div>
+            <div class="item" (click)="open(node)" [ngClass]="{ selected: node.selected }">
+                <div class="dir-icon"><i class="nxe-folder" aria-hidden="true"></i></div>
+                <div class="dir-name" [innerText]="getName(node)"></div>
             </div>
 
             <ng-container *ngTemplateOutlet="tree;context:{nodes:node.children}">
@@ -29,4 +27,4 @@
     }
     </ul>
     }  
-</ng-template> 
+</ng-template>

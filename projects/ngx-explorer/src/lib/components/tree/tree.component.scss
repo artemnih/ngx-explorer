@@ -35,7 +35,7 @@ $item-spacing: 10px;
         padding: 5px 5px;
         border-radius: 5px;
 
-        .folder-icon {
+        .dir-icon {
             margin-right: 5px;
 
             i {
@@ -48,12 +48,16 @@ $item-spacing: 10px;
             }
         }
 
-        .grow {
+        .dir-name {
             flex: 1;
         }
 
         &:hover {
             background-color: #d7edff;
+        }
+
+        &.selected {
+            background-color: #c5e1ff;
         }
     }
 }

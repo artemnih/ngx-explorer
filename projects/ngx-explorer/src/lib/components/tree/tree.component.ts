@@ -4,11 +4,12 @@ import { filter, take, tap } from 'rxjs/operators';
 import { HelperService } from '../../services/helper.service';
 import { Subscription } from 'rxjs';
 import { INode } from '../../shared/types';
-import { NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 
 interface TreeNode extends INode {
     children: TreeNode[];
     expanded: boolean;
+    selected: boolean;
 }
 
 @Component({
@@ -17,31 +18,46 @@ interface TreeNode extends INode {
     styleUrls: ['./tree.component.scss'],
     encapsulation: ViewEncapsulation.None,
     standalone: true,
-    imports: [NgTemplateOutlet]
+    imports: [NgTemplateOutlet, NgClass]
 })
 export class TreeComponent implements OnDestroy {
     public treeNodes: TreeNode[] = [];
     private expandedIds: number[] = [];
+    public selectedId = -1;
     private sub = new Subscription();
+    private pointers: { [id: number]: TreeNode } = {};
 
     constructor(private explorerService: ExplorerService, private helperService: HelperService) {
-        this.sub.add(this.explorerService.tree.pipe(filter(x => !!x)).subscribe(node => {
-            this.addExpandedNode(node.id); // always expand root
-            this.treeNodes = this.buildTree(node).children;
+        this.sub.add(this.explorerService.tree.pipe(filter(x => !!x)).subscribe(root => {
+            this.addExpandedNode(root.id); // always expand root
+            this.treeNodes = this.buildTree(root).children;
+        }));
+
+        this.sub.add(this.explorerService.openedNode.pipe(filter(x => !!x)).subscribe(node => {
+            if (this.selectedId > -1) {
+                this.pointers[this.selectedId].selected = false;
+            }
+
+            if (node) {
+                this.selectedId = node.id;
+                this.addExpandedNode(node.id);
+                this.pointers[node.id].selected = true;
+            }
         }));
     }
 
-    open(node: INode) {
+    open(node: TreeNode) {
+        this.selectedId = node.id;
         this.addExpandedNode(node.id);
         this.explorerService.openNode(node.id);
     }
 
-    expand(node: INode) {
+    expand(node: TreeNode) {
         this.addExpandedNode(node.id);
         this.explorerService.expand(node.id);
     }
 
-    collapse(node: INode) {
+    collapse(node: TreeNode) {
         this.removeExpandedNode(node.id);
         this.explorerService.tree.pipe(
             take(1),
@@ -49,7 +65,7 @@ export class TreeComponent implements OnDestroy {
             tap((x: INode) => this.buildTree(x));
     }
 
-    getName(node: INode) {
+    getName(node: TreeNode) {
         return this.helperService.getName(node);
     }
 
@@ -58,18 +74,21 @@ export class TreeComponent implements OnDestroy {
     }
 
     private buildTree(node: INode): TreeNode {
+        const { id, parentId, data, isLeaf, children } = node;
         const treeNode = {
-            id: node.id,
-            parentId: node.parentId,
-            data: node.data,
-            isLeaf: node.isLeaf,
+            id,
+            parentId,
+            data,
+            isLeaf,
             children: [],
-            expanded: false
+            expanded: false,
+            selected: this.selectedId === id
         } as TreeNode;
+        this.pointers[node.id] = treeNode;
 
-        treeNode.expanded = this.expandedIds.indexOf(node.id) > -1;
+        treeNode.expanded = this.expandedIds.indexOf(id) > -1;
         if (treeNode.expanded) {
-            treeNode.children = node.children.filter(x => !x.isLeaf).map(x => this.buildTree(x));
+            treeNode.children = children.filter(x => !x.isLeaf).map(x => this.buildTree(x));
         }
         return treeNode;
     }
