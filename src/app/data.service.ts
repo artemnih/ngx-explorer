@@ -15,6 +15,8 @@ let MOCK_DIRS = [
   { id: 4, name: 'Games', path: 'games' },
   { id: 5, name: 'Rock', path: 'music/rock' },
   { id: 6, name: 'Jazz', path: 'music/jazz' },
+  { id: 11, name: 'Very Long Name to display overflow', path: 'long' },
+
   { id: 7, name: 'Classical', path: 'music/classical' },
   { id: 15, name: 'Aerosmith', path: 'music/rock/aerosmith' },
   { id: 16, name: 'AC/DC', path: 'music/rock/acdc' },
@@ -23,8 +25,8 @@ let MOCK_DIRS = [
 ] as MyExplorerEntity[];
 
 let MOCK_FILES = [
-  { id: 428, name: 'notes.txt', path: '', content: 'hi, this is an example' },
-  { id: 4281, name: '2.txt', path: '', content: 'hi, this is an example' },
+  { id: 1312, name: 'notes.txt', path: '', content: 'hi, this is an example' },
+  { id: 1212, name: '2.txt', path: '', content: 'hi, this is an example' },
   { id: 28, name: 'Thriller.txt', path: 'music/rock/thebeatles/thriller', content: 'hi, this is an example' },
   { id: 29, name: 'Back in the U.S.S.R.txt', path: 'music/rock/thebeatles', content: 'hi, this is an example' },
   { id: 30, name: 'All You Need Is Love.txt', path: 'music/rock/thebeatles', content: 'hi, this is an example' },
@@ -34,7 +36,22 @@ let MOCK_FILES = [
 
 export class ExampleDataService implements IDataService<MyExplorerEntity> {
   private id = 0;
-  private folderId = 20;
+  private folderId = 1000;
+
+  constructor() {
+    for (let i = 0; i < 140; i++) {
+      const name = 'Folder ' + i;
+      this.createDir({ id: 0, name: '', path: '', content: '' }, name).subscribe();
+    }
+
+    const dt = new DataTransfer();
+    for (let i = 0; i < 200; i++) {
+      const name = 'File ' + i + '.txt';
+      const file = new File([''], name);
+      dt.items.add(file);
+    }
+    this.uploadFiles({ id: 3, name: 'Books', path: 'books', content: '' }, dt.files).subscribe();
+  }
 
   downloadFile(data: MyExplorerEntity): Observable<any> {
     const file = MOCK_FILES.find(f => f.id === data.id);
@@ -101,10 +118,10 @@ export class ExampleDataService implements IDataService<MyExplorerEntity> {
     return forkJoin(results);
   }
 
-  createDir(data: MyExplorerEntity, name: string): Observable<any> {
-    const path = (data.path ? data.path + '/' : '') + name.replace(/[\W_]+/g, ' ');
+  createDir(parent: MyExplorerEntity, name: string): Observable<any> {
+    const path = (parent.path ? parent.path + '/' : '') + name.replace(/[\W_]+/g, ' ');
     const id = ++this.folderId;
-    const newFolder = { path, id, name, content: ''};
+    const newFolder = { path, id, name, content: '' };
     MOCK_DIRS.push(newFolder);
     return of(newFolder);
   }
