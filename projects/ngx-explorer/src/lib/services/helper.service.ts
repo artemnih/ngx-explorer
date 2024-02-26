@@ -11,6 +11,6 @@ export class HelperService implements IHelperService {
      * User can override this method to return a different value if for example the data is an object.
      */
     getName(node: INode): string {
-        return node.data?.name as string || '';
+        return node.data['name'] || '';
     }
 }

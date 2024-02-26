@@ -2,7 +2,6 @@ import { Type } from '@angular/core';
 import { Observable } from 'rxjs';
 
 export interface Data {
-    name: string;
     [key: string]: any;
 }
 
