@@ -102,7 +102,7 @@
       "projectType": "library",
       "root": "projects/ngx-explorer",
       "sourceRoot": "projects/ngx-explorer/src",
-      "prefix": "lib",
+      "prefix": "nxe",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
