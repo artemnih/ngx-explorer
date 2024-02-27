@@ -6,7 +6,7 @@
         <button class="nxe-menu-bar-button" [disabled]="!(canDownload$ | async)" (click)="download()">
             <i class="nxe-download" aria-hidden="true"></i> Download
         </button>
-        <button class="nxe-menu-bar-button" [disabled]="!(canRename$ | async ) " (click)="rename()">
+        <button class="nxe-menu-bar-button" [disabled]="!(canRename$ | async)" (click)="rename()">
             <i class="nxe-edit" aria-hidden="true"></i> Rename
         </button>
         <button class="nxe-menu-bar-button" [disabled]="!(canDelete$ | async)" (click)="remove()">

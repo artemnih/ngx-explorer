@@ -24,7 +24,7 @@ export class MenuBarComponent {
     constructor(
         private explorerService: ExplorerService,
         @Inject(NAME_FUNCTION) private getName: (node: INode) => string
-    ) { }
+    ) {}
 
     createFolder() {
         const name = prompt('Enter new folder name');
@@ -38,9 +38,12 @@ export class MenuBarComponent {
     }
 
     rename() {
-        this.explorerService.selectedNodes.pipe(
-            take(1),
-            map((n) => n[0])).subscribe((node) => {
+        this.explorerService.selectedNodes
+            .pipe(
+                take(1),
+                map((n) => n[0])
+            )
+            .subscribe((node) => {
                 const oldName = this.getName(node);
                 const newName = prompt('Enter new name', oldName);
                 if (newName) {

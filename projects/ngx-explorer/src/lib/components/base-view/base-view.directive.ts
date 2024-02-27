@@ -65,7 +65,7 @@ export class BaseView implements OnDestroy {
                 this.selection.add(item.id);
             }
         }
-        
+
         const nodes = this.items.filter((i) => this.selection.has(i.id));
         this.explorerService.select(nodes);
     }
