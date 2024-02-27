@@ -1,9 +1,10 @@
-import { Component, ElementRef, Inject, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, ElementRef, Inject, ViewChild, ViewEncapsulation } from '@angular/core';
+import { map, take } from 'rxjs';
 import { INode } from '../../shared/types';
 import { ExplorerService } from '../../services/explorer.service';
 import { ViewSwitcherComponent } from '../view-switcher/view-switcher.component';
 import { NAME_FUNCTION } from '../../shared/providers';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'nxe-menu-bar',
@@ -11,31 +12,19 @@ import { NAME_FUNCTION } from '../../shared/providers';
     styleUrls: ['./menu-bar.component.scss'],
     encapsulation: ViewEncapsulation.None,
     standalone: true,
-    imports: [ViewSwitcherComponent],
+    imports: [ViewSwitcherComponent, AsyncPipe],
 })
-export class MenuBarComponent implements OnDestroy {
+export class MenuBarComponent {
     @ViewChild('uploader', { static: true }) uploader!: ElementRef;
 
-    canDownload = false;
-    canDelete = false;
-    canRename = false;
-
-    private sub = new Subscription();
-    private selection: INode[] = [];
+    protected canDownload$ = this.explorerService.selectedNodes.pipe(map((n) => n.length === 1 && n[0].isLeaf));
+    protected canDelete$ = this.explorerService.selectedNodes.pipe(map((n) => n.length > 0));
+    protected canRename$ = this.explorerService.selectedNodes.pipe(map((n) => n.length === 1));
 
     constructor(
         private explorerService: ExplorerService,
         @Inject(NAME_FUNCTION) private getName: (node: INode) => string
-    ) {
-        this.sub.add(
-            this.explorerService.selectedNodes.subscribe((n) => {
-                this.selection = n;
-                this.canDownload = n.filter((x) => x.isLeaf).length === 1;
-                this.canDelete = n.length > 0;
-                this.canRename = n.length === 1;
-            })
-        );
-    }
+    ) { }
 
     createFolder() {
         const name = prompt('Enter new folder name');
@@ -49,13 +38,15 @@ export class MenuBarComponent implements OnDestroy {
     }
 
     rename() {
-        if (this.selection.length === 1) {
-            const oldName = this.getName(this.selection[0]);
-            const newName = prompt('Enter new name', oldName);
-            if (newName) {
-                this.explorerService.rename(newName);
-            }
-        }
+        this.explorerService.selectedNodes.pipe(
+            take(1),
+            map((n) => n[0])).subscribe((node) => {
+                const oldName = this.getName(node);
+                const newName = prompt('Enter new name', oldName);
+                if (newName) {
+                    this.explorerService.rename(newName);
+                }
+            });
     }
 
     remove() {
@@ -79,9 +70,5 @@ export class MenuBarComponent implements OnDestroy {
 
     download() {
         this.explorerService.download();
-    }
-
-    ngOnDestroy() {
-        this.sub.unsubscribe();
     }
 }

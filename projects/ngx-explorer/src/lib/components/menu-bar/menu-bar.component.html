@@ -3,13 +3,13 @@
         <button class="nxe-menu-bar-button" (click)="createFolder()"><i class="nxe-folder" aria-hidden="true"></i>New Folder</button>
         <button class="nxe-menu-bar-button" (click)="refresh()"><i class="nxe-arrows-cw" aria-hidden="true"></i> Refresh</button>
         <button class="nxe-menu-bar-button" (click)="openUploader()"><i class="nxe-upload" aria-hidden="true"></i> Upload</button>
-        <button class="nxe-menu-bar-button" [disabled]="!canDownload" (click)="download()">
+        <button class="nxe-menu-bar-button" [disabled]="!(canDownload$ | async)" (click)="download()">
             <i class="nxe-download" aria-hidden="true"></i> Download
         </button>
-        <button class="nxe-menu-bar-button" [disabled]="!canRename" (click)="rename()">
+        <button class="nxe-menu-bar-button" [disabled]="!(canRename$ | async ) " (click)="rename()">
             <i class="nxe-edit" aria-hidden="true"></i> Rename
         </button>
-        <button class="nxe-menu-bar-button" [disabled]="!canDelete" (click)="remove()">
+        <button class="nxe-menu-bar-button" [disabled]="!(canDelete$ | async)" (click)="remove()">
             <i class="nxe-trash-empty" aria-hidden="true"></i> Delete
         </button>
     </div>
