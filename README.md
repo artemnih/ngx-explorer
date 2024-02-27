@@ -3,7 +3,9 @@
 Lightweight and easy-to-use Angular File Explorer module.
 This is a front-end implementation only. There are no services at this point.
 
-[DEMO](https://artemnih.github.io/ngx-explorer/)
+![explorer](docs/ss.png)
+
+See live [Demo](https://artemnih.github.io/ngx-explorer/)
 
 ## Prerequisites
 
@@ -11,82 +13,74 @@ This is a front-end implementation only. There are no services at this point.
 
 ## How to use
 
--   Install package
+1. [Install package](#1-install-package)
+2. [Provide `IDataService` implementation](#2-data-service)
+3. [Add to template](#3-add-to-template)
+4. [Styles](#4-styles)
+
+### 1. Install package
 
 ```bash
 npm i ngx-explorer
 ```
 
--   Implement `IDataService` provider interface which contains API for fetching data from the server.
+### 2. Data Service
+Implement `IDataService` provider interface which contains API for fetching data from the server.
 
 ```Typescript
 import { IDataService } from 'ngx-explorer';
 
-export class MyDataService implements IDataService<MyNodeType> {
+export class MyDataService implements IDataService<MyDataType> {
     ...
+}
+```
+`MyDataType` can be any type of data that reflects the file or directory metadata. It can be as simple as `string` or an object with properties.
+`NAME_FUNCTION` must be provided if `MyDataType` is an object. It is a function that returns the name of the file or directory, to be displayed in the UI.
+
+Example:
+```Typescript
+export interface MyDataType {
+    name: string;
+    path: string;
+    createdOn: Date;
+}
+
+// In this case, the name function will be:
+{
+    provide: NAME_FUNCTION,
+    useValue: (node: INode) => node.data['name'],
 }
 ```
 
 And provide the implementation:
 
-```
+```TypeScript
  { provide: DataService, useClass: ExampleDataService },
 ```
 
-### Standalone usage:
-
+### 3. Add to template
+Import components from `ngx-explorer` and provide in `imports` array in either module, main.ts or component.
 ```Typescript
-import { ExplorerComponent } from 'ngx-explorer';
-
-@Component({
-  selector: 'my-component',
-  templateUrl: './my.component.html',
-  styleUrls: ['./my.component.scss'],
-  standalone: true,
-  imports: [ExplorerComponent],
-
-  //  if you want to provide inside the component instead of main.ts or mnodule
-  //   providers: [
-  //     { provide: DataService, useClass: MyDataService }
-  //   ]
-})
-export class MyComponent {
+    imports: [ExplorerComponent],
 ```
-
-You may also provide `DataService` in `main.ts` instead.
-
-### Non-Standalone usage:
-
-```Typescript
-import { ExplorerComponent, DataService } from 'ngx-explorer';
-
-@NgModule({
-    imports: [
-        ...
-        ExplorerComponent
-    ],
-    providers: [
-        { provide: DataService, useClass: MyDataService }
-    ]
-})
-export class AppModule { }
-```
-
-### Template and styles
-
--   Add tag to the template:
-
+and add tags to the template:
 ```html
-<h1>My Component</h1>
-<div>
-    <nxe-explorer></nxe-explorer>
-</div>
+<nxe-explorer></nxe-explorer>
 ```
+See list of available components [here](docs/COMPONENTS.md)
 
+
+### 4. Styles
 -   Add css import `styles.scss`:
 
 ```scss
-@import '~ngx-explorer/src/assets/icons/css/nxe.css';
+@import 'ngx-explorer/src/assets/icons/css/nxe.css';
 ```
 
-![explorer](docs/ss.png)
+## Customization
+See [Customization](docs/CUSTOMIZATION.md) for more details.
+
+## Author
+[@artemnih](https://github.com/artemnih)
+
+[<img alt="artemnih" src="https://avatars.githubusercontent.com/u/23387542?v=4" width="80" />](https://github.com/artemnih)
