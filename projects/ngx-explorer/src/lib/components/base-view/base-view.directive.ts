@@ -1,20 +1,20 @@
 import { Directive, Inject, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { INode } from '../../shared/types';
-import { FILTER_STRING, NAME_FUNCTION } from '../../shared/providers';
+import { NAME_FUNCTION } from '../../shared/providers';
 import { ExplorerService } from '../../services/explorer.service';
 
 @Directive()
 export class BaseView implements OnDestroy {
-    public selection: INode[] = [];
-    public items: INode[] = [];
-    public dragging = false;
+    protected selection = new Set<number>();
+    protected items: INode[] = [];
+    protected dragging = false;
     protected subs = new Subscription();
+    protected shiftSelectionStartId: number | undefined;
 
     constructor(
         protected explorerService: ExplorerService,
-        @Inject(NAME_FUNCTION) protected getName: (node: INode) => string,
-        @Inject(FILTER_STRING) private filter: BehaviorSubject<string>
+        @Inject(NAME_FUNCTION) protected getName: (node: INode) => string
     ) {
         this.subs.add(
             this.explorerService.openedNode.subscribe((nodes) => {
@@ -24,33 +24,47 @@ export class BaseView implements OnDestroy {
 
         this.subs.add(
             this.explorerService.selectedNodes.subscribe((nodes) => {
-                this.selection = nodes ? nodes : [];
+                this.selection.clear();
+                if (nodes) {
+                    this.selection = new Set(nodes.map((n) => n.id));
+                }
             })
         );
     }
 
-    get filteredItems(): INode[] {
-        const filter = this.filter.value;
-        if (!filter) {
-            return this.items;
-        }
-        return this.items.filter((i) => this.getName(i).toLowerCase().includes(filter.toLowerCase()));
-    }
-
     select(event: MouseEvent, item: INode) {
-        const selectedIndex = this.selection.findIndex((i) => i === item);
-        const alreadySelected = selectedIndex !== -1;
-        const metaKeyPressed = event.metaKey || event.ctrlKey || event.shiftKey;
+        const shiftKeyPressed = event.shiftKey;
+        const metaKeyPressed = event.metaKey || event.ctrlKey;
 
-        if (alreadySelected && metaKeyPressed) {
-            this.selection.splice(selectedIndex, 1);
-        } else {
-            if (!metaKeyPressed) {
-                this.selection.length = 0;
+        if (shiftKeyPressed) {
+            if (this.selection.size === 0) {
+                this.selection.add(item.id);
+                this.shiftSelectionStartId = item.id;
+            } else {
+                this.selection.clear();
+                const headIndex = this.items.findIndex((i) => i.id === this.shiftSelectionStartId);
+                const currentIndex = this.items.findIndex((i) => i.id === item.id);
+
+                const start = Math.min(headIndex, currentIndex);
+                const end = Math.max(headIndex, currentIndex);
+
+                for (let i = start; i <= end; i++) {
+                    this.selection.add(this.items[i].id);
+                }
             }
-            this.selection.push(item);
+        } else {
+            if (metaKeyPressed) {
+                if (this.selection.has(item.id)) {
+                    this.selection.delete(item.id);
+                } else {
+                    this.selection.add(item.id);
+                }
+            } else {
+                this.selection.clear();
+                this.shiftSelectionStartId = item.id;
+                this.selection.add(item.id);
+            }
         }
-        this.explorerService.select(this.selection);
     }
 
     open(event: MouseEvent, item: INode) {
@@ -61,7 +75,7 @@ export class BaseView implements OnDestroy {
     }
 
     isSelected(item: INode) {
-        return this.selection.indexOf(item) !== -1;
+        return this.selection.has(item.id);
     }
 
     emptySpaceClick(): void {

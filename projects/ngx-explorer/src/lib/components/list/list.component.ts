@@ -1,6 +1,5 @@
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { FILTER_STRING, NAME_FUNCTION } from '../../shared/providers';
+import { NAME_FUNCTION } from '../../shared/providers';
 import { ExplorerService } from '../../services/explorer.service';
 import { BaseView } from '../base-view/base-view.directive';
 import { DragDropDirective } from '../../directives/drag-drop.directive';
@@ -21,11 +20,7 @@ export class ListComponent extends BaseView {
         leaf: 'nxe-doc',
     };
 
-    constructor(
-        explorerService: ExplorerService,
-        @Inject(FILTER_STRING) filter: BehaviorSubject<string>,
-        @Inject(NAME_FUNCTION) getName: (node: INode) => string
-    ) {
-        super(explorerService, getName, filter);
+    constructor(explorerService: ExplorerService, @Inject(NAME_FUNCTION) getName: (node: INode) => string) {
+        super(explorerService, getName);
     }
 }

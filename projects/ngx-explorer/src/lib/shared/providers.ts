@@ -43,11 +43,6 @@ export const CURRENT_VIEW = new InjectionToken<BehaviorSubject<string>>('NXE_CUR
     },
 });
 
-export const FILTER_STRING = new InjectionToken<BehaviorSubject<string>>('NXE_FILTER_STRING', {
-    providedIn: 'root',
-    factory: () => new BehaviorSubject(''),
-});
-
 export const NAME_FUNCTION = new InjectionToken<(node: INode) => string>('NXE_NAME_FUNCTION', {
     providedIn: 'root',
     factory: () => (node: INode) => node.data as unknown as string,

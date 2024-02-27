@@ -5,6 +5,10 @@
     height: 100%;
     position: absolute;
     overflow-y: scroll;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 
     .nxe-icons-drag {
         position: absolute;
