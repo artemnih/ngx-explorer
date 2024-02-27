@@ -25,6 +25,7 @@ npm i ngx-explorer
 ```
 
 ### 2. Data Service
+
 Implement `IDataService` provider interface which contains API for fetching data from the server.
 
 ```Typescript
@@ -34,10 +35,12 @@ export class MyDataService implements IDataService<MyDataType> {
     ...
 }
 ```
+
 `MyDataType` can be any type of data that reflects the file or directory metadata. It can be as simple as `string` or an object with properties.
 `NAME_FUNCTION` must be provided if `MyDataType` is an object. It is a function that returns the name of the file or directory, to be displayed in the UI.
 
 Example:
+
 ```Typescript
 export interface MyDataType {
     name: string;
@@ -59,18 +62,23 @@ And provide the implementation:
 ```
 
 ### 3. Add to template
+
 Import components from `ngx-explorer` and provide in `imports` array in either module, main.ts or component.
+
 ```Typescript
     imports: [ExplorerComponent],
 ```
+
 and add tags to the template:
+
 ```html
 <nxe-explorer></nxe-explorer>
 ```
+
 See list of available components [here](docs/COMPONENTS.md)
 
-
 ### 4. Styles
+
 -   Add css import `styles.scss`:
 
 ```scss
@@ -78,9 +86,11 @@ See list of available components [here](docs/COMPONENTS.md)
 ```
 
 ## Customization
+
 See [Customization](docs/CUSTOMIZATION.md) for more details.
 
 ## Author
+
 [@artemnih](https://github.com/artemnih)
 
 [<img alt="artemnih" src="https://avatars.githubusercontent.com/u/23387542?v=4" width="80" />](https://github.com/artemnih)

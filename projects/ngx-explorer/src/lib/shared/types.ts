@@ -18,14 +18,35 @@ export interface Dictionary<T> {
 }
 
 export interface IDataService<T extends Data> {
-    getContent(data: T): Observable<{ files: T[]; dirs: T[] }>;
-    createDir(parentData: T, name: string): Observable<T>;
-    renameDir(data: T, newName: string): Observable<T>;
-    renameFile(data: T, newName: string): Observable<T>;
-    deleteDirs(datas: T[]): Observable<T>;
-    deleteFiles(datas: T[]): Observable<T>;
-    uploadFiles(parentData: T, files: FileList): Observable<T>;
-    downloadFile(data: T): Observable<T>;
+    /**
+     *  Get content of the given directory
+     */
+    getContent(target: T): Observable<{ files: T[]; dirs: T[] }>;
+
+    /**
+     * Create a new directory
+     */
+    createDir(parent: T, name: string): Observable<T>;
+
+    /**
+     * Rename the given directory
+     */
+    rename(target: T, newName: string): Observable<T>;
+
+    /**
+     * Delete the given directory
+     */
+    delete(target: T[]): Observable<T>;
+
+    /**
+     * Upload files to the given directory
+     */
+    uploadFiles(parent: T, files: FileList): Observable<T>;
+
+    /**
+     * Download the given file
+     */
+    downloadFile(target: T): Observable<T>;
     // TODO multple download. should be configurable in settings
     // move(from to) // TODO: on/off in settings
     // copyPaste(from to) // TODO: on/off in settings

@@ -97,22 +97,12 @@ export class ExampleDataService implements IDataService<MyExplorerEntity> {
         return forkJoin(results);
     }
 
-    deleteDirs(datas: MyExplorerEntity[]): Observable<any> {
+    delete(datas: MyExplorerEntity[]): Observable<any> {
         const results = datas.map((data) => {
             const path = data.path + '/';
             MOCK_FILES = MOCK_FILES.filter((f) => !f.path.startsWith(path));
             MOCK_DIRS = MOCK_DIRS.filter((f) => !f.path.startsWith(path));
             MOCK_DIRS = MOCK_DIRS.filter((f) => f.id !== data.id);
-            return of({});
-        });
-        return forkJoin(results);
-    }
-
-    deleteFiles(nodes: MyExplorerEntity[]): Observable<any> {
-        const results = nodes.map((node) => {
-            const leaf = MOCK_FILES.find((f) => f.id === node.id)!;
-            const index = MOCK_FILES.indexOf(leaf);
-            MOCK_FILES.splice(index, 1);
             return of({});
         });
         return forkJoin(results);
@@ -146,15 +136,17 @@ export class ExampleDataService implements IDataService<MyExplorerEntity> {
         return of({ files, dirs });
     }
 
-    renameDir(data: MyExplorerEntity, newName: string) {
-        const node = MOCK_DIRS.find((f) => f.id === data.id)!;
-        node.name = newName;
-        return of(node);
-    }
-
-    renameFile(data: MyExplorerEntity, newName: string) {
-        const leaf = MOCK_FILES.find((f) => f.id === data.id)!;
-        leaf.name = newName;
-        return of(leaf);
+    rename(data: MyExplorerEntity, newName: string) {
+        const node = MOCK_DIRS.find((f) => f.id === data.id);
+        if (node) {
+            node.name = newName;
+            return of(node);
+        }
+        const leaf = MOCK_FILES.find((f) => f.id === data.id);
+        if (leaf) {
+            leaf.name = newName;
+            return of(leaf);
+        }
+        return of({}) as Observable<any>;
     }
 }

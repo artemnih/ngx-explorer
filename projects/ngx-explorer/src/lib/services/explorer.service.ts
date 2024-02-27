@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { BehaviorSubject, forkJoin, of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { INode, Dictionary, NgeExplorerConfig } from '../shared/types';
 import { Utils } from '../shared/utils';
@@ -75,15 +75,9 @@ export class ExplorerService {
         }
 
         const node = nodes[0];
-        if (node.isLeaf) {
-            this.dataService.renameFile(node.data, name).subscribe(() => {
-                this.refresh();
-            });
-        } else {
-            this.dataService.renameDir(node.data, name).subscribe(() => {
-                this.refresh();
-            });
-        }
+        this.dataService.rename(node.data, name).subscribe(() => {
+            this.refresh();
+        });
     }
 
     public remove() {
@@ -92,14 +86,8 @@ export class ExplorerService {
             throw new Error('Nothing selected to remove');
         }
 
-        const targets = selection.map((node) => this.flatPointers[node.id]);
-        const nodes = targets.filter((t) => !t.isLeaf).map((data) => data.data);
-        const leafs = targets.filter((t) => t.isLeaf).map((data) => data.data);
-
-        const sub1 = nodes.length ? this.dataService.deleteDirs(nodes) : of([]);
-        const sub2 = leafs.length ? this.dataService.deleteFiles(leafs) : of([]);
-
-        forkJoin([sub1, sub2]).subscribe(() => {
+        const targets = selection.map((node) => this.flatPointers[node.id].data);
+        this.dataService.delete(targets).subscribe(() => {
             this.refresh();
         });
     }

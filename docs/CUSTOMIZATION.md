@@ -1,5 +1,7 @@
 ### Custom views
+
 -   Views are provided via `VIEWS` injection token. It is an array of `View` objects.
+
 ```Typescript
 import { VIEWS, VIEW } from 'ngx-explorer';
 
