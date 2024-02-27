@@ -1,11 +1,11 @@
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { FILTER_STRING } from '../../shared/providers';
+import { FILTER_STRING, NAME_FUNCTION } from '../../shared/providers';
 import { ExplorerService } from '../../services/explorer.service';
-import { HelperService } from '../../services/helper.service';
 import { BaseView } from '../base-view/base-view.directive';
 import { DragDropDirective } from '../../directives/drag-drop.directive';
 import { NgClass } from '@angular/common';
+import { INode } from '../../shared/types';
 
 @Component({
     selector: 'nxe-icons',
@@ -22,8 +22,12 @@ export class IconsComponent extends BaseView {
         leaf: 'nxe-doc',
     };
 
-    constructor(explorerService: ExplorerService, helperService: HelperService, @Inject(FILTER_STRING) filter: BehaviorSubject<string>) {
-        super(explorerService, helperService, filter);
+    constructor(
+        explorerService: ExplorerService,
+        @Inject(FILTER_STRING) filter: BehaviorSubject<string>,
+        @Inject(NAME_FUNCTION) getName: (node: INode) => string,
+    ) {
+        super(explorerService, getName, filter);
     }
 
 }

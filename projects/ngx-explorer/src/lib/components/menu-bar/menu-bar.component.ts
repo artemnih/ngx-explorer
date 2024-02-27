@@ -1,15 +1,15 @@
-import { Component, ElementRef, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, Inject, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { INode } from '../../shared/types';
 import { ExplorerService } from '../../services/explorer.service';
-import { HelperService } from '../../services/helper.service';
 import { ViewSwitcherComponent } from '../view-switcher/view-switcher.component';
+import { NAME_FUNCTION } from '../../shared/providers';
 
 @Component({
     selector: 'nxe-menu-bar',
     templateUrl: './menu-bar.component.html',
     styleUrls: ['./menu-bar.component.scss'],
-    encapsulation:  ViewEncapsulation.None,
+    encapsulation: ViewEncapsulation.None,
     standalone: true,
     imports: [ViewSwitcherComponent]
 })
@@ -23,7 +23,7 @@ export class MenuBarComponent implements OnDestroy {
     private sub = new Subscription();
     private selection: INode[] = [];
 
-    constructor(private explorerService: ExplorerService, private helperService: HelperService) {
+    constructor(private explorerService: ExplorerService, @Inject(NAME_FUNCTION) private getName: (node: INode) => string) {
         this.sub.add(this.explorerService.selectedNodes.subscribe(n => {
             this.selection = n;
             this.canDownload = n.filter(x => x.isLeaf).length === 1;
@@ -45,7 +45,7 @@ export class MenuBarComponent implements OnDestroy {
 
     rename() {
         if (this.selection.length === 1) {
-            const oldName = this.helperService.getName(this.selection[0]);
+            const oldName = this.getName(this.selection[0]);
             const newName = prompt('Enter new name', oldName);
             if (newName) {
                 this.explorerService.rename(newName);

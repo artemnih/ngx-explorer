@@ -1,0 +1,19 @@
+.nxe-content {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+
+    .nxe-eplorer-menu {
+        border-bottom: 1px solid #ccc;
+    }
+
+    .nxe-explorer-right-menu {
+        border-bottom: 1px solid #ccc;
+    }
+
+    .nxe-explorer-files {
+        display: block;
+        position: relative;
+        flex: 1 1 auto;
+    }
+}

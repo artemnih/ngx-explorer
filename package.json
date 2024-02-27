@@ -11,8 +11,8 @@
     "pack": "rm -rf dist && ng build ngx-explorer && npm run copy && cd dist/ngx-explorer && npm pack",
     "copy": "cp README.md dist/ngx-explorer/",
     "test": "ng test",
-    "lint": "ng lint",
-    "lint:fix": "ng lint --fix",
+    "prettier": "prettier --write .",
+    "lint": "eslint . --ext .ts --fix",
     "semantic-release": "semantic-release"
   },
   "private": false,
@@ -41,6 +41,8 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "ng-packagr": "^17.2.0",
-    "typescript": "~5.2.2"
+    "typescript": "~5.2.2",
+    "eslint": "^8.56.0",
+    "prettier": "^3.0.3"
   }
 }

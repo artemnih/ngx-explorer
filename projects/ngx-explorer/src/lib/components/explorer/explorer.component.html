@@ -1,16 +1,8 @@
 <div class="nxe-explorer">
-           <div class="nxe-explorer-left">
-            <nxe-tree></nxe-tree>
-        </div>
-        <div class="nxe-explorer-right">
-            <div class="nxe-eplorer-menu">
-                <nxe-menu-bar></nxe-menu-bar>
-            </div>
-            <div class="nxe-explorer-right-menu">
-                <nxe-second-menu-bar></nxe-second-menu-bar>
-            </div>
-            <div class="nxe-explorer-right-content">
-                <ng-container *ngComponentOutlet="viewComponent$ | async"></ng-container>
-            </div>
-        </div>
+    <div class="nxe-explorer-left">
+        <nxe-tree></nxe-tree>
+    </div>
+    <div class="nxe-explorer-right">
+        <nxe-content></nxe-content>
+    </div>
 </div>

@@ -2,8 +2,7 @@ import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation } from '@
 import { map } from 'rxjs';
 import { INode, NgeExplorerConfig } from '../../shared/types';
 import { ExplorerService } from '../../services/explorer.service';
-import { HelperService } from '../../services/helper.service';
-import { CONFIG } from '../../shared/providers';
+import { CONFIG, NAME_FUNCTION } from '../../shared/providers';
 import { AsyncPipe } from '@angular/common';
 
 interface Breadcrumb {
@@ -18,7 +17,7 @@ interface Breadcrumb {
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports:[AsyncPipe],
+    imports: [AsyncPipe],
 })
 export class BreadcrumbsComponent {
     public breadcrumbs$ = this.explorerService.openedNode.pipe(map(n => {
@@ -28,7 +27,7 @@ export class BreadcrumbsComponent {
         const pieces = [] as Breadcrumb[];
         let currentNode = n;
         while (true) {
-            pieces.unshift({ name: this.helperService.getName(currentNode) || this.config.homeNodeName || '', node: currentNode });
+            pieces.unshift({ name: this.getName(currentNode) || this.config.homeNodeName || '', node: currentNode });
             if (currentNode.parentId) {
                 currentNode = this.explorerService.getNode(currentNode.parentId);
             } else {
@@ -38,7 +37,7 @@ export class BreadcrumbsComponent {
         return pieces;
     }));
 
-    constructor(private explorerService: ExplorerService, private helperService: HelperService, @Inject(CONFIG) private config: NgeExplorerConfig) {   
+    constructor(private explorerService: ExplorerService, @Inject(NAME_FUNCTION) private getName: (node: INode) => string, @Inject(CONFIG) private config: NgeExplorerConfig) {
     }
 
     public click(crumb: Breadcrumb) {

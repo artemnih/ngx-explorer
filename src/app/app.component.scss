@@ -1,15 +1,25 @@
 .demo-main {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
+    width: 100vw;
+    height: 100vh;
 
-.demo-container {
-    margin: 1vh;
-    width: 50vw;
-    height: 98vh;
-    border: 1px solid #ccc;
+    .header {
+        height: 5%;
+        background-color: #215366;
+        align-items: center;
+        justify-content: center;
+        padding-left: 1%;
+        font-size: 1.5rem;
+        color: white;
+        display: flex;
+    }
+
+    .demo-container {
+        height: 95%;
+
+        .inner {
+            height: 100%;
+            width: 100%;
+            position: relative;
+        }
+    }
 }

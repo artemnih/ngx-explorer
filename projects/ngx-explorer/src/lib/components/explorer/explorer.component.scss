@@ -1,31 +1,14 @@
 .nxe-explorer {
     display: flex;
+    flex-flow: row;
     height: 100%;
 
     .nxe-explorer-left {
         width: 20%;
         border-right: 1px solid #ccc;
-        overflow-y: scroll;
-        position: relative;
     }
 
     .nxe-explorer-right {
         flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-
-        .nxe-eplorer-menu {
-            border-bottom: 1px solid #ccc;
-        }
-        
-        .nxe-explorer-right-menu {
-            border-bottom: 1px solid #ccc;
-        }
-        
-        .nxe-explorer-right-content {
-            flex-grow: 1;
-            overflow: auto;
-            position: relative;
-        }
     }
 }

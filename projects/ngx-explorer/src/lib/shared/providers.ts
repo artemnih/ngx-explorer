@@ -1,6 +1,6 @@
 import { InjectionToken, inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { NgeExplorerConfig, View } from './types';
+import { INode, NgeExplorerConfig, View } from './types';
 import { IconsComponent, ListComponent } from '../../public-api';
 
 export const VIEWS = new InjectionToken<View[]>('NXE_VIEWS', {
@@ -46,4 +46,9 @@ export const CURRENT_VIEW = new InjectionToken<BehaviorSubject<string>>('NXE_CUR
 export const FILTER_STRING = new InjectionToken<BehaviorSubject<string>>('NXE_FILTER_STRING', {
     providedIn: 'root',
     factory: () => new BehaviorSubject(''),
+});
+
+export const NAME_FUNCTION = new InjectionToken<Function>('NXE_NAME_FUNCTION', {
+    providedIn: 'root',
+    factory: () => (node: INode) => node.data as unknown as string,
 });

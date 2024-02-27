@@ -1,9 +1,8 @@
 import { Directive, Inject, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { INode } from '../../shared/types';
-import { FILTER_STRING } from '../../shared/providers';
+import { FILTER_STRING, NAME_FUNCTION } from '../../shared/providers';
 import { ExplorerService } from '../../services/explorer.service';
-import { HelperService } from '../../services/helper.service';
 
 @Directive()
 export class BaseView implements OnDestroy {
@@ -12,7 +11,11 @@ export class BaseView implements OnDestroy {
     public dragging = false;
     protected subs = new Subscription();
 
-    constructor(protected explorerService: ExplorerService, protected helperService: HelperService, @Inject(FILTER_STRING) private filter: BehaviorSubject<string>) {
+    constructor(
+        protected explorerService: ExplorerService, 
+        @Inject(NAME_FUNCTION) protected getName: (node: INode) => string,
+        @Inject(FILTER_STRING) private filter: BehaviorSubject<string>
+    ) {
         this.subs.add(this.explorerService.openedNode.subscribe(nodes => {
             this.items = nodes ? nodes.children : [];
         }));
@@ -27,11 +30,7 @@ export class BaseView implements OnDestroy {
         if (!filter) {
             return this.items;
         }
-        return this.items.filter(i => this.helperService.getName(i).toLowerCase().includes(filter.toLowerCase()));
-    }
-
-    getDisplayName(node: INode) {
-        return this.helperService.getName(node);
+        return this.items.filter(i => this.getName(i).toLowerCase().includes(filter.toLowerCase()));
     }
 
     select(event: MouseEvent, item: INode) {

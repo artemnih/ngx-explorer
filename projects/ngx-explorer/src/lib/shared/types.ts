@@ -32,10 +32,6 @@ export interface IDataService<T extends Data> {
     // cutPaste(from to) // TODO: on/off in settings
 }
 
-export interface IHelperService {
-    getName(node: INode): string;
-}
-
 export interface View {
     name: string;
     icon: string;
