@@ -9,7 +9,7 @@ export interface INode {
     id: number;
     parentId: number;
     data: Data;
-    isLeaf: boolean; 
+    isLeaf: boolean;
     children: INode[];
 }
 
@@ -18,7 +18,7 @@ export interface Dictionary<T> {
 }
 
 export interface IDataService<T extends Data> {
-    getContent(data: T): Observable<{ files: T[], dirs: T[]}>;
+    getContent(data: T): Observable<{ files: T[]; dirs: T[] }>;
     createDir(parentData: T, name: string): Observable<T>;
     renameDir(data: T, newName: string): Observable<T>;
     renameFile(data: T, newName: string): Observable<T>;

@@ -20,28 +20,29 @@ interface Breadcrumb {
     imports: [AsyncPipe],
 })
 export class BreadcrumbsComponent {
-    public breadcrumbs$ = this.explorerService.openedNode.pipe(map(n => {
-        if (!n) {
-            return [];
-        }
-        const pieces = [] as Breadcrumb[];
-        let currentNode = n;
-        while (true) {
-            pieces.unshift({ name: this.getName(currentNode) || this.config.homeNodeName || '', node: currentNode });
-            if (currentNode.parentId) {
-                currentNode = this.explorerService.getNode(currentNode.parentId);
-            } else {
-                break;
+    public breadcrumbs$ = this.explorerService.openedNode.pipe(
+        map((n) => {
+            if (!n) {
+                return [];
             }
-        }
-        return pieces;
-    }));
+            const pieces = [] as Breadcrumb[];
+            let currentNode = n;
+            while (currentNode.parentId) {
+                pieces.unshift({ name: this.getName(currentNode) || this.config.homeNodeName || '', node: currentNode });
+                currentNode = this.explorerService.getNode(currentNode.parentId);
+            }
+            pieces.unshift({ name: this.getName(currentNode) || this.config.homeNodeName || '', node: currentNode });
+            return pieces;
+        })
+    );
 
-    constructor(private explorerService: ExplorerService, @Inject(NAME_FUNCTION) private getName: (node: INode) => string, @Inject(CONFIG) private config: NgeExplorerConfig) {
-    }
+    constructor(
+        private explorerService: ExplorerService,
+        @Inject(NAME_FUNCTION) private getName: (node: INode) => string,
+        @Inject(CONFIG) private config: NgeExplorerConfig
+    ) {}
 
     public click(crumb: Breadcrumb) {
         this.explorerService.openNode(crumb.node.id);
     }
-
 }

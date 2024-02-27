@@ -1,2 +1,1 @@
-describe('ViewSwitcherComponent', () => {
-});
+describe('ViewSwitcherComponent', () => {});

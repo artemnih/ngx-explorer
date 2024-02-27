@@ -10,17 +10,17 @@ import { CURRENT_VIEW, VIEWS } from '../../shared/providers';
 import { View } from '../../shared/types';
 
 @Component({
-  selector: 'nxe-content',
-  standalone: true,
-  imports: [AsyncPipe, MenuBarComponent, TreeComponent, SecondMenuBarComponent, IconsComponent, ListComponent, NgComponentOutlet],
-  templateUrl: './content.component.html',
-  styleUrl: './content.component.scss',
+    selector: 'nxe-content',
+    standalone: true,
+    imports: [AsyncPipe, MenuBarComponent, TreeComponent, SecondMenuBarComponent, IconsComponent, ListComponent, NgComponentOutlet],
+    templateUrl: './content.component.html',
+    styleUrl: './content.component.scss',
 })
 export class ContentComponent {
-  public viewComponent$ = this.currentView$.pipe(map((view) => this.views.find((v) => v.name === view)!.component));
+    public viewComponent$ = this.currentView$.pipe(map((view) => this.views.find((v) => v.name === view)!.component));
 
-  constructor(
-      @Inject(CURRENT_VIEW) private currentView$: BehaviorSubject<string>,
-      @Inject(VIEWS) protected views: View[],
-  ) { }
+    constructor(
+        @Inject(CURRENT_VIEW) private currentView$: BehaviorSubject<string>,
+        @Inject(VIEWS) protected views: View[]
+    ) {}
 }

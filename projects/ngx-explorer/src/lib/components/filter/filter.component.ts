@@ -4,40 +4,46 @@ import { FILTER_STRING } from '../../shared/providers';
 import { ExplorerService } from '../../services/explorer.service';
 
 @Component({
-  selector: 'nxe-filter',
-  templateUrl: './filter.component.html',
-  styleUrls: ['./filter.component.scss'],
-  standalone: true,
-  encapsulation: ViewEncapsulation.None,
+    selector: 'nxe-filter',
+    templateUrl: './filter.component.html',
+    styleUrls: ['./filter.component.scss'],
+    standalone: true,
+    encapsulation: ViewEncapsulation.None,
 })
 export class FilterComponent implements OnDestroy {
-  @ViewChild('input') input!: ElementRef<HTMLInputElement>;
+    @ViewChild('input') input!: ElementRef<HTMLInputElement>;
 
-  private sub = new Subscription();
+    private sub = new Subscription();
 
-  constructor(@Inject(FILTER_STRING) private filter: BehaviorSubject<string>, explorerService: ExplorerService) {
-    this.sub.add(explorerService.tree.subscribe(() => {
-      this.clear();
-    }));
-  }
-
-  onChange(e: KeyboardEvent, value: string) {
-    if (e.key === 'Escape') {
-      this.input.nativeElement.value = '';
-      this.filter.next('');
-      return;
+    constructor(
+        @Inject(FILTER_STRING) private filter: BehaviorSubject<string>,
+        explorerService: ExplorerService
+    ) {
+        this.sub.add(
+            explorerService.tree.subscribe(() => {
+                this.clear();
+            })
+        );
     }
-    this.filter.next(value.trim());
-  }
 
-  clear() {
-    if (!this.input) { return; }
-    this.input.nativeElement.value = '';
-    this.filter.next('');
-  }
+    onChange(e: KeyboardEvent, value: string) {
+        if (e.key === 'Escape') {
+            this.input.nativeElement.value = '';
+            this.filter.next('');
+            return;
+        }
+        this.filter.next(value.trim());
+    }
 
-  ngOnDestroy() {
-    this.sub.unsubscribe();
-  }
+    clear() {
+        if (!this.input) {
+            return;
+        }
+        this.input.nativeElement.value = '';
+        this.filter.next('');
+    }
 
+    ngOnDestroy() {
+        this.sub.unsubscribe();
+    }
 }

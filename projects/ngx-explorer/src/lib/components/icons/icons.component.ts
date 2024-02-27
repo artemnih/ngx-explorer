@@ -13,10 +13,9 @@ import { INode } from '../../shared/types';
     styleUrls: ['./icons.component.scss'],
     encapsulation: ViewEncapsulation.None,
     standalone: true,
-    imports: [DragDropDirective, NgClass]
+    imports: [DragDropDirective, NgClass],
 })
 export class IconsComponent extends BaseView {
-
     public readonly icons = {
         node: 'nxe-folder',
         leaf: 'nxe-doc',
@@ -25,9 +24,8 @@ export class IconsComponent extends BaseView {
     constructor(
         explorerService: ExplorerService,
         @Inject(FILTER_STRING) filter: BehaviorSubject<string>,
-        @Inject(NAME_FUNCTION) getName: (node: INode) => string,
+        @Inject(NAME_FUNCTION) getName: (node: INode) => string
     ) {
         super(explorerService, getName, filter);
     }
-
 }

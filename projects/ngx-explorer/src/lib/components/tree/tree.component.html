@@ -1,27 +1,25 @@
 <div class="nxe-tree">
-    <ng-container *ngTemplateOutlet="tree;context:{nodes:treeNodes}">
-    </ng-container>
+    <ng-container *ngTemplateOutlet="tree; context: { nodes: treeNodes }"> </ng-container>
 </div>
 
 <ng-template #tree let-nodes="nodes">
     @if (nodes && nodes.length > 0) {
-    <ul class="nxe-tree-ul">
-        @for (node of nodes; track $index) {
-        <li>
-            <div class="item" (click)="open(node)" [ngClass]="{ selected: selectedId === node.id }">
-                @if(!expnadedIds.has(node.id)) {
-                    <div class="chevron" (click)="expand(node)"><i class="nxe-angle-right" aria-hidden="true"></i></div>
-                } @else {
-                    <div class="chevron" (click)="collapse(node)"><i class="nxe-angle-down" aria-hidden="true"></i></div>
-                }
-                <div class="dir-icon"><i class="nxe-folder" aria-hidden="true"></i></div>
-                <div class="dir-name" [innerText]="getName(node)"></div>
-            </div>
+        <ul class="nxe-tree-ul">
+            @for (node of nodes; track $index) {
+                <li>
+                    <div class="item" (click)="open(node)" [ngClass]="{ selected: selectedId === node.id }">
+                        @if (!expnadedIds.has(node.id)) {
+                            <div class="chevron" (click)="expand(node)"><i class="nxe-angle-right" aria-hidden="true"></i></div>
+                        } @else {
+                            <div class="chevron" (click)="collapse(node)"><i class="nxe-angle-down" aria-hidden="true"></i></div>
+                        }
+                        <div class="dir-icon"><i class="nxe-folder" aria-hidden="true"></i></div>
+                        <div class="dir-name" [innerText]="getName(node)"></div>
+                    </div>
 
-            <ng-container *ngTemplateOutlet="tree;context:{nodes:node.children}">
-            </ng-container>
-        </li>
-        }
-    </ul>
+                    <ng-container *ngTemplateOutlet="tree; context: { nodes: node.children }"> </ng-container>
+                </li>
+            }
+        </ul>
     }
 </ng-template>

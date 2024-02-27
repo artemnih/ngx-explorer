@@ -12,7 +12,7 @@ import { NAME_FUNCTION } from '../../shared/providers';
     styleUrls: ['./tree.component.scss'],
     encapsulation: ViewEncapsulation.None,
     standalone: true,
-    imports: [NgTemplateOutlet, NgClass]
+    imports: [NgTemplateOutlet, NgClass],
 })
 export class TreeComponent implements OnDestroy {
     protected treeNodes: INode[] = [];
@@ -22,17 +22,21 @@ export class TreeComponent implements OnDestroy {
 
     constructor(
         private explorerService: ExplorerService,
-        @Inject(NAME_FUNCTION) protected getName: (node: INode) => string,
+        @Inject(NAME_FUNCTION) protected getName: (node: INode) => string
     ) {
-        this.sub.add(this.explorerService.tree.pipe(filter(x => !!x)).subscribe(root => {
-            this.expnadedIds.add(root.id) // always expand root
-            this.treeNodes = this.buildTree(root).children;
-        }));
+        this.sub.add(
+            this.explorerService.tree.pipe(filter((x) => !!x)).subscribe((root) => {
+                this.expnadedIds.add(root.id); // always expand root
+                this.treeNodes = this.buildTree(root).children;
+            })
+        );
 
-        this.sub.add(this.explorerService.openedNode.pipe(filter(x => !!x)).subscribe(node => {
-            console.log('opened node', node!.id);
-            this.selectedId = node!.id;
-        }));
+        this.sub.add(
+            this.explorerService.openedNode.pipe(filter((x) => !!x)).subscribe((node) => {
+                console.log('opened node', node!.id);
+                this.selectedId = node!.id;
+            })
+        );
     }
 
     open(node: INode) {
@@ -64,7 +68,7 @@ export class TreeComponent implements OnDestroy {
         } as INode;
 
         if (this.expnadedIds.has(node.id)) {
-            treeNode.children = children.filter(x => !x.isLeaf).map(x => this.buildTree(x));
+            treeNode.children = children.filter((x) => !x.isLeaf).map((x) => this.buildTree(x));
         }
 
         return treeNode;

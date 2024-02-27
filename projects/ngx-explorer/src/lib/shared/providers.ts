@@ -9,12 +9,12 @@ export const VIEWS = new InjectionToken<View[]>('NXE_VIEWS', {
         {
             name: 'Icons',
             icon: 'nxe-th-large',
-            component: IconsComponent
+            component: IconsComponent,
         },
         {
             name: 'List',
             icon: 'nxe-menu',
-            component: ListComponent
+            component: ListComponent,
         },
     ],
 });
@@ -29,7 +29,7 @@ export const CONFIG = new InjectionToken<NgeExplorerConfig>('NXE_CONFIG', {
             autoRefresh: false,
             autoRefreshInterval: 10000,
             defaultView: defaultView,
-        }
+        };
     },
 });
 
@@ -39,8 +39,8 @@ export const CURRENT_VIEW = new InjectionToken<BehaviorSubject<string>>('NXE_CUR
         const config = inject(CONFIG);
         const views = inject(VIEWS);
         const defaultView = config.defaultView || views[0].name;
-        return new BehaviorSubject<string>(defaultView)
-    }
+        return new BehaviorSubject<string>(defaultView);
+    },
 });
 
 export const FILTER_STRING = new InjectionToken<BehaviorSubject<string>>('NXE_FILTER_STRING', {
@@ -48,7 +48,7 @@ export const FILTER_STRING = new InjectionToken<BehaviorSubject<string>>('NXE_FI
     factory: () => new BehaviorSubject(''),
 });
 
-export const NAME_FUNCTION = new InjectionToken<Function>('NXE_NAME_FUNCTION', {
+export const NAME_FUNCTION = new InjectionToken<(node: INode) => string>('NXE_NAME_FUNCTION', {
     providedIn: 'root',
     factory: () => (node: INode) => node.data as unknown as string,
 });

@@ -7,7 +7,7 @@ import { DataService } from './data.service';
 import { CONFIG } from '../shared/providers';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class ExplorerService {
     private internalTree = Utils.createNode();
@@ -23,7 +23,7 @@ export class ExplorerService {
 
     constructor(
         private dataService: DataService,
-       @Inject(CONFIG) private config: NgeExplorerConfig
+        @Inject(CONFIG) private config: NgeExplorerConfig
     ) {
         this.openNode(this.internalTree.id);
 
@@ -92,9 +92,9 @@ export class ExplorerService {
             throw new Error('Nothing selected to remove');
         }
 
-        const targets = selection.map(node => this.flatPointers[node.id]);
-        const nodes = targets.filter(t => !t.isLeaf).map(data => data.data);
-        const leafs = targets.filter(t => t.isLeaf).map(data => data.data);
+        const targets = selection.map((node) => this.flatPointers[node.id]);
+        const nodes = targets.filter((t) => !t.isLeaf).map((data) => data.data);
+        const leafs = targets.filter((t) => t.isLeaf).map((data) => data.data);
 
         const sub1 = nodes.length ? this.dataService.deleteDirs(nodes) : of([]);
         const sub2 = leafs.length ? this.dataService.deleteFiles(leafs) : of([]);
@@ -129,32 +129,31 @@ export class ExplorerService {
             throw new Error('Cannot open a file node');
         }
 
-        return this.dataService
-            .getContent(parent.data)
-            .pipe(tap(({ files, dirs }) => {
+        return this.dataService.getContent(parent.data).pipe(
+            tap(({ files, dirs }) => {
                 const newFolderNodes = dirs.map((data) => Utils.createNode(id, false, data));
                 const newFileNodes = files.map((data) => Utils.createNode(id, true, data));
                 const newChildren = newFolderNodes.concat(newFileNodes);
-                const added = newChildren.filter(c => !parent.children.find(o => Utils.compareObjects(o.data, c.data)));
-                const removed = parent.children.filter(o => !newChildren.find(c => Utils.compareObjects(o.data, c.data)));
+                const added = newChildren.filter((c) => !parent.children.find((o) => Utils.compareObjects(o.data, c.data)));
+                const removed = parent.children.filter((o) => !newChildren.find((c) => Utils.compareObjects(o.data, c.data)));
 
-                removed.forEach(c => {
-                    const index = parent.children.findIndex(o => o.id === c.id);
+                removed.forEach((c) => {
+                    const index = parent.children.findIndex((o) => o.id === c.id);
                     parent.children.splice(index, 1);
                     delete this.flatPointers[c.id];
                 });
 
-                added.forEach(c => {
+                added.forEach((c) => {
                     parent.children.push(c);
                     this.flatPointers[c.id] = c;
                 });
 
-                const nodeChildren = parent.children.filter(c => !c.isLeaf);
-                const leafChildren = parent.children.filter(c => c.isLeaf);
+                const nodeChildren = parent.children.filter((c) => !c.isLeaf);
+                const leafChildren = parent.children.filter((c) => c.isLeaf);
                 parent.children = nodeChildren.concat(leafChildren);
 
                 this.tree$.next(this.internalTree);
-            }));
+            })
+        );
     }
-
 }

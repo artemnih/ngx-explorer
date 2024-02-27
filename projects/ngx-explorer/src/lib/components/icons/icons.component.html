@@ -1,16 +1,16 @@
 <div class="nxe-icons" nxeDragDrop (dragging)="dragging = $event">
-    <div class="nxe-icons-drag" [ngClass]="{ dragging: dragging}"></div>
+    <div class="nxe-icons-drag" [ngClass]="{ dragging: dragging }"></div>
     <div class="nxe-icons-backpad" (click)="emptySpaceClick()"></div>
     <div class="nxe-icons-container">
         @for (item of filteredItems; track $index) {
-        <div class="nxe-icons-wrapper" (dblclick)="open($event, item)" (click)="select($event, item)">
-            <div class="nxe-icons-wrapper-inner" [ngClass]="{'nxe-icon-selected':isSelected(item)}" [title]="getName(item)">
-                <div class="nxe-icons-icon">
-                    <i [className]="item.isLeaf ? icons.leaf : icons.node"></i>
+            <div class="nxe-icons-wrapper" (dblclick)="open($event, item)" (click)="select($event, item)">
+                <div class="nxe-icons-wrapper-inner" [ngClass]="{ 'nxe-icon-selected': isSelected(item) }" [title]="getName(item)">
+                    <div class="nxe-icons-icon">
+                        <i [className]="item.isLeaf ? icons.leaf : icons.node"></i>
+                    </div>
+                    <div class="nxe-icon-text">{{ getName(item) }}</div>
                 </div>
-                <div class="nxe-icon-text">{{ getName(item) }}</div>
             </div>
-        </div>
         }
     </div>
 </div>

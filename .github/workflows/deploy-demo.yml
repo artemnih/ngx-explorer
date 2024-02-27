@@ -1,36 +1,36 @@
 name: Deploy Demo to GitHub Pages
 on:
-  push:
-    branches:
-    - dev
+    push:
+        branches:
+            - dev
 
 jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+    build:
+        name: Build
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '20'
+            - name: Setup Node.js
+              uses: actions/setup-node@v2
+              with:
+                  node-version: '20'
 
-    - name: Install Dependencies
-      run: npm install
+            - name: Install Dependencies
+              run: npm install
 
-    - name: Build Library
-      run: npm run build:lib
+            - name: Build Library
+              run: npm run build:lib
 
-    - name: Build Angular App
-      run: npm run build:gh
+            - name: Build Angular App
+              run: npm run build:gh
 
-    - name: Deploy Angular Demo
-      if: success()
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        personal_token: ${{ secrets.PERSONAL_TOKEN }}
-        publish_dir: dist/explorer-app/browser
+            - name: Deploy Angular Demo
+              if: success()
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                  personal_token: ${{ secrets.PERSONAL_TOKEN }}
+                  publish_dir: dist/explorer-app/browser

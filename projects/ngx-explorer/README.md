@@ -1,26 +1,34 @@
 # ngx-explorer
+
 Lightweight and easy-to-use Angular File Explorer module.
 This is a front-end implementation only. There are no services at this point.
 
 [DEMO](https://artemnih.github.io/ngx-explorer/)
 
 ## Prerequisites
-- Angular 17+
+
+-   Angular 17+
 
 ## How to use
-- Install package 
+
+-   Install package
+
 ```bash
 npm i ngx-explorer
 ```
-- Implement `IDataService` provider interface which contains API for fetching data from the server.
+
+-   Implement `IDataService` provider interface which contains API for fetching data from the server.
+
 ```Typescript
 import { IDataService } from 'ngx-explorer';
 
 export class MyDataService implements IDataService<MyNodeType> {
-    ... 
+    ...
 }
 ```
+
 And provide the implementation:
+
 ```
  { provide: DataService, useClass: ExampleDataService },
 ```
@@ -44,9 +52,11 @@ import { ExplorerComponent } from 'ngx-explorer';
 })
 export class MyComponent {
 ```
+
 You may also provide `DataService` in `main.ts` instead.
 
 ### Non-Standalone usage:
+
 ```Typescript
 import { ExplorerComponent, DataService } from 'ngx-explorer';
 
@@ -63,17 +73,20 @@ export class AppModule { }
 ```
 
 ### Template and styles
-- Add tag to the template:
+
+-   Add tag to the template:
+
 ```html
 <h1>My Component</h1>
 <div>
     <nxe-explorer></nxe-explorer>
 </div>
 ```
-- Add css import `styles.scss`:
+
+-   Add css import `styles.scss`:
+
 ```scss
 @import '~ngx-explorer/src/assets/icons/css/nxe.css';
 ```
-
 
 ![explorer](docs/ss.png)

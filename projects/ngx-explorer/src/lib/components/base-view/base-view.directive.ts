@@ -12,17 +12,21 @@ export class BaseView implements OnDestroy {
     protected subs = new Subscription();
 
     constructor(
-        protected explorerService: ExplorerService, 
+        protected explorerService: ExplorerService,
         @Inject(NAME_FUNCTION) protected getName: (node: INode) => string,
         @Inject(FILTER_STRING) private filter: BehaviorSubject<string>
     ) {
-        this.subs.add(this.explorerService.openedNode.subscribe(nodes => {
-            this.items = nodes ? nodes.children : [];
-        }));
+        this.subs.add(
+            this.explorerService.openedNode.subscribe((nodes) => {
+                this.items = nodes ? nodes.children : [];
+            })
+        );
 
-        this.subs.add(this.explorerService.selectedNodes.subscribe(nodes => {
-            this.selection = nodes ? nodes : [];
-        }));
+        this.subs.add(
+            this.explorerService.selectedNodes.subscribe((nodes) => {
+                this.selection = nodes ? nodes : [];
+            })
+        );
     }
 
     get filteredItems(): INode[] {
@@ -30,11 +34,11 @@ export class BaseView implements OnDestroy {
         if (!filter) {
             return this.items;
         }
-        return this.items.filter(i => this.getName(i).toLowerCase().includes(filter.toLowerCase()));
+        return this.items.filter((i) => this.getName(i).toLowerCase().includes(filter.toLowerCase()));
     }
 
     select(event: MouseEvent, item: INode) {
-        const selectedIndex = this.selection.findIndex(i => i === item);
+        const selectedIndex = this.selection.findIndex((i) => i === item);
         const alreadySelected = selectedIndex !== -1;
         const metaKeyPressed = event.metaKey || event.ctrlKey || event.shiftKey;
 
@@ -67,5 +71,4 @@ export class BaseView implements OnDestroy {
     ngOnDestroy() {
         this.subs.unsubscribe();
     }
-
 }

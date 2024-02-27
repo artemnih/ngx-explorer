@@ -11,7 +11,7 @@ import { NAME_FUNCTION } from '../../shared/providers';
     styleUrls: ['./menu-bar.component.scss'],
     encapsulation: ViewEncapsulation.None,
     standalone: true,
-    imports: [ViewSwitcherComponent]
+    imports: [ViewSwitcherComponent],
 })
 export class MenuBarComponent implements OnDestroy {
     @ViewChild('uploader', { static: true }) uploader!: ElementRef;
@@ -23,13 +23,18 @@ export class MenuBarComponent implements OnDestroy {
     private sub = new Subscription();
     private selection: INode[] = [];
 
-    constructor(private explorerService: ExplorerService, @Inject(NAME_FUNCTION) private getName: (node: INode) => string) {
-        this.sub.add(this.explorerService.selectedNodes.subscribe(n => {
-            this.selection = n;
-            this.canDownload = n.filter(x => x.isLeaf).length === 1;
-            this.canDelete = n.length > 0;
-            this.canRename = n.length === 1;
-        }));
+    constructor(
+        private explorerService: ExplorerService,
+        @Inject(NAME_FUNCTION) private getName: (node: INode) => string
+    ) {
+        this.sub.add(
+            this.explorerService.selectedNodes.subscribe((n) => {
+                this.selection = n;
+                this.canDownload = n.filter((x) => x.isLeaf).length === 1;
+                this.canDelete = n.length > 0;
+                this.canRename = n.length === 1;
+            })
+        );
     }
 
     createFolder() {
@@ -79,5 +84,4 @@ export class MenuBarComponent implements OnDestroy {
     ngOnDestroy() {
         this.sub.unsubscribe();
     }
-
 }
