@@ -3,17 +3,14 @@
     flex-flow: column;
     height: 100%;
 
-    .nxe-eplorer-menu {
+    .nxe-content-top {
         border-bottom: 1px solid #ccc;
     }
 
-    .nxe-explorer-right-menu {
-        border-bottom: 1px solid #ccc;
-    }
-
-    .nxe-explorer-files {
+    .nxe-content-middle {
         display: block;
         position: relative;
         flex: 1 1 auto;
+        border-bottom: 1px solid #ccc;
     }
 }
