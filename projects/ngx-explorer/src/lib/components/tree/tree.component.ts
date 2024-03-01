@@ -33,7 +33,6 @@ export class TreeComponent implements OnDestroy {
 
         this.sub.add(
             this.explorerService.openedNode.pipe(filter((x) => !!x)).subscribe((node) => {
-                console.log('opened node', node!.id);
                 this.selectedId = node!.id;
             })
         );
