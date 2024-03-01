@@ -25,14 +25,14 @@ export class TreeComponent implements OnDestroy {
         @Inject(NAME_FUNCTION) protected getName: (node: INode) => string
     ) {
         this.sub.add(
-            this.explorerService.tree.pipe(filter((x) => !!x)).subscribe((root) => {
+            this.explorerService.root$.pipe(filter((x) => !!x)).subscribe((root) => {
                 this.expnadedIds.add(root.id); // always expand root
                 this.treeNodes = this.buildTree(root).children;
             })
         );
 
         this.sub.add(
-            this.explorerService.openedNode.pipe(filter((x) => !!x)).subscribe((node) => {
+            this.explorerService.openedDir$.pipe(filter((x) => !!x)).subscribe((node) => {
                 this.selectedId = node!.id;
             })
         );

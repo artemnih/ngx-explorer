@@ -1,6 +1,6 @@
 <div class="nxe-menu-bar">
     <div class="nxe-menu-bar-left">
-        <button class="nxe-menu-bar-button" (click)="createFolder()"><i class="nxe-folder" aria-hidden="true"></i>New Folder</button>
+        <button class="nxe-menu-bar-button" (click)="createDir()"><i class="nxe-folder" aria-hidden="true"></i>New Folder</button>
         <button class="nxe-menu-bar-button" (click)="refresh()"><i class="nxe-arrows-cw" aria-hidden="true"></i> Refresh</button>
         <button class="nxe-menu-bar-button" (click)="openUploader()"><i class="nxe-upload" aria-hidden="true"></i> Upload</button>
         <button class="nxe-menu-bar-button" [disabled]="!(canDownload$ | async)" (click)="download()">

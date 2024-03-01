@@ -85,6 +85,18 @@ See list of available components [here](docs/COMPONENTS.md)
 @import 'ngx-explorer/src/assets/icons/css/nxe.css';
 ```
 
+## APIs
+All the communication with the server is done through the `ExplorerService` APIs. It provides methods for fetching data, creating, renaming, deleting files and directories.
+```Typescript
+import { ExplorerService } from 'ngx-explorer';
+...
+constructor(private explorerService: ExplorerService) {
+    explorerService.root$.subscribe((root) => {
+        console.log('Root:', root);
+    });
+}
+```
+
 ## Customization
 
 See [Customization](docs/CUSTOMIZATION.md) for more details.

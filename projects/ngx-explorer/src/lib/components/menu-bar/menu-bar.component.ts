@@ -17,17 +17,17 @@ import { AsyncPipe } from '@angular/common';
 export class MenuBarComponent {
     @ViewChild('uploader', { static: true }) uploader!: ElementRef;
 
-    protected canDownload$ = this.explorerService.selectedNodes.pipe(map((n) => n.length === 1 && n[0].isLeaf));
-    protected canDelete$ = this.explorerService.selectedNodes.pipe(map((n) => n.length > 0));
-    protected canRename$ = this.explorerService.selectedNodes.pipe(map((n) => n.length === 1));
+    protected canDownload$ = this.explorerService.selection$.pipe(map((n) => n.length === 1 && n[0].isLeaf));
+    protected canDelete$ = this.explorerService.selection$.pipe(map((n) => n.length > 0));
+    protected canRename$ = this.explorerService.selection$.pipe(map((n) => n.length === 1));
 
     constructor(
         private explorerService: ExplorerService,
         @Inject(NAME_FUNCTION) private getName: (node: INode) => string
     ) {}
 
-    createFolder() {
-        const name = prompt('Enter new folder name');
+    createDir() {
+        const name = prompt('Enter new name');
         if (name) {
             this.explorerService.createDir(name);
         }
@@ -38,7 +38,7 @@ export class MenuBarComponent {
     }
 
     rename() {
-        this.explorerService.selectedNodes
+        this.explorerService.selection$
             .pipe(
                 take(1),
                 map((n) => n[0])

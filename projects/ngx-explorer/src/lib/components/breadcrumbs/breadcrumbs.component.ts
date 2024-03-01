@@ -20,7 +20,7 @@ interface Breadcrumb {
     imports: [AsyncPipe],
 })
 export class BreadcrumbsComponent {
-    public breadcrumbs$ = this.explorerService.openedNode.pipe(
+    public breadcrumbs$ = this.explorerService.openedDir$.pipe(
         map((n) => {
             if (!n) {
                 return [];

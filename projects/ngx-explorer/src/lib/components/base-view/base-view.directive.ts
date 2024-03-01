@@ -17,13 +17,13 @@ export class BaseView implements OnDestroy {
         @Inject(NAME_FUNCTION) protected getName: (node: INode) => string
     ) {
         this.subs.add(
-            this.explorerService.openedNode.subscribe((nodes) => {
+            this.explorerService.openedDir$.subscribe((nodes) => {
                 this.items = nodes ? nodes.children : [];
             })
         );
 
         this.subs.add(
-            this.explorerService.selectedNodes.subscribe((nodes) => {
+            this.explorerService.selection$.subscribe((nodes) => {
                 this.selection.clear();
                 if (nodes) {
                     this.selection = new Set(nodes.map((n) => n.id));
