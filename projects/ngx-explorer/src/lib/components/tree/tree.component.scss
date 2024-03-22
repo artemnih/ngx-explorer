@@ -1,4 +1,4 @@
-@import '../vars.scss';
+@import "../vars.scss";
 
 $item-spacing: 10px;
 
@@ -8,6 +8,7 @@ $item-spacing: 10px;
     & > .nxe-tree-ul {
         margin-left: 0 !important;
     }
+    overflow-y: scroll;
 }
 
 .nxe-tree-ul {
@@ -17,7 +18,6 @@ $item-spacing: 10px;
     margin-left: 20px;
     position: relative;
     height: 100%;
-    overflow-y: scroll;
 
     li {
         list-style-type: none;
